@@ -1,0 +1,63 @@
+Load the Production Model Store Index
+
+Description:
+
+     Lists every targets store that feeds published model results:
+     spatial unit stores, temporal stores, tier-tuning stores, and
+     common-regularization sensitivity stores of the selected
+     configuration profiles.
+
+Usage:
+
+     load_model_store_index(
+       vec_profile_ids = NULL,
+       path_store_root = here::here(),
+       file_config = here::here("config.yml"),
+       path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+     )
+
+Arguments:
+
+vec_profile_ids: Optional character vector of profile identifiers. When
+          `NULL`, every profile whose `_profile` block has role `main`
+          and status `active` is used.
+
+path_store_root: Root directory under which the profiles' relative
+          `target_store` paths are resolved. Defaults to the repository
+          root; point it at a folder holding store copies with the same
+          relative layout to inspect the copies.
+
+file_config: Path to the generated root configuration file.
+
+path_spatial_grid: Path to the spatial grid catalogue listing spatial
+          unit `scale_id` values.
+
+Details:
+
+     Spatial profiles contribute one unit store per `scale_id` of their
+     scale (from [build_spatial_model_store_index()]), plus the
+     tier-tuning and sensitivity stores below their `target_store`.
+     Temporal profiles contribute their temporal store and tier-tuning
+     store. Stores are listed whether or not they exist; `store_exists`
+     records presence.
+
+Value:
+
+     A tibble with one row per store and columns `store_kind`,
+     `profile_id`, `data_source`, `scale`, `scale_id`,
+     `pipeline_script`, `store_path`, `store_path_relative`, and
+     `store_exists`. `store_path_relative` is the store path relative
+     to `path_store_root`, so ledger rows written for production stores
+     also match copies under another root.
+
+See Also:
+
+     [resolve_pipeline_store_path()],
+     [diagnose_model_store_freshness()]
+
+Examples:
+
+     ## Not run:
+
+     load_model_store_index(vec_profile_ids = "project_paleo_temporal_europe")
+     ## End(Not run)

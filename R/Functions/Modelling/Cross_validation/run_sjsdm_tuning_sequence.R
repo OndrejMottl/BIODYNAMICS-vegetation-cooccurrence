@@ -47,6 +47,14 @@
 #' @param unit_target_names
 #' Optional named per-unit tuning requests from verified preparation. The
 #' exact store-target pairs are persisted for resolution-aware tier pooling.
+#' @param slice_ids
+#' Optional slice identifiers (for example `timeslice_0`) of a temporal
+#' pipeline run as one non-nested store. When supplied, a store whose run is
+#' expected-infeasible is classified per slice with
+#' [classify_sjsdm_timeslice_status()]: expected infeasible slices are dropped
+#' and only feasible slices are tuned, while an unexpected error in any slice
+#' still blocks tier selection. The feasible store-target pairs are written to
+#' the tier requests file, so tier pooling reads only feasible slices.
 #' @return
 #' Invisible `NULL`. Pipeline stores contain the durable results. Unit-level
 #' failures are reported and skipped; successful units continue.
@@ -75,7 +83,8 @@ run_sjsdm_tuning_sequence <- function(
     ),
     cache_recovery_attempts = 8L,
     validate_calibration_function = validate_sjsdm_cv_production_calibration,
-    unit_target_names = NULL) {
+    unit_target_names = NULL,
+    slice_ids = NULL) {
   assertthat::assert_that(
     base::is.character(unit_pipeline),
     base::length(unit_pipeline) == 1L,
@@ -173,6 +182,20 @@ run_sjsdm_tuning_sequence <- function(
       base::as.integer(cache_recovery_attempts),
     msg = "cache_recovery_attempts must be one positive integer."
   )
+  assertthat::assert_that(
+    base::is.null(slice_ids) ||
+      (
+        base::is.character(slice_ids) &&
+          base::length(slice_ids) > 0L &&
+          base::all(!base::is.na(slice_ids)) &&
+          base::is.null(unit_store_suffixes) &&
+          base::is.null(unit_target_names)
+      ),
+    msg = stringr::str_c(
+      "slice_ids must be non-missing strings for one non-nested ",
+      "temporal store."
+    )
+  )
   data_round_plan <-
     build_sjsdm_tuning_round_plan(
       tuning_strategy = tuning_strategy,
@@ -206,8 +229,16 @@ run_sjsdm_tuning_sequence <- function(
 
   file_unit_requests <-
     fs::path(target_store, "sjsdm_tier_unit_requests.csv")
+  # Temporal slices are tuned in one store; their tuning targets are scoped
+  #   per slice below, after each round has classified infeasible slices.
+  vec_tuning_target_names_active <- tuning_target_names
+  vec_feasible_slice_ids <- slice_ids
   if (
-    !base::is.null(unit_target_names) || base::file.exists(file_unit_requests)
+    base::is.null(slice_ids) &&
+      (
+        !base::is.null(unit_target_names) ||
+          base::file.exists(file_unit_requests)
+      )
   ) {
     assertthat::assert_that(!base::is.null(unit_store_suffixes),
       msg = "Resolution-aware requests require nested spatial stores.")
@@ -248,7 +279,7 @@ run_sjsdm_tuning_sequence <- function(
       run_sjsdm_tuning_unit_round(
       round_id = round_id,
       unit_pipeline = unit_pipeline,
-      tuning_target_names = tuning_target_names,
+      tuning_target_names = vec_tuning_target_names_active,
       unit_store_suffixes = if (
         base::is.null(unit_store_suffixes)
       ) {
@@ -263,6 +294,97 @@ run_sjsdm_tuning_sequence <- function(
       vec_allowed_profile_statuses = vec_allowed_profile_statuses,
       unit_target_names = unit_target_names
     )
+
+    if (
+      !base::is.null(slice_ids) &&
+        base::any(
+          data_unit_status[["pipeline_status"]] == "expected_infeasible"
+        )
+    ) {
+      # An infeasible slice must not stop the other slices of the store.
+      data_slice_status <-
+        classify_sjsdm_timeslice_status(
+          data_target_errors = load_metadata_function(
+            store_path = vec_unit_store_paths[[1L]],
+            fields = base::c("name", "error", "time")
+          ),
+          vec_slice_ids = vec_feasible_slice_ids
+        )
+      vec_infeasible_slice_ids <-
+        data_slice_status[["slice_id"]][
+          data_slice_status[["status"]] == "expected_infeasible"
+        ]
+      flag_slice_error <-
+        base::any(data_slice_status[["status"]] == "unexpected_error")
+      flag_shared_infeasible <-
+        base::any(base::is.na(data_slice_status[["slice_id"]]))
+      if (
+        !flag_slice_error &&
+          !flag_shared_infeasible
+      ) {
+        cli::cli_inform(
+          base::c(
+            "!" = "Expected infeasible slices are not tuned.",
+            "i" = "{vec_infeasible_slice_ids}"
+          )
+        )
+        vec_feasible_slice_ids <-
+          base::setdiff(vec_feasible_slice_ids, vec_infeasible_slice_ids)
+        if (
+          base::length(vec_feasible_slice_ids) == 0L
+        ) {
+          cli::cli_abort(
+            base::c(
+              "Every slice of {.file {vec_unit_store_paths[[1L]]}} is \\
+              expected infeasible; nothing can be tuned.",
+              "i" = "Check the slice window and the input data."
+            ),
+            class = "sjsdm_tuning_no_feasible_slice"
+          )
+        }
+        # An infeasible slice can abort the whole build at its dynamic
+        #   tuning branches, so rerun the round for the feasible slices only.
+        data_unit_status <-
+          run_sjsdm_tuning_unit_round(
+            round_id = round_id,
+            unit_pipeline = unit_pipeline,
+            tuning_target_names = tuning_target_names[
+              stringr::str_extract(
+                tuning_target_names,
+                "timeslice_[0-9]+$"
+              ) %in% vec_feasible_slice_ids
+            ],
+            unit_store_suffixes = NULL,
+            prebuild_round = FALSE,
+            fresh_round = FALSE,
+            run_pipeline_function = run_pipeline_function,
+            vec_allowed_profile_roles = vec_allowed_profile_roles,
+            vec_allowed_profile_statuses = vec_allowed_profile_statuses
+          )
+      } else if (
+        flag_slice_error
+      ) {
+        data_unit_status[["pipeline_status"]] <- "error"
+      }
+    }
+
+    if (
+      !base::is.null(slice_ids)
+    ) {
+      vec_tuning_target_names_active <-
+        tuning_target_names[
+          stringr::str_extract(tuning_target_names, "timeslice_[0-9]+$") %in%
+            vec_feasible_slice_ids
+        ]
+      fs::dir_create(target_store)
+      readr::write_csv(
+        tibble::tibble(
+          source_store = here::here(vec_unit_store_paths[[1L]]),
+          target_name = vec_tuning_target_names_active
+        ),
+        file_unit_requests
+      )
+    }
 
     flag_unit_success <-
       data_unit_status[["pipeline_status"]] == "ok"
@@ -291,7 +413,7 @@ run_sjsdm_tuning_sequence <- function(
               if (
                 base::is.null(unit_target_names)
               ) {
-                tuning_target_names
+                vec_tuning_target_names_active
               } else {
                 unit_target_names[[store_suffix]]
               }
@@ -454,7 +576,7 @@ run_sjsdm_tuning_sequence <- function(
         base::is.null(unit_target_names)
       ) {
         has_tuning_evidence_function(store_paths = vec_active_store_paths,
-          target_names = tuning_target_names)
+          target_names = vec_tuning_target_names_active)
       } else {
         purrr::map2_lgl(vec_active_store_paths, vec_active_store_suffixes,
           ~ has_tuning_evidence_function(store_paths = .x,

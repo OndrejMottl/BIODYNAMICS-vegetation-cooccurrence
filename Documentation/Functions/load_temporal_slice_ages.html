@@ -1,0 +1,94 @@
+<!DOCTYPE html><html><head><title>R: Load the Modelled Temporal Slice Ages</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_temporal_slice_ages</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load the Modelled Temporal Slice Ages</h2>
+
+<h3>Description</h3>
+
+<p>Returns the time slices that a paleo temporal profile models, from the
+profile's modelled-slice window and time step.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_temporal_slice_ages(
+  config_id = base::Sys.getenv("R_CONFIG_ACTIVE"),
+  file = here::here("config.yml"),
+  flag_modelled_only = TRUE
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="config_id">config_id</code></td>
+<td>
+<p>Configuration profile identifier. Defaults to the active profile
+('R_CONFIG_ACTIVE').</p>
+</td></tr>
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the generated configuration file.</p>
+</td></tr>
+<tr><td><code id="flag_modelled_only">flag_modelled_only</code></td>
+<td>
+<p>Logical. If 'TRUE' (default), return only modelled slices. If 'FALSE',
+also return slices inside the window that the profile excludes, with a
+'flag_modelled' column.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The window is 'temporal_slices.age_window' and the step is
+'data_processing.time_step'. The window is deliberately separate from
+'vegvault_data.age_lim', which bounds data extraction and feeds the
+expensive age interpolation: narrowing the modelled window must not
+invalidate that preparation. Slices outside the window are not modelled.
+</p>
+<p>'temporal_slices.excluded_ages' (optional) lists ages inside the window
+that are known to be infeasible, such as a slice with fewer samples than
+'min_n_samples'. They are left out of the pipeline because an infeasible
+slice aborts the whole temporal build at its dynamic tuning branches
+('cannot branch over empty target'), which would block every other slice.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns 'age' (numeric, years BP) and 'age_name'
+('timeslice_&lt;age&gt;'), one row per slice in increasing age, plus
+'flag_modelled' when 'flag_modelled_only = FALSE'.
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+load_temporal_slice_ages(config_id = "project_paleo_temporal_europe")
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

@@ -22,6 +22,12 @@ Check for generated-file drift without modifying tracked artifacts:
 Rscript R/03_Supplementary_analyses/Validation/Configuration/Check_configuration.R
 ```
 
+Accept declared changes to resolved profiles and update the semantic reference (see `Configuration/README.md`):
+
+```powershell
+Rscript R/03_Supplementary_analyses/Validation/Configuration/Update_configuration_reference.R
+```
+
 ## Prerequisites and configuration
 
 Run from the repository root after restoring the project environment. Edit only human-authored fragments under `Configuration/` before regeneration.
@@ -30,6 +36,7 @@ Run from the repository root after restoring the project environment. Edit only 
 
 - `config.yml`
 - `Configuration/Generated/profile_catalog.md`
+- `Documentation/Implementation_inventories/Configuration/configuration_profile_reference_v1.rds` (only from the update script)
 
 The versioned source inventory and semantic reference live under `Documentation/Implementation_inventories/Configuration/`.
 

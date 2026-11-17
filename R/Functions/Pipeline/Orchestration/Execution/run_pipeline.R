@@ -57,6 +57,12 @@
 #' Function used by [targets::tar_make()] to launch the pipeline process.
 #' Defaults to [callr::r()]. Supply `NULL` only for small graphs that are safe
 #' to execute in the current orchestration process.
+#' @param shortcut
+#' Logical, passed to [targets::tar_make()]. If `TRUE`, only `target_names`
+#' are checked and built, without inspecting or rerunning their upstream
+#' targets. Use it for deliberate selective reruns, such as rebuilding
+#' variance partitions from stored fits, and record the targets left outdated
+#' in the model store freshness ledger. Defaults to `FALSE`.
 #' @return
 #' No return value. Function is called for side effects: executes the
 #' targets pipeline and saves progress visualization to the documentation
@@ -94,7 +100,17 @@ run_pipeline <- function(
     prebuild_interpolation = FALSE,
     preparation_resource_profile = "shared",
     interpolation_workers_override = NULL,
-    callr_function = callr::r) {
+    callr_function = callr::r,
+    shortcut = FALSE) {
+  assertthat::assert_that(
+    assertthat::is.flag(shortcut),
+    !base::is.na(shortcut),
+    msg = "`shortcut` must be TRUE or FALSE."
+  )
+  assertthat::assert_that(
+    !shortcut || !base::is.null(target_names),
+    msg = "`shortcut = TRUE` requires `target_names`."
+  )
   assertthat::assert_that(
     is.character(sel_script),
     length(sel_script) == 1,
@@ -280,6 +296,7 @@ run_pipeline <- function(
       } else {
         targets::tar_make(
           names = target_names,
+          shortcut = shortcut,
           script = sel_script_path,
           store = sel_store_path,
           reporter = targets::tar_config_get("reporter_make"),

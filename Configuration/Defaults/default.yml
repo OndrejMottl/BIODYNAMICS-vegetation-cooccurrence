@@ -11,6 +11,14 @@ default:
     dpi: 300
     bg: "white"
     panel_scale: 3.2
+  # Projection of spatial-predictor coordinates per continent (issue #204).
+  #   Europe keeps ETRS89-LAEA; elsewhere the azimuthal equidistant
+  #   projection centred on the continental grid box had the narrowest 5-95 %
+  #   distance-distortion range (stage A projection diagnostic, Nov 2026).
+  spatial_crs_by_continent:
+    europe: 3035
+    america: "+proj=aeqd +lat_0=50 +lon_0=-95 +datum=WGS84 +units=m +no_defs"
+    asia: "+proj=aeqd +lat_0=62.5 +lon_0=100 +datum=WGS84 +units=m +no_defs"
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf
@@ -29,6 +37,9 @@ default:
     n_early_stopping: ~
     n_samples_anova: 1000
     error_family: "binomial"
+    # Superseded by spatial_crs_by_continent for projected coordinates; kept
+    #   unchanged until the next full rerun because config_model_fitting
+    #   carries it and changing it would invalidate every model store.
     spatial_crs: 3035
     spatial_mode: "spatial"
     spatial_mev:

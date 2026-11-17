@@ -1,0 +1,29 @@
+change_id,profile_id,key_path,issue,rationale
+issue206_use_age_europe,project_paleo_temporal_europe,model_fitting.use_age_in_formula,#206,A time slice has one age; climate x age columns would be all zero.
+issue206_use_age_america,project_paleo_temporal_america,model_fitting.use_age_in_formula,#206,A time slice has one age; climate x age columns would be all zero.
+issue206_use_age_asia,project_paleo_temporal_asia,model_fitting.use_age_in_formula,#206,A time slice has one age; climate x age columns would be all zero.
+issue206_use_age_issue138_europe,project_paleo_temporal_issue138_europe_staged,model_fitting.use_age_in_formula,#206,Inherited from project_paleo_temporal_europe.
+issue206_use_age_issue138_america,project_paleo_temporal_issue138_america_staged,model_fitting.use_age_in_formula,#206,Inherited from project_paleo_temporal_america.
+issue206_use_age_issue138_asia,project_paleo_temporal_issue138_asia_staged,model_fitting.use_age_in_formula,#206,Inherited from project_paleo_temporal_asia.
+issue206_use_age_europe_order,project_paleo_temporal_europe,model_fitting[order],#206,Adding the key in the profile moves it within the merged model_fitting block.
+issue206_use_age_america_order,project_paleo_temporal_america,model_fitting[order],#206,Adding the key in the profile moves it within the merged model_fitting block.
+issue206_use_age_asia_order,project_paleo_temporal_asia,model_fitting[order],#206,Adding the key in the profile moves it within the merged model_fitting block.
+issue206_use_age_issue138_europe_order,project_paleo_temporal_issue138_europe_staged,model_fitting[order],#206,Adding the key in the profile moves it within the merged model_fitting block.
+issue206_use_age_issue138_america_order,project_paleo_temporal_issue138_america_staged,model_fitting[order],#206,Adding the key in the profile moves it within the merged model_fitting block.
+issue206_use_age_issue138_asia_order,project_paleo_temporal_issue138_asia_staged,model_fitting[order],#206,Adding the key in the profile moves it within the merged model_fitting block.
+issue181_window_europe,project_paleo_temporal_europe,temporal_slices,#181,Modelled-slice window separate from the extraction window age_lim.
+issue181_window_issue138_europe,project_paleo_temporal_issue138_europe_staged,temporal_slices,#181,Inherited from project_paleo_temporal_europe.
+issue181_window_america,project_paleo_temporal_america,temporal_slices,#181,Modelled-slice window separate from the extraction window age_lim.
+issue181_window_issue138_america,project_paleo_temporal_issue138_america_staged,temporal_slices,#181,Inherited from project_paleo_temporal_america.
+issue181_window_asia,project_paleo_temporal_asia,temporal_slices,#181,Modelled-slice window separate from the extraction window age_lim.
+issue181_window_issue138_asia,project_paleo_temporal_issue138_asia_staged,temporal_slices,#181,Inherited from project_paleo_temporal_asia.
+issue181_excluded_asia,project_paleo_temporal_asia,temporal_slices.excluded_ages,#181,Asia 0 ka has one sample and would abort the whole temporal build.
+issue181_excluded_issue138_asia,project_paleo_temporal_issue138_asia_staged,temporal_slices.excluded_ages,#181,Inherited from project_paleo_temporal_asia.
+issue204_continent_europe,project_paleo_temporal_europe,continent_id,#204,Selects the per-continent projection for temporal stores.
+issue204_continent_issue138_europe,project_paleo_temporal_issue138_europe_staged,continent_id,#204,Inherited from project_paleo_temporal_europe.
+issue204_continent_america,project_paleo_temporal_america,continent_id,#204,Selects the per-continent projection for temporal stores.
+issue204_continent_issue138_america,project_paleo_temporal_issue138_america_staged,continent_id,#204,Inherited from project_paleo_temporal_america.
+issue204_continent_asia,project_paleo_temporal_asia,continent_id,#204,Selects the per-continent projection for temporal stores.
+issue204_continent_issue138_asia,project_paleo_temporal_issue138_asia_staged,continent_id,#204,Inherited from project_paleo_temporal_asia.
+issue204_crs_by_continent,*,spatial_crs_by_continent,#204,Per-continent projection of spatial-predictor coordinates.
+issue204_continent_cz_modern,project_cz_modern,continent_id,#204,The Czech smoke store is not a grid unit; its projection needs the continent.

@@ -771,3 +771,49 @@ testthat::test_that("empty branch abort retains current expected data root", {
       "sjsdm_unit_expected_infeasible"), !flag_unrelated_failure)
   }
 })
+
+testthat::test_that("run_pipeline() forwards shortcut for selected targets", {
+  tmp_script <-
+    withr::local_tempfile(fileext = ".R")
+
+  base::writeLines("list()", tmp_script)
+
+  captured_shortcut <- NA
+
+  testthat::local_mocked_bindings(
+    tar_make = function(shortcut = FALSE, ...) {
+      captured_shortcut <<- shortcut
+      base::invisible(NULL)
+    },
+    .package = "targets"
+  )
+
+  run_pipeline(
+    sel_script = tmp_script,
+    target_names = "list_jsdm_variance_partition_genus",
+    shortcut = TRUE,
+    flag_validate_profile_selection = FALSE,
+    plot_progress = FALSE
+  )
+
+  testthat::expect_true(captured_shortcut)
+
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      shortcut = TRUE,
+      flag_validate_profile_selection = FALSE,
+      plot_progress = FALSE
+    ),
+    "requires `target_names`"
+  )
+  testthat::expect_error(
+    run_pipeline(
+      sel_script = tmp_script,
+      shortcut = NA,
+      flag_validate_profile_selection = FALSE,
+      plot_progress = FALSE
+    ),
+    "TRUE or FALSE"
+  )
+})

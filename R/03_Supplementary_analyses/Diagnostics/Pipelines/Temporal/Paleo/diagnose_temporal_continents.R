@@ -9,13 +9,16 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Checks pipeline status, convergence, and model R² for every
+# Checks pipeline status, convergence, and model R^2 for every
 #   time slice across all continental temporal configurations.
 # Continental configurations are derived from spatial_grid.csv
 #   (scale == "continental"), mapped to config names as
 #   project_paleo_temporal_{scale_id} (e.g. project_paleo_temporal_europe).
-# Requires that the corresponding Run_temporal_*.R scripts have
-#   been executed (pipeline_paleo_temporal.R).
+# Slices are the profile's modelled-slice window
+#   (`temporal_slices.age_window`), as in pipeline_paleo_temporal.R; slices
+#   the profile excludes are listed as `excluded_in_configuration`.
+# Requires that the temporal fitting runners (03_Model_fitting components
+#   07-09) have been executed (pipeline_paleo_temporal.R).
 
 
 #----------------------------------------------------------#
@@ -40,9 +43,14 @@ data_continents <-
   dplyr::select(scale_id) |>
   dplyr::mutate(
     config_name = base::paste0("project_paleo_temporal_", scale_id),
-    store_path = here::here(
-      base::paste0(
-        "Data/targets/", config_name, "/pipeline_paleo_temporal/"
+    store_path = purrr::map_chr(
+      .x = config_name,
+      .f = ~ resolve_pipeline_store_path(
+        pipeline_script = "R/Pipelines/pipeline_paleo_temporal.R",
+        target_store = load_config_value(
+          config_id = .x,
+          value = "target_store"
+        )
       )
     ),
     store_exists = fs::dir_exists(store_path)
@@ -93,8 +101,8 @@ purrr::pwalk(
     ) {
       base::warning(
         "Target store not found for '", config_name, "': ", store_path,
-        "\nSkipping. Run the corresponding 0*_Run_temporal_",
-        scale_id, ".R script first."
+        "\nSkipping. Run the temporal fitting runner for '",
+        scale_id, "' first."
       )
       return(invisible(NULL))
     }
@@ -109,22 +117,17 @@ purrr::pwalk(
     ## 2.1. Build time-slice inventory -----
     #--------------------------------------------------#
 
-    vec_age_lim <-
-      load_active_config_value(c("vegvault_data", "age_lim"))
-
+    # The modelled-slice window, not `vegvault_data.age_lim` (the
+    #   extraction range), defines the slices the pipeline builds.
     n_time_step <-
       load_active_config_value(c("data_processing", "time_step"))
 
     data_to_map_age <-
-      tibble::tibble(
-        age = base::seq(
-          from = base::min(vec_age_lim),
-          to = base::max(vec_age_lim),
-          by = n_time_step
-        )
+      load_temporal_slice_ages(
+        config_id = config_name,
+        flag_modelled_only = FALSE
       ) |>
       dplyr::mutate(
-        age_name = base::paste0("timeslice_", age),
         target_name = stringr::str_glue(
           "list_jsdm_evaluation_fitted_{age_name}"
         )
@@ -171,6 +174,7 @@ purrr::pwalk(
       ) |>
       dplyr::mutate(
         status = dplyr::case_when(
+          !flag_modelled ~ "excluded_in_configuration",
           !base::is.na(error) ~ "failed",
           base::is.na(error) &
             target_name %in% vec_completed_target_names ~
@@ -188,7 +192,10 @@ purrr::pwalk(
         .groups = "drop"
       ) |>
       dplyr::arrange(
-        base::match(status, c("successful", "failed", "not_run"))
+        base::match(
+          status,
+          c("successful", "failed", "not_run", "excluded_in_configuration")
+        )
       )
 
     base::message("\n--- Pipeline status overview ---")
@@ -325,7 +332,7 @@ purrr::pwalk(
 
 
     #--------------------------------------------------#
-    ## 2.6. Model R² summary -----
+    ## 2.6. Model R^2 summary -----
     #--------------------------------------------------#
 
     base::message("\n--- Model R\u00b2 per slice ---")

@@ -270,6 +270,14 @@ The master fitting order is paleo spatial continental, regional, and local; mode
 
 Synthesis does not fit models. It runs paleo spatial synthesis, modern spatial synthesis, and then the matched paleo-modern comparison.
 
+**Required check before republishing.** Synthesis reads whatever the stores hold, so it cannot tell whether the stores are current. Before republishing any synthesis table, figure, or report, run the model store freshness validator and resolve every blocking finding:
+
+```powershell
+rig run -r 4.5.1 R/03_Supplementary_analyses/Validation/Model_stores/Validate_model_stores.R
+```
+
+It fails when a store feeding published results has targets that would rerun under the current code and configuration, unless the model store freshness ledger records them as a deliberate exception. With `--table=<path>` it also checks that published tables carry `regularization_source`, `candidate_id`, `cv_strategy`, and the final-model and partition build times. See `R/03_Supplementary_analyses/Validation/Model_stores/README.md`.
+
 ## Stage 05: visualisation
 
 Visualisation consumes current model and synthesis products. It builds paleo maps, paleo variance figures, modern variance figures, paleo-modern and functional-type comparisons, and temporal continent figures. It must not trigger tuning, fitting, or synthesis.
@@ -335,6 +343,7 @@ This contains component logs and `component_status.csv`. Other important locatio
 | Final model did not converge | Adjust final-only parameters; CV budgets are separate. |
 | Only `n_samples_anova` changed | Rebuild variance-partition descendants; no CV refit is needed. |
 | Stage 03 reports unpublished budgets | Finish stage 02; do not bypass it. |
+| About to republish tables, figures, or reports | Run `Validate_model_stores.R` first; rerun or ledger every blocking target. |
 
 ## Current rerun snapshot: 12 September 2026
 

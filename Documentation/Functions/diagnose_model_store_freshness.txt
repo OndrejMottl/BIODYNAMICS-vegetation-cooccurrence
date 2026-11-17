@@ -1,0 +1,98 @@
+Diagnose Freshness of One Model Targets Store
+
+Description:
+
+     Lists the targets of one existing store that would rerun under the
+     current code and configuration, without building any target.
+
+Usage:
+
+     diagnose_model_store_freshness(
+       pipeline_script,
+       store_path,
+       profile_id,
+       data_manifest = NULL,
+       data_edges = NULL,
+       manifest_function = targets::tar_manifest,
+       network_function = targets::tar_network,
+       outdated_function = targets::tar_outdated,
+       read_target_function = targets::tar_read_raw,
+       load_metadata_function = targets::tar_meta
+     )
+
+Arguments:
+
+pipeline_script: Path to the pipeline definition that owns the store.
+
+store_path: Path to the targets store.
+
+profile_id: Configuration profile used to define the pipeline
+          (`R_CONFIG_ACTIVE`).
+
+data_manifest: Optional manifest with `name`, `command`, and `cue_mode`
+          columns. When `NULL` it is read with `manifest_function`.
+          Pass a cached manifest to inspect many stores of one pipeline
+          and profile cheaply.
+
+data_edges: Optional target-only network edges with `from` and `to`
+          columns. When `NULL` they are read with `network_function`.
+
+manifest_function, network_function, outdated_function: Injectable
+          `targets` inspection functions.
+
+read_target_function: Injectable cached-target reader used for
+          configuration comparisons.
+
+load_metadata_function: Injectable metadata reader returning `name` and
+          `error` columns.
+
+Details:
+
+     The method mirrors [validate_sjsdm_cv_preparation_freshness()].
+     Always-cued `config_*` commands are re-evaluated in a private
+     environment with the store's cached dependencies, and
+     [resolve_scale_id_from_store()] bound to this store, then compared
+     with the cached value. All other built targets are checked in one
+     `tar_outdated(shortcut = TRUE)` call, so unchanged always-cued
+     configuration does not propagate false positives, while a
+     genuinely outdated target still marks the named targets downstream
+     of it. Targets downstream of errored targets that were never built
+     are attributed to the error rather than reported as missing.
+
+Value:
+
+     A tibble with columns `store_path`, `target_name`, `finding_type`,
+     `flag_blocking`, and `detail`. It has zero rows when every target
+     is current. Finding types:
+
+        * `store_missing` (not blocking): the store does not exist.
+
+        * `missing_metadata`: a pipeline target was never built.
+
+        * `config_changed`: an always-cued `config_*` target would
+          return a different value.
+
+        * `outdated`: a target would rerun; includes targets downstream
+          of a changed configuration or of a never-built target.
+
+        * `errored_expected` (not blocking) and `errored_unexpected`:
+          cached errors classified with
+          [classify_sjsdm_unit_pipeline_error()].
+
+        * `always_cued_not_evaluated` (not blocking): other always-cued
+          targets, which `targets` reruns on every build by design.
+
+See Also:
+
+     [load_model_store_index()], [apply_model_store_freshness_ledger()]
+
+Examples:
+
+     ## Not run:
+
+     diagnose_model_store_freshness(
+       pipeline_script = "R/Pipelines/pipeline_paleo_temporal.R",
+       store_path = "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal",
+       profile_id = "project_paleo_temporal_europe"
+     )
+     ## End(Not run)

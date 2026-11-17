@@ -1,0 +1,37 @@
+Validate Model Store Freshness
+
+Description:
+
+     Aborts when resolved store-freshness findings still contain a
+     blocking finding: an outdated, never-built, or unexpectedly
+     errored target that no ledger row covers, a changed configuration,
+     or a stale ledger row.
+
+Usage:
+
+     validate_model_store_freshness(data_findings_resolved)
+
+Arguments:
+
+data_findings_resolved: Output of
+          [apply_model_store_freshness_ledger()].
+
+Value:
+
+     Invisibly, `data_findings_resolved` when nothing blocks.
+
+See Also:
+
+     [diagnose_model_store_freshness()],
+     [apply_model_store_freshness_ledger()]
+
+Examples:
+
+     validate_model_store_freshness(
+       data_findings_resolved = tibble::tibble(
+         store_path_relative = "Data/targets/a/pipeline",
+         target_name = "always_cued_target",
+         finding_type = "always_cued_not_evaluated",
+         resolution_status = "informational"
+       )
+     )

@@ -1,0 +1,87 @@
+---
+format: html
+title: load_model_store_freshness_ledger()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_model_store_freshness_ledger</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load the Model Store Freshness Ledger</h2>
+
+<h3>Description</h3>
+
+<p>Reads and validates the ledger of targets that are knowingly left outdated
+after a selective rerun.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_model_store_freshness_ledger(
+  file = here::here("Documentation/Implementation_inventories/Model_stores",
+    "model_store_freshness_ledger.csv")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="file">file</code></td>
+<td>
+<p>Path to the ledger CSV file.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>'store_path' is relative to the repository root, as in the
+'store_path_relative' column of [load_model_store_index()]. 'target_pattern'
+is a regular expression matched against whole target names. Every field is
+required, the pair of store path and pattern must be unique, and each
+pattern must be a valid regular expression. Rows are temporary: each one
+expires with the issue named in 'expiry_issue'.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with character columns 'store_path', 'target_pattern', 'reason',
+'evidence', 'owner', and 'expiry_issue'. It has zero rows when the ledger
+only holds its header.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[apply_model_store_freshness_ledger()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+load_model_store_freshness_ledger()
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

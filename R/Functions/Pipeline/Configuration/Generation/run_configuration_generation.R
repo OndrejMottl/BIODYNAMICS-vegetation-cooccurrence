@@ -7,6 +7,18 @@
 #' Repository root used to resolve manifest fragment and reference paths.
 #' @param path_destination_root
 #' Root under which generated artifact paths are written.
+#' @param path_spatial_grid
+#' Path to the spatial grid catalogue whose `continent_id` values must all
+#' have an entry in `spatial_crs_by_continent`. Defaults to
+#' `Data/Input/spatial_grid.csv` below `path_source_root`; generation aborts
+#' when the file is missing.
+#' @param path_reference_changes
+#' Optional path to the declared reference-changes CSV. When `NULL`
+#' (default), any difference from the semantic reference aborts. When
+#' supplied, declared differences are accepted and the updated reference is
+#' written below `path_destination_root` with
+#' [save_configuration_profile_reference()]; undeclared differences still
+#' abort.
 #' @return
 #' Data frame describing validated profiles and their generated catalog fields.
 #' @details
@@ -16,7 +28,12 @@
 run_configuration_generation <- function(
     path_manifest = here::here("Configuration/manifest.yml"),
     path_source_root = here::here(),
-    path_destination_root = path_source_root) {
+    path_destination_root = path_source_root,
+    path_spatial_grid = base::file.path(
+      path_source_root,
+      "Data/Input/spatial_grid.csv"
+    ),
+    path_reference_changes = NULL) {
   assertthat::assert_that(
     base::is.character(path_manifest) &&
       base::length(path_manifest) == 1L &&
@@ -926,6 +943,69 @@ run_configuration_generation <- function(
     }
   )
 
+  # Projections of spatial predictors are chosen per continent (issue #204):
+  #   every grid continent needs an entry, only Europe may use ETRS89-LAEA
+  #   (EPSG:3035), and every main temporal profile must name its continent.
+  assertthat::assert_that(
+    assertthat::is.string(path_spatial_grid),
+    base::file.exists(path_spatial_grid),
+    msg = "`path_spatial_grid` must be one existing spatial grid file."
+  )
+  vec_grid_continent_ids <-
+    readr::read_csv(
+      file = path_spatial_grid,
+      col_types = readr::cols(.default = readr::col_character()),
+      show_col_types = FALSE
+    ) |>
+    dplyr::pull("continent_id") |>
+    base::unique()
+  purrr::iwalk(
+    .x = list_resolved_profiles,
+    .f = ~ {
+      list_crs_by_continent <-
+        purrr::pluck(.x, "spatial_crs_by_continent", .default = NULL)
+      continent_id <-
+        purrr::pluck(.x, "continent_id", .default = NULL)
+      flag_main_temporal <-
+        base::identical(
+          purrr::pluck(.x, "_profile", "pipeline", .default = NULL),
+          "paleo_temporal"
+        ) &&
+        base::identical(
+          purrr::pluck(.x, "_profile", "role", .default = NULL),
+          "main"
+        )
+      assertthat::assert_that(
+        base::is.list(list_crs_by_continent),
+        base::all(
+          vec_grid_continent_ids %in% base::names(list_crs_by_continent)
+        ),
+        msg = stringr::str_glue(
+          "Profile `{.y}` lacks a projection for a spatial-grid continent."
+        )
+      )
+      vec_non_european_crs <-
+        list_crs_by_continent[
+          base::setdiff(base::names(list_crs_by_continent), "europe")
+        ] |>
+        purrr::map_chr(base::as.character)
+      assertthat::assert_that(
+        !base::any(vec_non_european_crs %in% base::c("3035", "EPSG:3035")),
+        msg = stringr::str_glue(
+          "Profile `{.y}` uses EPSG:3035 outside Europe."
+        )
+      )
+      assertthat::assert_that(
+        !flag_main_temporal || assertthat::is.string(continent_id),
+        base::is.null(continent_id) ||
+          continent_id %in% base::names(list_crs_by_continent),
+        msg = stringr::str_glue(
+          "Profile `{.y}` needs a `continent_id` with a projection."
+        )
+      )
+    }
+  )
+
   list_resolved_legacy_profiles <-
     list_resolved_profiles |>
     purrr::map(
@@ -1014,14 +1094,58 @@ run_configuration_generation <- function(
     ]
 
   if (
+    base::length(vec_changed_profile_ids) > 0L &&
+      !base::is.null(path_reference_changes)
+  ) {
+    assertthat::assert_that(
+      assertthat::is.string(path_reference_changes),
+      base::file.exists(path_reference_changes),
+      msg = "`path_reference_changes` must be one existing file."
+    )
+    list_reference <-
+      save_configuration_profile_reference(
+        list_reference = list_reference,
+        list_profiles_new = list_profiles_for_semantic_reference,
+        data_declared_changes = readr::read_csv(
+          file = path_reference_changes,
+          col_types = readr::cols(.default = readr::col_character()),
+          show_col_types = FALSE
+        ),
+        path_reference = base::file.path(
+          path_destination_root,
+          list_manifest[["semantic_reference"]]
+        )
+      )
+    vec_changed_profile_ids <- base::character()
+  }
+
+  if (
     base::length(vec_changed_profile_ids) > 0L
   ) {
+    data_reference_differences <-
+      build_configuration_reference_diff(
+        list_profiles_current =
+          list_profiles_for_semantic_reference[vec_changed_profile_ids],
+        list_profiles_reference =
+          list_reference[["resolved_profiles"]][vec_changed_profile_ids]
+      )
     cli::cli_abort(
       base::c(
         "Generated profiles differ from the semantic reference.",
         "x" = stringr::str_c(
           vec_changed_profile_ids,
           collapse = ", "
+        ),
+        "i" = stringr::str_c(
+          "Changed keys: ",
+          stringr::str_c(
+            base::unique(data_reference_differences[["key_path"]]),
+            collapse = ", "
+          )
+        ),
+        "i" = stringr::str_c(
+          "Declare intended changes and run ",
+          "Validation/Configuration/Update_configuration_reference.R."
         )
       )
     )

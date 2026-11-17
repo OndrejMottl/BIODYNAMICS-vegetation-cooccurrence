@@ -344,17 +344,20 @@ plot_density <-
     values = base::c(
       expected_infeasible = 4,
       unexpected_error = 8,
-      missing_model = 1
+      missing_model = 1,
+      outside_window = 3
     ),
     breaks = base::c(
       "expected_infeasible",
       "unexpected_error",
-      "missing_model"
+      "missing_model",
+      "outside_window"
     ),
     labels = base::c(
       "Expected infeasible",
       "Unexpected model error",
-      "Missing model"
+      "Missing model",
+      "Outside modelled window"
     ),
     name = "Model status",
     drop = FALSE

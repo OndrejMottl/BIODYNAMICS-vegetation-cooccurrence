@@ -3,6 +3,12 @@
 
 project_paleo_temporal_europe:
   target_store: Data/targets/paleo_temporal_europe
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "europe"
+  # Modelled slices (issue #181). vegvault_data.age_lim stays the wider
+  #   extraction window because it feeds the age interpolation.
+  temporal_slices:
+    age_window: !expr c(0, 17500)
   vegvault_data:
     x_lim: !expr c(-10, 40)
     y_lim: !expr c(35, 70)
@@ -29,6 +35,9 @@ project_paleo_temporal_europe:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+    # A time slice has one age, so climate x age terms would be all-zero
+    #   columns (issue #206); the formula builder also drops them.
+    use_age_in_formula: false
   _profile:
     role: main
     status: active
@@ -43,6 +52,12 @@ project_paleo_temporal_europe:
 
 project_paleo_temporal_america:
   target_store: Data/targets/paleo_temporal_america
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "america"
+  # Modelled slices (issue #181). vegvault_data.age_lim stays the wider
+  #   extraction window because it feeds the age interpolation.
+  temporal_slices:
+    age_window: !expr c(0, 19500)
   vegvault_data:
     x_lim: !expr c(-130, -60)
     y_lim: !expr c(30, 70)
@@ -69,6 +84,9 @@ project_paleo_temporal_america:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+    # A time slice has one age, so climate x age terms would be all-zero
+    #   columns (issue #206); the formula builder also drops them.
+    use_age_in_formula: false
   _profile:
     role: main
     status: active
@@ -83,6 +101,15 @@ project_paleo_temporal_america:
 
 project_paleo_temporal_asia:
   target_store: Data/targets/paleo_temporal_asia
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "asia"
+  # Modelled slices (issue #181). vegvault_data.age_lim stays the wider
+  #   extraction window because it feeds the age interpolation.
+  temporal_slices:
+    age_window: !expr c(0, 10500)
+    # 0 ka has 1 sample (min_n_samples is 10). An infeasible slice aborts
+    #   the whole temporal build at its tuning branches, so it is excluded.
+    excluded_ages: !expr c(0)
   vegvault_data:
     x_lim: !expr c(60, 140)
     y_lim: !expr c(50, 75)
@@ -109,6 +136,9 @@ project_paleo_temporal_asia:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+    # A time slice has one age, so climate x age terms would be all-zero
+    #   columns (issue #206); the formula builder also drops them.
+    use_age_in_formula: false
   _profile:
     role: main
     status: active

@@ -23,17 +23,24 @@ n_samples: Integer; number of Monte Carlo samples used for the
 
 Details:
 
-     The function wraps the internal `sjSDM:::anova.sjSDM()` method.
-     The `n_samples` argument controls how many Monte Carlo draws are
-     used to approximate the likelihoods in each variation partition.
-     For exploratory runs, a value of 1000 is sufficient; for
-     publication-quality results, 3000–5000 is recommended.
+     The function runs the internal `sjSDM:::anova.sjSDM()` method
+     through [build_jsdm_variance_partition_method()], so every
+     sub-model is fitted with the association penalty (`lambda_cov`,
+     `alpha_cov`) and the seed of the full model. The installed method
+     would refit sub-models without the association penalty and with
+     the default sjSDM seed (issue #203); for a model with `lambda_cov
+     = 0` the two agree within Monte Carlo error. The `n_samples`
+     argument controls how many Monte Carlo draws are used to
+     approximate the likelihoods in each variation partition. For
+     exploratory runs, a value of 1000 is sufficient; for
+     publication-quality results, 3000-5000 is recommended.
 
 Value:
 
-     An ANOVA result object as returned by `sjSDM:::anova.sjSDM()`,
+     An `sjSDManova` object with the layout returned by
+     `sjSDM:::anova.sjSDM()` (`results`, `N`, `lls`, `species`, ...),
      containing variance partitioning across model components.
 
 See Also:
 
-     [fit_jsdm_model()]
+     [fit_jsdm_model()], [build_jsdm_variance_partition_method()]

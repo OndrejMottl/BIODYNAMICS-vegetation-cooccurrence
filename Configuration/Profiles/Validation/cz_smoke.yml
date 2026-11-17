@@ -50,6 +50,8 @@ project_cz_paleo:
 
 project_cz_modern:
   target_store: Data/targets/cz_modern
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "europe"
   vegvault_data:
     age_lim: !expr c(0, 0)
     sel_dataset_type: !expr c("vegetation_plot", "gridpoints")

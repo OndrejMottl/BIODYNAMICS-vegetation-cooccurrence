@@ -111,8 +111,13 @@ selected_abiotic_variables <-
 spatial_mode <-
   load_active_config_value(c("model_fitting", "spatial_mode"))
 
+# Same per-continent projection as the fitted pipeline (issue #204).
 spatial_crs <-
-  load_active_config_value(c("model_fitting", "spatial_crs"))
+  resolve_spatial_crs(
+    scale_id = selected_scale_id,
+    continent_id = load_active_config_value("continent_id"),
+    crs_by_continent = load_active_config_value("spatial_crs_by_continent")
+  )
 
 vec_age_slices <-
   base::seq(

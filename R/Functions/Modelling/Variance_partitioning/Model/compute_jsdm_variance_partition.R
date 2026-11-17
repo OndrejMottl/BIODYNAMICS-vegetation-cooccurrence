@@ -13,15 +13,21 @@
 #' Logical; if `TRUE`, prints detailed output from the ANOVA
 #' computation.
 #' @return
-#' An ANOVA result object as returned by `sjSDM:::anova.sjSDM()`,
+#' An `sjSDManova` object with the layout returned by
+#' `sjSDM:::anova.sjSDM()` (`results`, `N`, `lls`, `species`, ...),
 #' containing variance partitioning across model components.
 #' @details
-#' The function wraps the internal `sjSDM:::anova.sjSDM()` method.
+#' The function runs the internal `sjSDM:::anova.sjSDM()` method through
+#' [build_jsdm_variance_partition_method()], so every sub-model is fitted
+#' with the association penalty (`lambda_cov`, `alpha_cov`) and the seed of
+#' the full model. The installed method would refit sub-models without the
+#' association penalty and with the default sjSDM seed (issue #203); for a
+#' model with `lambda_cov = 0` the two agree within Monte Carlo error.
 #' The `n_samples` argument controls how many Monte Carlo draws are
 #' used to approximate the likelihoods in each variation partition.
 #' For exploratory runs, a value of 1000 is sufficient; for
-#' publication-quality results, 3000–5000 is recommended.
-#' @seealso [fit_jsdm_model()]
+#' publication-quality results, 3000-5000 is recommended.
+#' @seealso [fit_jsdm_model()], [build_jsdm_variance_partition_method()]
 #' @export
 compute_jsdm_variance_partition <- function(
     mod,
@@ -43,9 +49,12 @@ compute_jsdm_variance_partition <- function(
     msg = "verbose must be a single logical value (TRUE or FALSE)."
   )
 
+  method_partition <-
+    build_jsdm_variance_partition_method(mod = mod)
+
   res <-
-    sjSDM:::anova.sjSDM(
-      mod,
+    method_partition(
+      object = mod,
       samples = n_samples,
       verbose = verbose
     )

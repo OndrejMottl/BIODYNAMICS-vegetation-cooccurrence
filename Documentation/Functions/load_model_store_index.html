@@ -1,0 +1,103 @@
+<!DOCTYPE html><html><head><title>R: Load the Production Model Store Index</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_model_store_index</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load the Production Model Store Index</h2>
+
+<h3>Description</h3>
+
+<p>Lists every targets store that feeds published model results: spatial
+unit stores, temporal stores, tier-tuning stores, and common-regularization
+sensitivity stores of the selected configuration profiles.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_model_store_index(
+  vec_profile_ids = NULL,
+  path_store_root = here::here(),
+  file_config = here::here("config.yml"),
+  path_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vec_profile_ids">vec_profile_ids</code></td>
+<td>
+<p>Optional character vector of profile identifiers. When 'NULL', every
+profile whose '_profile' block has role 'main' and status 'active' is used.</p>
+</td></tr>
+<tr><td><code id="path_store_root">path_store_root</code></td>
+<td>
+<p>Root directory under which the profiles' relative 'target_store' paths are
+resolved. Defaults to the repository root; point it at a folder holding
+store copies with the same relative layout to inspect the copies.</p>
+</td></tr>
+<tr><td><code id="file_config">file_config</code></td>
+<td>
+<p>Path to the generated root configuration file.</p>
+</td></tr>
+<tr><td><code id="path_spatial_grid">path_spatial_grid</code></td>
+<td>
+<p>Path to the spatial grid catalogue listing spatial unit 'scale_id' values.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Spatial profiles contribute one unit store per 'scale_id' of their scale
+(from [build_spatial_model_store_index()]), plus the tier-tuning and
+sensitivity stores below their 'target_store'. Temporal profiles contribute
+their temporal store and tier-tuning store. Stores are listed whether or
+not they exist; 'store_exists' records presence.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per store and columns 'store_kind', 'profile_id',
+'data_source', 'scale', 'scale_id', 'pipeline_script', 'store_path',
+'store_path_relative', and 'store_exists'. 'store_path_relative' is the
+store path relative to 'path_store_root', so ledger rows written for
+production stores also match copies under another root.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[resolve_pipeline_store_path()],
+[diagnose_model_store_freshness()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+load_model_store_index(vec_profile_ids = "project_paleo_temporal_europe")
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

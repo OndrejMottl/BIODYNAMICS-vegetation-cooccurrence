@@ -1,0 +1,45 @@
+Validate Provenance Columns of a Published Model Table
+
+Description:
+
+     Aborts when a published model table lacks a provenance column, or
+     when a checked row has a missing provenance value.
+
+Usage:
+
+     validate_model_table_provenance(
+       data_table,
+       vec_required_columns = base::c("regularization_source", "candidate_id", "cv_strategy",
+         "final_model_built_at", "variance_partition_built_at"),
+       availability_column = NULL,
+       table_label = "model table"
+     )
+
+Arguments:
+
+data_table: Published model table.
+
+vec_required_columns: Provenance columns every checked row must carry.
+
+availability_column: Optional column name. When supplied, only rows
+          whose value is `available` are checked, so rows describing
+          missing or infeasible models may leave provenance empty.
+
+table_label: Label used in error messages, usually the table file name.
+
+Value:
+
+     Invisibly, `data_table` when every checked row has complete
+     provenance.
+
+Examples:
+
+     validate_model_table_provenance(
+       data_table = tibble::tibble(
+         regularization_source = "unit_cv",
+         candidate_id = "candidate_001",
+         cv_strategy = "grouped_kfold",
+         final_model_built_at = "2026-11-16 10:00:00",
+         variance_partition_built_at = "2026-11-16 11:00:00"
+       )
+     )

@@ -1,0 +1,1486 @@
+data_source,continent_id,scale,scale_id,resolution_id,n_samples,n_mev_stored,n_mev_new,r2_min,diagnostic_status,threshold_r2,flag_refit,flag_published
+paleo,america,continental,america,genus,8096,5,5,0.9889005109822542,compared,0.99,TRUE,TRUE
+paleo,america,continental,america,family,8096,5,5,0.9889005109822542,compared,0.99,TRUE,TRUE
+paleo,america,continental,america,functional_type,8096,5,5,0.9889005109822542,compared,0.99,TRUE,TRUE
+paleo,asia,continental,asia,genus,435,5,5,0.9979060069601998,compared,0.99,FALSE,TRUE
+paleo,asia,continental,asia,family,435,5,5,0.9979060069601998,compared,0.99,FALSE,FALSE
+paleo,asia,continental,asia,functional_type,435,5,5,0.9979060069601998,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r002,genus,964,4,4,0.9930006645108919,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r002,family,964,4,4,0.9930006645108919,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r002,functional_type,964,4,4,0.9930006645108919,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r003,genus,161,2,2,0.9894834925247266,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r003,family,161,2,2,0.9894834925247266,compared,0.99,TRUE,FALSE
+paleo,america,regional,am_r003,functional_type,161,2,2,0.9894834925247266,compared,0.99,TRUE,FALSE
+paleo,america,regional,am_r004,genus,773,4,4,0.9919804754601119,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r004,family,773,4,4,0.9919804754601119,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r004,functional_type,773,4,4,0.9919804754601119,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r005,genus,1087,4,4,0.003179754646255306,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r005,family,1087,4,4,0.003179754646255306,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r005,functional_type,1087,4,4,0.003179754646255306,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r006,genus,86,3,3,0.968607054119825,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r006,family,86,3,3,0.968607054119825,compared,0.99,TRUE,FALSE
+paleo,america,regional,am_r006,functional_type,86,3,3,0.968607054119825,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r007,genus,534,4,4,0.9524740758769615,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r007,family,534,4,4,0.9524740758769615,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r007,functional_type,534,4,4,0.9524740758769615,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r008,genus,1356,4,4,0.9670089988453912,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r008,family,1356,4,4,0.9670089988453912,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r008,functional_type,1356,4,4,0.9670089988453912,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r009,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r009,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r009,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r010,genus,322,4,4,0.9814897424665127,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r010,family,322,4,4,0.9814897424665127,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r010,functional_type,322,4,4,0.9814897424665127,compared,0.99,TRUE,TRUE
+paleo,america,regional,am_r011,genus,2671,4,4,0.9957622213312539,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r011,family,2671,4,4,0.9957622213312539,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r011,functional_type,2671,4,4,0.9957622213312539,compared,0.99,FALSE,TRUE
+paleo,america,regional,am_r012,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r012,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,regional,am_r012,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r001,genus,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r001,family,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r001,functional_type,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r002,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,asia,regional,as_r002,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,asia,regional,as_r002,functional_type,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,asia,regional,as_r003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r005,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r005,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r005,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,regional,as_r006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,regional,as_r006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,regional,as_r007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,regional,as_r008,genus,172,3,2,0.9998070020840797,compared,0.99,TRUE,TRUE
+paleo,asia,regional,as_r008,family,172,3,2,0.9998070020840797,compared,0.99,TRUE,FALSE
+paleo,asia,regional,as_r008,functional_type,172,3,2,0.9998070020840797,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r001_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r001_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r001_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r001_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r002_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r002_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r002_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l005,genus,355,3,3,0.6454666963953177,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r002_l005,family,355,3,3,0.6454666963953177,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r002_l005,functional_type,355,3,3,0.6454666963953177,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r002_l006,genus,370,3,3,0.9902980169261376,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r002_l006,family,370,3,3,0.9902980169261376,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r002_l006,functional_type,370,3,3,0.9902980169261376,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r002_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r002_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r003_l001,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r003_l001,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r003_l001,functional_type,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r003_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r003_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r003_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r003_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r003_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r003_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r003_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r003_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r003_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l002,genus,204,3,3,0.9923525569641484,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r004_l002,family,204,3,3,0.9923525569641484,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r004_l002,functional_type,204,3,3,0.9923525569641484,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r004_l003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r004_l004,genus,119,2,2,0.9834437202669433,compared,0.99,TRUE,FALSE
+paleo,america,local,am_r004_l004,family,119,2,2,0.9834437202669433,compared,0.99,TRUE,FALSE
+paleo,america,local,am_r004_l004,functional_type,119,2,2,0.9834437202669433,compared,0.99,TRUE,FALSE
+paleo,america,local,am_r004_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l006,genus,331,3,3,0.9813023708606222,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r004_l006,family,331,3,3,0.9813023708606222,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r004_l006,functional_type,331,3,3,0.9813023708606222,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r004_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r004_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l001,genus,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l001,family,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l002,genus,91,1,1,0.9988496598606257,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l002,family,91,1,1,0.9988496598606257,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l002,functional_type,91,1,1,0.9988496598606257,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l003,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l003,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l003,functional_type,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l005,genus,271,2,3,0.09637608657554686,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l005,family,271,2,3,0.09637608657554686,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l005,functional_type,271,2,3,0.09637608657554686,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l006,genus,291,3,3,0.9760528906846114,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l006,family,291,3,3,0.9760528906846114,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l006,functional_type,291,3,3,0.9760528906846114,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r005_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l009,genus,173,3,3,0.9968676005295493,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r005_l009,family,173,3,3,0.9968676005295493,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r005_l009,functional_type,173,3,3,0.9968676005295493,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r005_l010,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l010,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l010,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l011,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l012,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l013,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l013,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l013,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l014,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l014,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l014,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l015,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l015,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l015,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r005_l016,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l016,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r005_l016,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r006_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r006_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l004,genus,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l004,family,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l005,genus,119,1,1,0.964841828637801,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r007_l005,family,119,1,1,0.964841828637801,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r007_l005,functional_type,119,1,1,0.964841828637801,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r007_l006,genus,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l006,family,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l006,functional_type,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r007_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r007_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r007_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l005,genus,149,2,2,0.9953446166984986,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l005,family,149,2,2,0.9953446166984986,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l005,functional_type,149,2,2,0.9953446166984986,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l006,genus,206,3,3,0.9727918224670399,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l006,family,206,3,3,0.9727918224670399,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l006,functional_type,206,3,3,0.9727918224670399,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r008_l009,genus,352,3,3,0.9879807077302284,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l009,family,352,3,3,0.9879807077302284,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l009,functional_type,352,3,3,0.9879807077302284,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l010,genus,263,3,3,0.9884029011872661,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l010,family,263,3,3,0.9884029011872661,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l010,functional_type,263,3,3,0.9884029011872661,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r008_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l011,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l012,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l013,genus,228,3,3,0.9950656264217865,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l013,family,228,3,3,0.9950656264217865,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l013,functional_type,228,3,3,0.9950656264217865,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l014,genus,104,2,2,0.9991964148485093,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l014,family,104,2,2,0.9991964148485093,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r008_l014,functional_type,104,2,2,0.9991964148485093,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l015,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l015,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l015,functional_type,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l016,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l016,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r008_l016,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r009_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r009_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r009_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r009_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l001,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l001,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l001,functional_type,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l002,genus,251,3,3,0.998100582487973,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r010_l002,family,251,3,3,0.998100582487973,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r010_l002,functional_type,251,3,3,0.998100582487973,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r010_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r010_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r010_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r010_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r010_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l001,genus,291,3,3,0.9918837259460463,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l001,family,291,3,3,0.9918837259460463,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l001,functional_type,291,3,3,0.9918837259460463,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l002,genus,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,TRUE
+paleo,america,local,am_r011_l002,family,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,TRUE
+paleo,america,local,am_r011_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: No positive spatial MEM eigenvectors are supported. Found 0 positive
+eigenvectors; need at least 1. The configured spatial model cannot be fitted to
+this geometry.",0.99,FALSE,TRUE
+paleo,america,local,am_r011_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l004,genus,93,2,2,0.9993438409585597,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l004,family,93,2,2,0.9993438409585597,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l004,functional_type,93,2,2,0.9993438409585597,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l005,genus,1007,3,3,0.990722588986267,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l005,family,1007,3,3,0.990722588986267,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l005,functional_type,1007,3,3,0.990722588986267,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l006,genus,426,3,3,0.995734101671277,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l006,family,426,3,3,0.995734101671277,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l006,functional_type,426,3,3,0.995734101671277,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r011_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r011_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r011_l009,genus,166,3,3,0.9942309695477258,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l009,family,166,3,3,0.9942309695477258,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l009,functional_type,166,3,3,0.9942309695477258,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l010,genus,236,2,3,0.015667205804717255,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r011_l010,family,236,2,3,0.015667205804717255,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r011_l010,functional_type,236,2,3,0.015667205804717255,compared,0.99,TRUE,TRUE
+paleo,america,local,am_r011_l011,genus,75,2,2,0.9999048827908235,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l011,family,75,2,2,0.9999048827908235,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l011,functional_type,75,2,2,0.9999048827908235,compared,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l012,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l013,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r011_l013,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r011_l013,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r011_l014,genus,125,2,2,0.9939925787038291,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l014,family,125,2,2,0.9939925787038291,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l014,functional_type,125,2,2,0.9939925787038291,compared,0.99,FALSE,TRUE
+paleo,america,local,am_r011_l015,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l015,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l015,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l016,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l016,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r011_l016,functional_type,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,america,local,am_r012_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r012_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r012_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r012_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r012_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,america,local,am_r012_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l005,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l005,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l005,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r001_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l002,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l002,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l002,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l005,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l005,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l005,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l008,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l008,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l008,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l009,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l010,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l011,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l011,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l011,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r002_l012,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r003_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l009,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l010,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l011,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l012,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l012,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r004_l012,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r005_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l009,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l010,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l011,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r006_l012,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l001,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l003,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l004,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l005,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l007,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l007,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l007,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r007_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l001,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l001,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l001,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l002,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l003,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l003,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l003,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 1; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l004,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l004,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l004,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 2; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l005,genus,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l005,family,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l005,functional_type,NA,NA,NA,NA,"new_basis_failed: Too few projected locations to construct spatial MEM.
+ℹ Found 3; need at least 4.",0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l006,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l007,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l008,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l009,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l010,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l011,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+paleo,asia,local,as_r008_l012,functional_type,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,continental,america,genus,9890,5,5,0.13416797152523652,compared,0.99,TRUE,TRUE
+modern,america,continental,america,family,9895,5,5,0.1342452275393745,compared,0.99,TRUE,TRUE
+modern,america,continental,america,ft_modern,10002,5,5,0.1353077921347855,compared,0.99,TRUE,TRUE
+modern,asia,continental,asia,genus,3638,5,5,0.9896097545473966,compared,0.99,TRUE,TRUE
+modern,asia,continental,asia,family,3638,5,5,0.9896097545473966,compared,0.99,TRUE,TRUE
+modern,asia,continental,asia,ft_modern,3673,5,5,0.9895220103903566,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r002,genus,387,4,4,0.9957117772946107,compared,0.99,FALSE,TRUE
+modern,america,regional,am_r002,family,389,4,4,0.995712288124828,compared,0.99,FALSE,TRUE
+modern,america,regional,am_r002,ft_modern,405,4,4,0.9948973181693244,compared,0.99,FALSE,FALSE
+modern,america,regional,am_r003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r004,genus,593,4,4,0.988305921313396,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r004,family,595,4,4,0.9882499164069143,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r004,ft_modern,631,4,4,0.9879329391454611,compared,0.99,TRUE,FALSE
+modern,america,regional,am_r005,genus,1941,4,4,0.9003382670130184,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r005,family,1943,4,4,0.9003480520615197,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r005,ft_modern,1999,4,4,0.902007721053746,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r007,genus,3725,4,4,0.9844579974436949,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r007,family,3728,4,4,0.9844487508436776,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r007,ft_modern,3738,4,4,0.9844181164390146,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r008,genus,306,4,4,0.9873798522568797,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r008,family,307,4,4,0.9873595310373557,compared,0.99,TRUE,TRUE
+modern,america,regional,am_r008,ft_modern,318,4,4,0.9872841784688443,compared,0.99,TRUE,FALSE
+modern,america,regional,am_r009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r010,genus,2685,4,4,0.9907497066477746,compared,0.99,FALSE,TRUE
+modern,america,regional,am_r010,family,2686,4,4,0.9907461136305795,compared,0.99,FALSE,TRUE
+modern,america,regional,am_r010,ft_modern,2772,4,4,0.9907433033824455,compared,0.99,FALSE,FALSE
+modern,america,regional,am_r011,genus,139,4,4,0.9970140469083478,compared,0.99,FALSE,TRUE
+modern,america,regional,am_r011,family,139,4,4,0.9970140469083478,compared,0.99,FALSE,TRUE
+modern,america,regional,am_r011,ft_modern,147,4,4,0.9903125084219857,compared,0.99,FALSE,FALSE
+modern,america,regional,am_r012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,regional,am_r012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r001,genus,832,4,4,0.9430490090882471,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r001,family,832,4,4,0.9430490090882471,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r001,ft_modern,857,4,4,0.942849326286749,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r002,genus,572,4,4,0.9530109032694283,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r002,family,572,4,4,0.9530109032694283,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r002,ft_modern,580,4,4,0.9454157692098675,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r003,genus,814,4,4,0.9858286989768655,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r003,family,817,4,4,0.9857740290294528,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r003,ft_modern,823,4,4,0.9857734083888825,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r005,genus,1317,4,4,0.6004608262309663,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r005,family,1318,4,4,0.5974095688235239,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r005,ft_modern,1332,4,4,0.5992389339580192,compared,0.99,TRUE,TRUE
+modern,asia,regional,as_r006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,regional,as_r008,genus,19,4,4,0.999341812995576,compared,0.99,FALSE,FALSE
+modern,asia,regional,as_r008,family,19,4,4,0.999341812995576,compared,0.99,FALSE,FALSE
+modern,asia,regional,as_r008,ft_modern,45,4,4,0.9915504708078279,compared,0.99,FALSE,FALSE
+modern,america,local,am_r001_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r001_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l003,genus,25,3,3,0.9644002358534025,compared,0.99,TRUE,TRUE
+modern,america,local,am_r002_l003,family,25,3,3,0.9644002358534025,compared,0.99,TRUE,TRUE
+modern,america,local,am_r002_l003,ft_modern,24,3,3,0.9643226731742097,compared,0.99,TRUE,FALSE
+modern,america,local,am_r002_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l005,genus,30,3,3,0.9726783503682981,compared,0.99,TRUE,TRUE
+modern,america,local,am_r002_l005,family,31,3,3,0.9919832939798916,compared,0.99,FALSE,TRUE
+modern,america,local,am_r002_l005,ft_modern,48,3,3,0.9892870040464612,compared,0.99,TRUE,FALSE
+modern,america,local,am_r002_l006,genus,327,3,3,0.9649570424352143,compared,0.99,TRUE,TRUE
+modern,america,local,am_r002_l006,family,327,3,3,0.9649570424352143,compared,0.99,TRUE,TRUE
+modern,america,local,am_r002_l006,ft_modern,333,3,3,0.9654424407546143,compared,0.99,TRUE,FALSE
+modern,america,local,am_r002_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r002_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r003_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l002,genus,210,3,3,0.8754998908562547,compared,0.99,TRUE,TRUE
+modern,america,local,am_r004_l002,family,210,3,3,0.8754998908562547,compared,0.99,TRUE,TRUE
+modern,america,local,am_r004_l002,ft_modern,222,3,3,0.9129487601966486,compared,0.99,TRUE,FALSE
+modern,america,local,am_r004_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l004,genus,138,3,3,0.36381693397750237,compared,0.99,TRUE,TRUE
+modern,america,local,am_r004_l004,family,138,3,3,0.36381693397750237,compared,0.99,TRUE,TRUE
+modern,america,local,am_r004_l004,ft_modern,142,3,3,0.36076226882415474,compared,0.99,TRUE,FALSE
+modern,america,local,am_r004_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l006,genus,231,3,3,0.32328149519530724,compared,0.99,TRUE,TRUE
+modern,america,local,am_r004_l006,family,231,3,3,0.32328149519530724,compared,0.99,TRUE,TRUE
+modern,america,local,am_r004_l006,ft_modern,248,3,3,0.11458892973227053,compared,0.99,TRUE,FALSE
+modern,america,local,am_r004_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r004_l008,genus,13,3,3,0.9996579455484199,compared,0.99,FALSE,FALSE
+modern,america,local,am_r004_l008,family,13,3,3,0.9996579455484199,compared,0.99,FALSE,FALSE
+modern,america,local,am_r004_l008,ft_modern,16,3,3,0.999632970197846,compared,0.99,FALSE,FALSE
+modern,america,local,am_r005_l001,genus,71,3,3,0.9811318944509484,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l001,family,71,3,3,0.9811318944509484,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l001,ft_modern,102,3,3,0.9852991817235471,compared,0.99,TRUE,FALSE
+modern,america,local,am_r005_l002,genus,344,3,3,0.7809934145765831,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l002,family,344,3,3,0.7809934145765831,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l002,ft_modern,347,3,3,0.7812447834515551,compared,0.99,TRUE,FALSE
+modern,america,local,am_r005_l003,genus,46,3,3,0.04550032622492206,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l003,family,46,3,3,0.04550032622492206,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l003,ft_modern,47,3,3,0.04553156232311706,compared,0.99,TRUE,FALSE
+modern,america,local,am_r005_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l005,genus,95,3,3,0.9495049454353418,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l005,family,95,3,3,0.9495049454353418,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l005,ft_modern,112,3,3,0.957354627514893,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l006,genus,877,3,3,0.9424078992425783,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l006,family,877,3,3,0.9424078992425783,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l006,ft_modern,919,3,3,0.9418843829096761,compared,0.99,TRUE,TRUE
+modern,america,local,am_r005_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l009,genus,378,3,3,0.9985791704375286,compared,0.99,FALSE,TRUE
+modern,america,local,am_r005_l009,family,378,3,3,0.9985791704375286,compared,0.99,FALSE,TRUE
+modern,america,local,am_r005_l009,ft_modern,392,3,3,0.9984980837925697,compared,0.99,FALSE,FALSE
+modern,america,local,am_r005_l010,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,america,local,am_r005_l010,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,america,local,am_r005_l010,ft_modern,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,america,local,am_r005_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l011,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l013,genus,34,3,3,0.9916646121120453,compared,0.99,FALSE,TRUE
+modern,america,local,am_r005_l013,family,34,3,3,0.9916646121120453,compared,0.99,FALSE,TRUE
+modern,america,local,am_r005_l013,ft_modern,35,3,3,0.9916778122904772,compared,0.99,FALSE,FALSE
+modern,america,local,am_r005_l014,genus,34,3,3,0.9747861861785811,compared,0.99,TRUE,FALSE
+modern,america,local,am_r005_l014,family,34,3,3,0.9747861861785811,compared,0.99,TRUE,FALSE
+modern,america,local,am_r005_l014,ft_modern,44,3,3,0.943372755717329,compared,0.99,TRUE,FALSE
+modern,america,local,am_r005_l015,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l015,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l015,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l016,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l016,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r005_l016,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r006_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l001,genus,11,3,3,0.9125981922316393,compared,0.99,TRUE,TRUE
+modern,america,local,am_r007_l001,family,11,3,3,0.9125981922316393,compared,0.99,TRUE,TRUE
+modern,america,local,am_r007_l001,ft_modern,12,3,3,0.912598414797223,compared,0.99,TRUE,FALSE
+modern,america,local,am_r007_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l003,genus,25,3,3,0.9990672294297122,compared,0.99,FALSE,TRUE
+modern,america,local,am_r007_l003,family,25,3,3,0.9990672294297122,compared,0.99,FALSE,TRUE
+modern,america,local,am_r007_l003,ft_modern,25,3,3,0.9990672294297122,compared,0.99,FALSE,FALSE
+modern,america,local,am_r007_l004,genus,6,1,1,0.19954332527002183,compared,0.99,TRUE,FALSE
+modern,america,local,am_r007_l004,family,6,1,1,0.19954332527002183,compared,0.99,TRUE,FALSE
+modern,america,local,am_r007_l004,ft_modern,8,1,1,0.005971391215618405,compared,0.99,TRUE,FALSE
+modern,america,local,am_r007_l005,genus,190,3,3,0.9366901288278915,compared,0.99,TRUE,TRUE
+modern,america,local,am_r007_l005,family,190,3,3,0.9366901288278915,compared,0.99,TRUE,TRUE
+modern,america,local,am_r007_l005,ft_modern,191,3,3,0.9367290584295558,compared,0.99,TRUE,FALSE
+modern,america,local,am_r007_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r007_l007,genus,1224,3,3,0.992196495311392,compared,0.99,FALSE,TRUE
+modern,america,local,am_r007_l007,family,1224,3,3,0.992196495311392,compared,0.99,FALSE,TRUE
+modern,america,local,am_r007_l007,ft_modern,1235,3,3,0.9921293897372413,compared,0.99,FALSE,TRUE
+modern,america,local,am_r007_l008,genus,2261,3,3,0.8200836128780451,compared,0.99,TRUE,TRUE
+modern,america,local,am_r007_l008,family,2261,3,3,0.8200836128780451,compared,0.99,TRUE,TRUE
+modern,america,local,am_r007_l008,ft_modern,2272,3,3,0.8197804870992962,compared,0.99,TRUE,TRUE
+modern,america,local,am_r008_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l002,genus,11,3,3,0.9805969043438025,compared,0.99,TRUE,TRUE
+modern,america,local,am_r008_l002,family,11,3,3,0.9805969043438025,compared,0.99,TRUE,FALSE
+modern,america,local,am_r008_l002,ft_modern,11,3,3,0.9805969043438025,compared,0.99,TRUE,FALSE
+modern,america,local,am_r008_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l005,genus,47,3,3,0.9355015812913998,compared,0.99,TRUE,TRUE
+modern,america,local,am_r008_l005,family,47,3,3,0.9355015812913998,compared,0.99,TRUE,TRUE
+modern,america,local,am_r008_l005,ft_modern,51,3,3,0.9380327340578649,compared,0.99,TRUE,FALSE
+modern,america,local,am_r008_l006,genus,106,3,3,0.9630396833391054,compared,0.99,TRUE,TRUE
+modern,america,local,am_r008_l006,family,106,3,3,0.9630396833391054,compared,0.99,TRUE,TRUE
+modern,america,local,am_r008_l006,ft_modern,106,3,3,0.9630396833391054,compared,0.99,TRUE,FALSE
+modern,america,local,am_r008_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l010,genus,122,3,3,0.9980680914306639,compared,0.99,FALSE,TRUE
+modern,america,local,am_r008_l010,family,123,3,3,0.9980377144612794,compared,0.99,FALSE,TRUE
+modern,america,local,am_r008_l010,ft_modern,134,3,3,0.9981110004084659,compared,0.99,FALSE,FALSE
+modern,america,local,am_r008_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l011,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l013,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l013,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l013,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l014,genus,11,3,3,0.99923239938211,compared,0.99,FALSE,TRUE
+modern,america,local,am_r008_l014,family,11,3,3,0.99923239938211,compared,0.99,FALSE,FALSE
+modern,america,local,am_r008_l014,ft_modern,11,3,3,0.99923239938211,compared,0.99,FALSE,FALSE
+modern,america,local,am_r008_l015,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l015,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l015,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l016,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l016,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r008_l016,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r009_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l001,genus,1410,3,3,0.9836872107372983,compared,0.99,TRUE,TRUE
+modern,america,local,am_r010_l001,family,1410,3,3,0.9836872107372983,compared,0.99,TRUE,TRUE
+modern,america,local,am_r010_l001,ft_modern,1489,3,3,0.9836193010428651,compared,0.99,TRUE,TRUE
+modern,america,local,am_r010_l002,genus,1270,3,3,0.9929029666157005,compared,0.99,FALSE,TRUE
+modern,america,local,am_r010_l002,family,1271,3,3,0.9929029299021667,compared,0.99,FALSE,TRUE
+modern,america,local,am_r010_l002,ft_modern,1284,3,3,0.9929007921801987,compared,0.99,FALSE,FALSE
+modern,america,local,am_r010_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r010_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l001,genus,49,3,3,0.8863693248145257,compared,0.99,TRUE,TRUE
+modern,america,local,am_r011_l001,family,49,3,3,0.8863693248145257,compared,0.99,TRUE,TRUE
+modern,america,local,am_r011_l001,ft_modern,72,3,3,0.8910776999450765,compared,0.99,TRUE,FALSE
+modern,america,local,am_r011_l002,genus,52,3,3,0.9227455079432453,compared,0.99,TRUE,TRUE
+modern,america,local,am_r011_l002,family,52,3,3,0.9227455079432453,compared,0.99,TRUE,TRUE
+modern,america,local,am_r011_l002,ft_modern,52,3,3,0.9227455079432453,compared,0.99,TRUE,FALSE
+modern,america,local,am_r011_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l005,genus,9,3,3,0.999445631675509,compared,0.99,FALSE,FALSE
+modern,america,local,am_r011_l005,family,12,3,3,0.9999754482313132,compared,0.99,FALSE,TRUE
+modern,america,local,am_r011_l005,ft_modern,16,3,3,0.9993396512332996,compared,0.99,FALSE,FALSE
+modern,america,local,am_r011_l006,genus,7,3,3,0.9992714692847373,compared,0.99,FALSE,TRUE
+modern,america,local,am_r011_l006,family,7,3,3,0.9992714692847373,compared,0.99,FALSE,TRUE
+modern,america,local,am_r011_l006,ft_modern,7,3,3,0.9992714692847373,compared,0.99,FALSE,FALSE
+modern,america,local,am_r011_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l010,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l011,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l013,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l013,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l013,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l014,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l014,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l014,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l015,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l015,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l015,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l016,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l016,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r011_l016,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,america,local,am_r012_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l001,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l001,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l001,ft_modern,20,3,3,0.9998558598080332,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l003,genus,8,2,2,0.9999937918140085,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l003,family,8,2,2,0.9999937918140085,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l003,ft_modern,8,2,2,0.9999937918140085,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r001_l004,genus,200,3,3,0.9595075910111014,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l004,family,200,3,3,0.9595075910111014,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l004,ft_modern,224,3,3,0.9591037222404136,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l005,genus,68,3,3,0.9999325135603859,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r001_l005,family,68,3,3,0.9999325135603859,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r001_l005,ft_modern,90,3,3,0.9999326749062584,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r001_l006,genus,125,3,3,0.9826363128032725,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l006,family,126,3,3,0.9826539380670958,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l006,ft_modern,132,3,3,0.9827588839993034,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l007,genus,194,3,3,0.2866309502248756,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l007,family,194,3,3,0.2866309502248756,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l007,ft_modern,205,3,3,0.30388514668367006,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r001_l008,genus,150,3,3,0.9995948368167398,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r001_l008,family,150,3,3,0.9995948368167398,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r001_l008,ft_modern,177,3,3,0.9998529004396386,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l007,genus,93,3,3,0.9966216227415602,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l007,family,93,3,3,0.9966216227415602,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l007,ft_modern,95,3,3,0.9955257081521558,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l008,genus,28,3,3,0.9990657759049107,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l008,family,28,3,3,0.9990657759049107,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l008,ft_modern,28,3,3,0.9990657759049107,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l010,genus,243,3,3,0.9989283513809721,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l010,family,243,3,3,0.9989283513809721,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l010,ft_modern,258,3,3,0.9990025243095917,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l011,genus,123,3,3,0.9990756124720744,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l011,family,123,3,3,0.9990756124720744,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l011,ft_modern,125,3,3,0.9994337624666036,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r002_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r002_l012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l001,genus,320,3,3,0.9853234099314643,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l001,family,320,3,3,0.9853234099314643,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l001,ft_modern,324,3,3,0.9852893746732482,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l002,genus,279,3,3,0.9267989410069706,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l002,family,279,3,3,0.9267989410069706,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l002,ft_modern,281,3,3,0.9265306708801219,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l003,genus,211,3,3,0.9713531481879198,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l003,family,211,3,3,0.9713531481879198,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l003,ft_modern,216,3,3,0.9713550775999722,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r003_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r003_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l010,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l011,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r004_l012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l001,genus,6,3,3,0.9980293269022372,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l001,family,6,3,3,0.9980293269022372,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l001,ft_modern,36,3,3,0.9979319996078976,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r005_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l003,genus,564,3,3,0.9888797579369587,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r005_l003,family,564,3,3,0.9888797579369587,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r005_l003,ft_modern,599,3,3,0.9901893616455488,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r005_l004,genus,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l004,family,NA,NA,NA,NA,no_model_input,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l004,ft_modern,34,3,3,0.9967848374131935,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l005,genus,272,3,3,0.9987520675931482,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r005_l005,family,272,3,3,0.9987520675931482,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r005_l005,ft_modern,299,3,3,0.9982263955773593,compared,0.99,FALSE,TRUE
+modern,asia,local,as_r005_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l007,genus,239,3,3,0.39985235687167286,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r005_l007,family,239,3,3,0.39985235687167286,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r005_l007,ft_modern,239,3,3,0.39985235687167286,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r005_l008,genus,19,3,3,0.9960301486127114,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l008,family,19,3,3,0.9960301486127114,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r005_l008,ft_modern,125,3,3,0.9700143733553824,compared,0.99,TRUE,TRUE
+modern,asia,local,as_r006_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l010,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l011,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l012,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l012,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r006_l012,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r007_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l001,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l001,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l001,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l002,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l002,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l002,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l003,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l003,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l003,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l004,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l004,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l004,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l005,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l005,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l005,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l006,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l006,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l006,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l007,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l007,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l007,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l008,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l008,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l008,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l009,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l009,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l009,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l010,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l010,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l010,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l011,genus,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l011,family,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l011,ft_modern,NA,NA,NA,NA,not_built,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l012,genus,19,3,3,0.9990753564212765,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l012,family,19,3,3,0.9990753564212765,compared,0.99,FALSE,FALSE
+modern,asia,local,as_r008_l012,ft_modern,45,3,3,0.9991281655019262,compared,0.99,FALSE,FALSE

@@ -439,3 +439,82 @@ testthat::test_that(
     testthat::expect_equal(res, expected_formula)
   }
 )
+
+testthat::test_that(
+  "build_jsdm_environment_formula() drops age terms for a single age", {
+    data_test <-
+      data.frame(
+        bio1 = c(1, 2, 3),
+        bio12 = c(4, 5, 6),
+        age = c(0, 0, 0)
+      )
+
+    res <-
+      build_jsdm_environment_formula(
+        data = data_test,
+        use_age = TRUE
+      )
+
+    testthat::expect_equal(res, as.formula(" ~ bio1 + bio12"))
+    testthat::expect_false("age" %in% base::all.vars(res))
+  }
+)
+
+testthat::test_that(
+  "build_jsdm_environment_formula() ignores missing ages when counting", {
+    data_test <-
+      data.frame(
+        bio1 = c(1, 2, 3),
+        age = c(500, NA, 500)
+      )
+
+    res <-
+      build_jsdm_environment_formula(
+        data = data_test,
+        use_age = TRUE
+      )
+
+    testthat::expect_equal(res, as.formula(" ~ bio1"))
+  }
+)
+
+testthat::test_that(
+  "build_jsdm_environment_formula() keeps age terms for two ages", {
+    data_test <-
+      data.frame(
+        bio1 = c(1, 2),
+        age = c(500, 1000)
+      )
+
+    res <-
+      build_jsdm_environment_formula(
+        data = data_test,
+        use_age = TRUE
+      )
+
+    testthat::expect_equal(res, as.formula(" ~ (bio1) * age - age"))
+  }
+)
+
+testthat::test_that(
+  "build_jsdm_environment_formula() rejects predictors without finite values", {
+    # A predictor constant within the input (bio4 = 0 for every sample at
+    #   0 ka) becomes NaN after scaling; sjSDM would fail with a Python
+    #   ZeroDivisionError instead (issue #181).
+    data_test <-
+      data.frame(
+        bio1 = c(-0.5, 0, 0.5),
+        bio4 = c(NaN, NaN, NaN),
+        age = c(0, 0, 0)
+      )
+
+    testthat::expect_error(
+      build_jsdm_environment_formula(data = data_test, use_age = FALSE),
+      class = "jsdm_formula_predictor_not_finite"
+    )
+    testthat::expect_error(
+      build_jsdm_environment_formula(data = data_test, use_age = FALSE),
+      "bio4"
+    )
+  }
+)

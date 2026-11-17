@@ -1,0 +1,77 @@
+---
+format: html
+title: validate_model_store_freshness()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_model_store_freshness</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate Model Store Freshness</h2>
+
+<h3>Description</h3>
+
+<p>Aborts when resolved store-freshness findings still contain a blocking
+finding: an outdated, never-built, or unexpectedly errored target that no
+ledger row covers, a changed configuration, or a stale ledger row.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_model_store_freshness(data_findings_resolved)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_findings_resolved">data_findings_resolved</code></td>
+<td>
+<p>Output of [apply_model_store_freshness_ledger()].</p>
+</td></tr>
+</table>
+
+
+<h3>Value</h3>
+
+<p>Invisibly, 'data_findings_resolved' when nothing blocks.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[diagnose_model_store_freshness()],
+[apply_model_store_freshness_ledger()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>validate_model_store_freshness(
+  data_findings_resolved = tibble::tibble(
+    store_path_relative = "Data/targets/a/pipeline",
+    target_name = "always_cued_target",
+    finding_type = "always_cued_not_evaluated",
+    resolution_status = "informational"
+  )
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

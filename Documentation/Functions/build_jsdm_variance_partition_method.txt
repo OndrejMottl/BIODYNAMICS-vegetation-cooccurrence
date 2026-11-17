@@ -1,0 +1,71 @@
+Build the sjSDM Variance-Partition Method for One Model
+
+Description:
+
+     Returns the installed sjSDM 1.0.7 ANOVA method, unchanged, but
+     evaluated in a private environment in which every sub-model
+     inherits the association penalty and the seed of the full model.
+
+Usage:
+
+     build_jsdm_variance_partition_method(
+       mod,
+       anova_function = NULL,
+       fit_function = NULL
+     )
+
+Arguments:
+
+     mod: Fitted sjSDM object whose variance is partitioned.
+
+anova_function: Optional ANOVA method to evaluate instead of the
+          installed `sjSDM:::anova.sjSDM()`. Intended for tests.
+
+fit_function: Optional model-fitting function called by the cloned
+          update method instead of the installed `sjSDM::sjSDM()`.
+          Intended for tests.
+
+Details:
+
+     `sjSDM:::anova.sjSDM()` refits each sub-model with `update(object,
+     ..., biotic = bioticStruct(diag = ...))`. A default
+     `bioticStruct()` has `lambda = 0`, so sub-models containing the
+     association component lose the association penalty of the full
+     model, and `update.sjSDM()` falls back to the default sjSDM seed
+     (issue #203).
+
+     This builder clones the ANOVA closure without editing its body.
+     The clone's environment is a child of the sjSDM namespace that
+     binds: - `bioticStruct` to a partial application carrying the full
+     model's `lambda` (`l1_cov + l2_cov`), `alpha` (`l2_cov / lambda`,
+     or the sjSDM default when `lambda` is zero), `on_diag`,
+     `reg_on_Cov`, `inverse`, and `df`, while the caller still sets
+     `diag`; - `update` to a clone of `update.sjSDM()` whose own
+     environment binds `sjSDM` to a partial application carrying the
+     full model's `seed`.  `update.sjSDM()` re-evaluates its arguments
+     through `match.call()`, so a forwarding wrapper around it would
+     pass unevaluable `..N` symbols.
+
+     The function fails closed when the installed sjSDM version, the
+     bodies of `anova.sjSDM()` and `update.sjSDM()`, or the formals and
+     body of `bioticStruct()` differ from the versions this adapter was
+     written for. No package namespace or installed file is modified.
+
+Value:
+
+     A function with the formals of `anova.sjSDM()` (`object`,
+     `samples`, `verbose`, `...`) that returns an `sjSDManova` object.
+
+See Also:
+
+     [compute_jsdm_variance_partition()],
+     [compute_jsdm_variance_partition_with_progress()]
+
+Examples:
+
+     ## Not run:
+
+     method_partition <-
+       build_jsdm_variance_partition_method(mod = mod_jsdm)
+     method_partition(object = mod_jsdm, samples = 1000L, verbose = FALSE)
+     ## End(Not run)

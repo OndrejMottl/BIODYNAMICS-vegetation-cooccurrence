@@ -44,6 +44,16 @@ make_configuration_test_fixture <- function() {
     )
   )
 
+  fs::dir_create(base::file.path(path_fixture_root, "Data", "Input"))
+  readr::write_csv(
+    x = tibble::tibble(
+      scale_id = base::c("europe", "america", "asia"),
+      scale = "continental",
+      continent_id = base::c("europe", "america", "asia")
+    ),
+    file = base::file.path(path_fixture_root, "Data/Input/spatial_grid.csv")
+  )
+
   return(path_fixture_root)
 }
 
@@ -435,3 +445,140 @@ testthat::test_that("configuration generation rejects malformed fold ladders", {
     )
   }
 })
+
+testthat::test_that(
+  "configuration generation accepts only declared reference changes",
+  {
+    path_fixture_root <-
+      make_configuration_test_fixture()
+
+    path_cz_smoke <-
+      base::file.path(
+        path_fixture_root,
+        "Configuration/Profiles/Validation/cz_smoke.yml"
+      )
+    vec_cz_smoke_lines <-
+      base::readLines(path_cz_smoke)
+    index_continent <-
+      base::grep("^  continent_id:", vec_cz_smoke_lines)[[1L]]
+    vec_cz_smoke_lines[[index_continent]] <-
+      "  continent_id: \"america\""
+    base::writeLines(vec_cz_smoke_lines, path_cz_smoke)
+
+    testthat::expect_error(
+      run_configuration_test_fixture(path_fixture_root),
+      "continent_id"
+    )
+
+    path_changes <-
+      base::file.path(path_fixture_root, "changes.csv")
+    readr::write_csv(
+      x = tibble::tibble(
+        change_id = "test_change",
+        profile_id = "project_cz_paleo",
+        key_path = "continent_id",
+        issue = "#1",
+        rationale = "test"
+      ),
+      file = path_changes
+    )
+
+    testthat::expect_error(
+      run_configuration_generation(
+        path_manifest = base::file.path(
+          path_fixture_root,
+          "Configuration",
+          "manifest.yml"
+        ),
+        path_source_root = path_fixture_root,
+        path_destination_root = base::file.path(path_fixture_root, "output"),
+        path_reference_changes = path_changes
+      ),
+      class = "configuration_reference_undeclared_change"
+    )
+
+    # Profiles inheriting from project_cz_paleo change too; `*` declares the
+    #   key for every profile.
+    readr::write_csv(
+      x = tibble::tibble(
+        change_id = "test_all_profiles",
+        profile_id = "*",
+        key_path = "continent_id",
+        issue = "#1",
+        rationale = "test"
+      ),
+      file = path_changes
+    )
+
+    data_profiles <-
+      run_configuration_generation(
+        path_manifest = base::file.path(
+          path_fixture_root,
+          "Configuration",
+          "manifest.yml"
+        ),
+        path_source_root = path_fixture_root,
+        path_destination_root = base::file.path(path_fixture_root, "output"),
+        path_reference_changes = path_changes
+      )
+
+    list_reference_updated <-
+      base::readRDS(
+        base::file.path(
+          path_fixture_root,
+          "output/Documentation/Implementation_inventories/Configuration",
+          "configuration_profile_reference_v1.rds"
+        )
+      )
+
+    testthat::expect_identical(base::nrow(data_profiles), 26L)
+    testthat::expect_true(
+      "continent_id" %in%
+        list_reference_updated[["revision_changes"]][["key_path"]]
+    )
+  }
+)
+
+testthat::test_that(
+  "configuration generation rejects EPSG:3035 outside Europe",
+  {
+    path_fixture_root <-
+      make_configuration_test_fixture()
+
+    path_default <-
+      base::file.path(path_fixture_root, "Configuration/Defaults/default.yml")
+    vec_default_lines <-
+      base::readLines(path_default)
+    index_america <-
+      base::grep("^    america:", vec_default_lines)[[1L]]
+    vec_default_lines[[index_america]] <- "    america: 3035"
+    base::writeLines(vec_default_lines, path_default)
+
+    testthat::expect_error(
+      run_configuration_test_fixture(path_fixture_root),
+      "EPSG:3035 outside Europe"
+    )
+  }
+)
+
+testthat::test_that(
+  "configuration generation requires a projection for every continent",
+  {
+    path_fixture_root <-
+      make_configuration_test_fixture()
+
+    readr::write_csv(
+      x = tibble::tibble(
+        scale_id = "africa",
+        scale = "continental",
+        continent_id = "africa"
+      ),
+      file = base::file.path(path_fixture_root, "Data/Input/spatial_grid.csv")
+    )
+
+    testthat::expect_error(
+      run_configuration_test_fixture(path_fixture_root),
+      "lacks a projection"
+    )
+  }
+)

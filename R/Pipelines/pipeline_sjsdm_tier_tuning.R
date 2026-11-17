@@ -77,22 +77,11 @@ list_tuning_context <-
   if (
     flag_temporal_config
   ) {
-    vec_age_lim <-
-      load_active_config_value(base::c("vegvault_data", "age_lim"))
-
-    time_step <-
-      load_active_config_value(base::c("data_processing", "time_step"))
-
+    # Only the modelled-slice window is tuned (issue #181).
     base::list(
       pipeline_name = "pipeline_paleo_temporal",
-      resolution_ids = stringr::str_c(
-        "timeslice_",
-        base::seq(
-          from = base::min(vec_age_lim),
-          to = base::max(vec_age_lim),
-          by = time_step
-        )
-      ),
+      resolution_ids = load_temporal_slice_ages() |>
+        dplyr::pull("age_name"),
       nested_unit_stores = FALSE
     )
   } else {

@@ -1,0 +1,88 @@
+<!DOCTYPE html><html><head><title>R: Build the Difference Between Resolved Configuration Profiles</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_configuration_reference_diff</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build the Difference Between Resolved Configuration Profiles</h2>
+
+<h3>Description</h3>
+
+<p>Lists the key paths at which resolved configuration profiles differ from
+the semantic reference.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_configuration_reference_diff(
+  list_profiles_current,
+  list_profiles_reference
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="list_profiles_current">list_profiles_current</code></td>
+<td>
+<p>Named list of resolved profiles, as compared by the configuration
+generator.</p>
+</td></tr>
+<tr><td><code id="list_profiles_reference">list_profiles_reference</code></td>
+<td>
+<p>Named list of reference profiles with the same profile identifiers.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Nested named lists are compared key by key; any other value (vector,
+unnamed list, or 'NULL') is a leaf compared with [base::identical()]. A
+different order of the shared keys is reported as '&lt;path&gt;[order]'
+(because the generator compares whole profiles with 'identical()'), and
+the children are still compared key by key.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with columns 'profile_id' and 'key_path' (keys joined with '.'),
+one row per differing leaf. A key present on one side only is reported at
+the level where it is missing. Zero rows mean the profiles are identical.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[save_configuration_profile_reference()],
+[run_configuration_generation()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>build_configuration_reference_diff(
+  list_profiles_current = list(p = list(a = 1, b = list(c = 2))),
+  list_profiles_reference = list(p = list(a = 1, b = list(c = 3)))
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

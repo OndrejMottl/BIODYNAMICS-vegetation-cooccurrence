@@ -256,6 +256,58 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "build_vegvault_plan names the empty record type when only gridpoints remain",
+  {
+    test_db <-
+      here::here("Data/Input/VegVault.sqlite")
+
+    testthat::skip_if_not(
+      base::file.exists(test_db),
+      "VegVault database not available"
+    )
+
+    # Eastern Siberia window (unit as_r006) with gridpoints but no
+    #   fossil-pollen archive; vaultkeepr would later stop with an empty
+    #   message.
+    testthat::expect_error(
+      build_vegvault_plan(
+        path_to_vegvault = test_db,
+        x_lim = base::c(100, 120),
+        y_lim = base::c(60, 75),
+        age_lim = base::c(0, 20000),
+        sel_dataset_type = base::c("fossil_pollen_archive", "gridpoints")
+      ),
+      regexp = "No .fossil_pollen_archive. samples in this window",
+      class = "biodynamics_vegvault_no_records"
+    )
+  }
+)
+
+testthat::test_that(
+  "build_vegvault_plan keeps a window with records and gridpoints",
+  {
+    test_db <-
+      here::here("Data/Input/VegVault.sqlite")
+
+    testthat::skip_if_not(
+      base::file.exists(test_db),
+      "VegVault database not available"
+    )
+
+    res <-
+      build_vegvault_plan(
+        path_to_vegvault = test_db,
+        x_lim = base::c(12, 18.9),
+        y_lim = base::c(48.5, 51.5),
+        age_lim = base::c(0, 5000),
+        sel_dataset_type = base::c("fossil_pollen_archive", "gridpoints")
+      )
+
+    testthat::expect_s3_class(res, "vault_pipe")
+  }
+)
+
+testthat::test_that(
   "build_vegvault_plan works with multiple dataset types",
   {
     test_db <-

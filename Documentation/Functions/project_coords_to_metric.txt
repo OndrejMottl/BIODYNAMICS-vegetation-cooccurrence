@@ -17,15 +17,15 @@ data_coords: A data frame with `dataset_name` as row names and columns
           `coord_long` and `coord_lat` (decimal degrees, WGS84), as
           returned by `extract_dataset_coordinates()`.
 
-target_crs: An integer EPSG code for the target projected coordinate
-          reference system. Must be a metric (planar) equal-area CRS
-          suitable for the geographic extent of the data. Defaults to
-          `3035L` (ETRS89 Lambert Azimuthal Equal-Area, the standard
-          for European analyses). For other regions, choose an
-          appropriate equal-area projection, e.g.: * `6933L` —
-          EASE-Grid 2.0 (global) * `5070L` — NAD83 Conus Albers (North
-          America) * `102022L` — Africa Albers Equal Area Conic
-          (Africa)
+target_crs: The target projected coordinate reference system, as either
+          a positive integer EPSG code or one CRS string: an authority
+          code such as `"ESRI:102008"` or a PROJ definition starting
+          with `+proj=` (for example a continent-centred azimuthal
+          projection). It must be metric (planar) and suitable for the
+          geographic extent of the data. Defaults to `3035L` (ETRS89
+          Lambert Azimuthal Equal-Area, the standard for European
+          analyses). Production pipelines resolve it per continent with
+          [resolve_spatial_crs()].
 
 Details:
 

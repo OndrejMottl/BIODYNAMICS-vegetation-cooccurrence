@@ -20,8 +20,12 @@
 #' @details
 #' The function constructs different formulas based on the presence of an
 #' 'age' column and the `use_age` flag:
-#' - With age column and `use_age = TRUE`: ~ (var1 + var2 + ...) * age - age
-#' - Without age column, or `use_age = FALSE`: ~ var1 + var2 + ...
+#' - With an age column holding more than one distinct non-missing value and
+#'   `use_age = TRUE`: ~ (var1 + var2 + ...) * age - age
+#' - Without age column, with a single age, or with `use_age = FALSE`:
+#'   ~ var1 + var2 + ...
+#' A single age (for example one time slice) would make every age
+#' interaction column zero, so age terms are dropped in that case.
 #' The formula removes intercept terms and individual variable terms when
 #' interactions are present.
 #' @export
@@ -48,8 +52,16 @@ build_jsdm_environment_formula <- function(data, use_age = TRUE) {
 
   vec_names <- colnames(data)
 
-  # Only treat age as active if the column is present AND use_age is TRUE
-  is_age_present <- "age" %in% vec_names && isTRUE(use_age)
+  # Only treat age as active if the column is present, use_age is TRUE, and
+  #   age varies. With a single age (one time slice) every age interaction
+  #   column is zero, so the terms carry no information (issue #206).
+  # Note: keep this a single expression. The returned formula stores this
+  #   function's environment, so a new local would change the formula hash
+  #   and invalidate every fitted model that uses it.
+  is_age_present <-
+    "age" %in% vec_names &&
+      isTRUE(use_age) &&
+      dplyr::n_distinct(data[["age"]], na.rm = TRUE) > 1L
 
   if (
     isTRUE(is_age_present)
@@ -87,6 +99,32 @@ build_jsdm_environment_formula <- function(data, use_age = TRUE) {
         " ~ ",
         paste0(vec_names, collapse = " + ")
       )
+  }
+
+  # A numeric predictor without finite values (for example one constant in
+  #   the model input, so scaling divides by a zero standard deviation)
+  #   makes model.matrix() drop every row; sjSDM then fails with an opaque
+  #   Python ZeroDivisionError. Fail here with the predictor named (#181).
+  #   The check is an if() condition so that no local is added.
+  if (
+    !base::all(
+      purrr::map_lgl(
+        .x = data[vec_names],
+        .f = ~ !base::is.numeric(.x) || base::any(base::is.finite(.x))
+      )
+    )
+  ) {
+    cli::cli_abort(
+      base::c(
+        "Predictor(s) without finite values in the model input.",
+        "x" = stringr::str_c(
+          "{vec_names[!purrr::map_lgl(data[vec_names], ",
+          "~ !is.numeric(.x) || any(is.finite(.x)))]}"
+        ),
+        "i" = "A predictor that is constant within the input cannot be scaled."
+      ),
+      class = "jsdm_formula_predictor_not_finite"
+    )
   }
 
   res <- as.formula(formula_text)

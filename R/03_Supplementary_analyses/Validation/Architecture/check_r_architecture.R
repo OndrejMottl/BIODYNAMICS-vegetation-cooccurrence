@@ -2269,7 +2269,9 @@ vec_workflow_readme_paths <-
       base::c(
         "issue_138/README.md",
         "issue_143/README.md",
-        "issue_151/README.md"
+        "issue_151/README.md",
+        "issue_203/README.md",
+        "issue_204/README.md"
       )
     ),
     "R/03_Supplementary_analyses/Prediction/README.md",
@@ -2281,6 +2283,7 @@ vec_workflow_readme_paths <-
     "R/03_Supplementary_analyses/Testing/Smoke/README.md",
     "R/03_Supplementary_analyses/Validation/Architecture/README.md",
     "R/03_Supplementary_analyses/Validation/Configuration/README.md",
+    "R/03_Supplementary_analyses/Validation/Model_stores/README.md",
     stringr::str_c(
       "R/03_Supplementary_analyses/Validation/Cross_validation/",
       "Reference_runs/README.md"

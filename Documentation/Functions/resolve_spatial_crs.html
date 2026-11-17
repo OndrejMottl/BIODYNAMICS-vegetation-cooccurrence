@@ -1,0 +1,101 @@
+<!DOCTYPE html><html><head><title>R: Resolve the Projection for Spatial Predictors</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>resolve_spatial_crs</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve the Projection for Spatial Predictors</h2>
+
+<h3>Description</h3>
+
+<p>Chooses the coordinate reference system used to project a model unit's
+coordinates, from the unit's continent and the per-continent projection
+map.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>resolve_spatial_crs(
+  scale_id = NULL,
+  continent_id = NULL,
+  crs_by_continent,
+  file_spatial_grid = here::here("Data/Input/spatial_grid.csv")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="scale_id">scale_id</code></td>
+<td>
+<p>Optional spatial-unit identifier from the spatial grid catalogue, as
+returned by [resolve_scale_id_from_store()]. 'NULL' for stores that are not
+spatial units, such as temporal stores.</p>
+</td></tr>
+<tr><td><code id="continent_id">continent_id</code></td>
+<td>
+<p>Optional continent identifier from the profile ('continent_id'), used when
+there is no 'scale_id'.</p>
+</td></tr>
+<tr><td><code id="crs_by_continent">crs_by_continent</code></td>
+<td>
+<p>Named list mapping continent identifiers to an EPSG integer or a CRS
+string accepted by [project_coords_to_metric()]
+('spatial_crs_by_continent' in the configuration).</p>
+</td></tr>
+<tr><td><code id="file_spatial_grid">file_spatial_grid</code></td>
+<td>
+<p>Path to the spatial grid catalogue.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>A 'scale_id' is mapped to its continent with
+[resolve_continent_ids_from_scale_ids()]. When both a 'scale_id' and a
+'continent_id' are given they must agree. The function aborts when no
+continent can be determined or the continent has no projection, so a
+missing entry never falls back to the European projection (issue #204).
+</p>
+
+
+<h3>Value</h3>
+
+<p>The projection for the unit's continent: an integer EPSG code or one CRS
+string.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[project_coords_to_metric()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>resolve_spatial_crs(
+  continent_id = "europe",
+  crs_by_continent = list(europe = 3035L)
+)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

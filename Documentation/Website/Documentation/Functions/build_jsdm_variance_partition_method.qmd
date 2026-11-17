@@ -1,0 +1,116 @@
+---
+format: html
+title: build_jsdm_variance_partition_method()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>build_jsdm_variance_partition_method</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Build the sjSDM Variance-Partition Method for One Model</h2>
+
+<h3>Description</h3>
+
+<p>Returns the installed sjSDM 1.0.7 ANOVA method, unchanged, but evaluated in
+a private environment in which every sub-model inherits the association
+penalty and the seed of the full model.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>build_jsdm_variance_partition_method(
+  mod,
+  anova_function = NULL,
+  fit_function = NULL
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="mod">mod</code></td>
+<td>
+<p>Fitted sjSDM object whose variance is partitioned.</p>
+</td></tr>
+<tr><td><code id="anova_function">anova_function</code></td>
+<td>
+<p>Optional ANOVA method to evaluate instead of the installed
+'sjSDM:::anova.sjSDM()'. Intended for tests.</p>
+</td></tr>
+<tr><td><code id="fit_function">fit_function</code></td>
+<td>
+<p>Optional model-fitting function called by the cloned update method instead
+of the installed 'sjSDM::sjSDM()'. Intended for tests.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>'sjSDM:::anova.sjSDM()' refits each sub-model with
+'update(object, ..., biotic = bioticStruct(diag = ...))'. A default
+'bioticStruct()' has 'lambda = 0', so sub-models containing the association
+component lose the association penalty of the full model, and
+'update.sjSDM()' falls back to the default sjSDM seed (issue #203).
+</p>
+<p>This builder clones the ANOVA closure without editing its body. The clone's
+environment is a child of the sjSDM namespace that binds:
+- &lsquo;bioticStruct' to a partial application carrying the full model&rsquo;s
+'lambda' ('l1_cov + l2_cov'), 'alpha' ('l2_cov / lambda', or the sjSDM
+default when 'lambda' is zero), 'on_diag', 'reg_on_Cov', 'inverse', and
+'df', while the caller still sets 'diag';
+- 'update' to a clone of 'update.sjSDM()' whose own environment binds
+&lsquo;sjSDM' to a partial application carrying the full model&rsquo;s 'seed'.
+'update.sjSDM()' re-evaluates its arguments through 'match.call()', so a
+forwarding wrapper around it would pass unevaluable '..N' symbols.
+</p>
+<p>The function fails closed when the installed sjSDM version, the bodies of
+'anova.sjSDM()' and 'update.sjSDM()', or the formals and body of
+'bioticStruct()' differ from the versions this adapter was written for.
+No package namespace or installed file is modified.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A function with the formals of 'anova.sjSDM()' ('object', 'samples',
+'verbose', '...') that returns an 'sjSDManova' object.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[compute_jsdm_variance_partition()],
+[compute_jsdm_variance_partition_with_progress()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+method_partition &lt;-
+  build_jsdm_variance_partition_method(mod = mod_jsdm)
+method_partition(object = mod_jsdm, samples = 1000L, verbose = FALSE)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
