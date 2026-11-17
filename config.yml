@@ -15,6 +15,14 @@ default:
     dpi: 300
     bg: "white"
     panel_scale: 3.2
+  # Projection of spatial-predictor coordinates per continent (issue #204).
+  #   Europe keeps ETRS89-LAEA; elsewhere the azimuthal equidistant
+  #   projection centred on the continental grid box had the narrowest 5-95 %
+  #   distance-distortion range (stage A projection diagnostic, Nov 2026).
+  spatial_crs_by_continent:
+    europe: 3035
+    america: "+proj=aeqd +lat_0=50 +lon_0=-95 +datum=WGS84 +units=m +no_defs"
+    asia: "+proj=aeqd +lat_0=62.5 +lon_0=100 +datum=WGS84 +units=m +no_defs"
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf
@@ -33,6 +41,9 @@ default:
     n_early_stopping: ~
     n_samples_anova: 1000
     error_family: "binomial"
+    # Superseded by spatial_crs_by_continent for projected coordinates; kept
+    #   unchanged until the next full rerun because config_model_fitting
+    #   carries it and changing it would invalidate every model store.
     spatial_crs: 3035
     spatial_mode: "spatial"
     spatial_mev:
@@ -204,6 +215,12 @@ project_paleo_spatial_local:
 
 project_paleo_temporal_europe:
   target_store: Data/targets/paleo_temporal_europe
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "europe"
+  # Modelled slices (issue #181). vegvault_data.age_lim stays the wider
+  #   extraction window because it feeds the age interpolation.
+  temporal_slices:
+    age_window: !expr c(0, 17500)
   vegvault_data:
     x_lim: !expr c(-10, 40)
     y_lim: !expr c(35, 70)
@@ -230,6 +247,9 @@ project_paleo_temporal_europe:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+    # A time slice has one age, so climate x age terms would be all-zero
+    #   columns (issue #206); the formula builder also drops them.
+    use_age_in_formula: false
   _profile:
     role: main
     status: active
@@ -244,6 +264,12 @@ project_paleo_temporal_europe:
 
 project_paleo_temporal_america:
   target_store: Data/targets/paleo_temporal_america
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "america"
+  # Modelled slices (issue #181). vegvault_data.age_lim stays the wider
+  #   extraction window because it feeds the age interpolation.
+  temporal_slices:
+    age_window: !expr c(0, 19500)
   vegvault_data:
     x_lim: !expr c(-130, -60)
     y_lim: !expr c(30, 70)
@@ -270,6 +296,9 @@ project_paleo_temporal_america:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+    # A time slice has one age, so climate x age terms would be all-zero
+    #   columns (issue #206); the formula builder also drops them.
+    use_age_in_formula: false
   _profile:
     role: main
     status: active
@@ -284,6 +313,15 @@ project_paleo_temporal_america:
 
 project_paleo_temporal_asia:
   target_store: Data/targets/paleo_temporal_asia
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "asia"
+  # Modelled slices (issue #181). vegvault_data.age_lim stays the wider
+  #   extraction window because it feeds the age interpolation.
+  temporal_slices:
+    age_window: !expr c(0, 10500)
+    # 0 ka has 1 sample (min_n_samples is 10). An infeasible slice aborts
+    #   the whole temporal build at its tuning branches, so it is excluded.
+    excluded_ages: !expr c(0)
   vegvault_data:
     x_lim: !expr c(60, 140)
     y_lim: !expr c(50, 75)
@@ -310,6 +348,9 @@ project_paleo_temporal_asia:
     n_sampling: 150
     n_samples_anova: 500
     n_early_stopping: ~
+    # A time slice has one age, so climate x age terms would be all-zero
+    #   columns (issue #206); the formula builder also drops them.
+    use_age_in_formula: false
   _profile:
     role: main
     status: active
@@ -481,6 +522,8 @@ project_cz_paleo:
 
 project_cz_modern:
   target_store: Data/targets/cz_modern
+  # Selects the projection in spatial_crs_by_continent (issue #204).
+  continent_id: "europe"
   vegvault_data:
     age_lim: !expr c(0, 0)
     sel_dataset_type: !expr c("vegetation_plot", "gridpoints")
