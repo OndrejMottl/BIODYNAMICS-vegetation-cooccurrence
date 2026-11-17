@@ -38,6 +38,11 @@
 #' assembly, the function raises a typed
 #' `biodynamics_vegvault_no_records` condition. Other errors retain their
 #' original condition as the parent of a contextual error.
+#'
+#' The same typed condition is raised when the plan holds no sample of
+#' any requested non-gridpoint dataset type. Gridpoints cover every window,
+#' so such a plan builds, but `vaultkeepr::get_abiotic_data()` would later
+#' stop with an empty message.
 #' @seealso
 #'   [extract_data_from_vegvault()],
 #'   [extract_age_uncertainty_from_vegvault()]
@@ -138,6 +143,38 @@ build_vegvault_plan <- function(
         "x" = plan_error_message
       ),
       parent = plan_error
+    )
+  }
+
+  #-- Check record types -------------------------------------------------------
+
+  # Gridpoints exist everywhere, so a window without vegetation records still
+  #   yields a plan. vaultkeepr::get_abiotic_data() then stops with an empty
+  #   message when `verbose = FALSE`, so the empty window is named here.
+  vec_record_types <-
+    base::setdiff(sel_dataset_type, "gridpoints")
+
+  if (
+    base::length(vec_record_types) > 0L &&
+      purrr::chuck(
+        res_plan[["data"]] |>
+          dplyr::filter(.data[["dataset_type"]] %in% vec_record_types) |>
+          dplyr::count(name = "n") |>
+          dplyr::collect(),
+        "n"
+      ) == 0L
+  ) {
+    cli::cli_abort(
+      base::c(
+        "VegVault query returned no records.",
+        "i" = stringr::str_c(
+          "No {.val {vec_record_types}} samples in this window: ",
+          "longitude {x_lim[1]} to {x_lim[2]}, ",
+          "latitude {y_lim[1]} to {y_lim[2]}, ",
+          "age {age_lim[1]} to {age_lim[2]} cal yr BP."
+        )
+      ),
+      class = "biodynamics_vegvault_no_records"
     )
   }
 
