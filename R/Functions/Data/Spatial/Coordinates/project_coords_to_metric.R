@@ -10,15 +10,14 @@
 #' `coord_long` and `coord_lat` (decimal degrees, WGS84), as
 #' returned by `extract_dataset_coordinates()`.
 #' @param target_crs
-#' An integer EPSG code for the target projected coordinate
-#' reference system. Must be a metric (planar) equal-area
-#' CRS suitable for the geographic extent of the data.
-#' Defaults to `3035L` (ETRS89 Lambert Azimuthal Equal-Area,
-#' the standard for European analyses). For other regions,
-#' choose an appropriate equal-area projection, e.g.:
-#' * `6933L` — EASE-Grid 2.0 (global)
-#' * `5070L` — NAD83 Conus Albers (North America)
-#' * `102022L` — Africa Albers Equal Area Conic (Africa)
+#' The target projected coordinate reference system, as either a positive
+#' integer EPSG code or one CRS string: an authority code such as
+#' `"ESRI:102008"` or a PROJ definition starting with `+proj=` (for example
+#' a continent-centred azimuthal projection). It must be metric (planar) and
+#' suitable for the geographic extent of the data. Defaults to `3035L`
+#' (ETRS89 Lambert Azimuthal Equal-Area, the standard for European
+#' analyses). Production pipelines resolve it per continent with
+#' [resolve_spatial_crs()].
 #' @return
 #' A data frame with the same row names and columns as
 #' `data_coords`, plus two additional columns:
@@ -65,15 +64,42 @@ project_coords_to_metric <- function(
     msg = "data_coords must have at least one row"
   )
 
+  flag_epsg_code <-
+    (is.numeric(target_crs) || is.integer(target_crs)) &&
+    length(target_crs) == 1 &&
+    !is.na(target_crs) &&
+    target_crs > 0
+  # Text must name an authority code or a PROJ definition; a bare number
+  #   in a string is rejected to avoid ambiguity with EPSG integers.
+  flag_crs_text <-
+    assertthat::is.string(target_crs) &&
+    !is.na(target_crs) &&
+    stringr::str_detect(target_crs, "^[A-Za-z]+:[0-9]+$|^[+]proj=") &&
+    !is.na(
+      base::tryCatch(
+        expr = sf::st_crs(target_crs),
+        error = function(error_condition) sf::NA_crs_
+      )
+    )
+
   assertthat::assert_that(
-    is.numeric(target_crs) || is.integer(target_crs),
-    length(target_crs) == 1,
-    !is.na(target_crs),
-    target_crs > 0,
-    msg = "target_crs must be a single positive integer EPSG code"
+    flag_epsg_code || flag_crs_text,
+    msg = paste0(
+      "target_crs must be a single positive integer EPSG code",
+      " or one valid CRS string"
+    )
   )
 
-  target_crs <- base::as.integer(target_crs)
+  # EPSG codes are passed as integers, exactly as before CRS strings were
+  #   supported, so projected European coordinates stay identical.
+  crs_target <-
+    if (
+      flag_epsg_code
+    ) {
+      base::as.integer(target_crs)
+    } else {
+      target_crs
+    }
 
   # Convert to sf, transform to target CRS, extract XY in metres
 
@@ -87,7 +113,7 @@ project_coords_to_metric <- function(
       coords = c("coord_long", "coord_lat"),
       crs = 4326
     ) |>
-    sf::st_transform(crs = target_crs) |>
+    sf::st_transform(crs = crs_target) |>
     sf::st_coordinates()
 
   res <-

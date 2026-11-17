@@ -454,3 +454,71 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "project_coords_to_metric() accepts authority codes and PROJ strings",
+  {
+    data_coords <-
+      tibble::tibble(
+        dataset_name = base::c("centre", "east"),
+        coord_long = base::c(-95, -85),
+        coord_lat = base::c(50, 50)
+      ) |>
+      tibble::column_to_rownames("dataset_name")
+
+    res_aeqd <-
+      project_coords_to_metric(
+        data_coords = data_coords,
+        target_crs = stringr::str_c(
+          "+proj=aeqd +lat_0=50 +lon_0=-95 ",
+          "+datum=WGS84 +units=m +no_defs"
+        )
+      )
+
+    # The projection centre maps to the origin.
+    testthat::expect_equal(
+      res_aeqd["centre", "coord_x_km"],
+      0,
+      tolerance = 1e-6
+    )
+    testthat::expect_equal(
+      res_aeqd["centre", "coord_y_km"],
+      0,
+      tolerance = 1e-6
+    )
+    testthat::expect_gt(res_aeqd["east", "coord_x_km"], 0)
+
+    res_esri <-
+      project_coords_to_metric(
+        data_coords = data_coords,
+        target_crs = "ESRI:102008"
+      )
+    testthat::expect_true(base::all(base::is.finite(res_esri[["coord_x_km"]])))
+
+    testthat::expect_error(
+      project_coords_to_metric(
+        data_coords = data_coords,
+        target_crs = "+proj=not_a_projection"
+      ),
+      "valid CRS string"
+    )
+  }
+)
+
+testthat::test_that(
+  "project_coords_to_metric() treats integer and numeric EPSG codes alike",
+  {
+    data_coords <-
+      tibble::tibble(
+        dataset_name = "site_A",
+        coord_long = 15.0,
+        coord_lat = 50.0
+      ) |>
+      tibble::column_to_rownames("dataset_name")
+
+    testthat::expect_identical(
+      project_coords_to_metric(data_coords = data_coords, target_crs = 3035),
+      project_coords_to_metric(data_coords = data_coords, target_crs = 3035L)
+    )
+  }
+)

@@ -7,7 +7,7 @@
 #' @param grid_resolution
 #' Numeric scalar grid resolution in decimal degrees.
 #' @param target_crs
-#' Integer EPSG code used by [project_coords_to_metric()].
+#' EPSG integer or CRS string passed to [project_coords_to_metric()].
 #' @param path_spatial_grid
 #' Path to the spatial grid CSV catalogue.
 #' @param land_polygons

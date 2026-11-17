@@ -62,16 +62,28 @@ pipe_segment_model_spatial_shared <-
       ),
       cue = targets::tar_cue(mode = "always")
     ),
+    # The projection is resolved per continent (issue #204). It is kept out
+    #   of config_spatial_predictors and config_model_fitting, whose values
+    #   feed MEM, cross-validation and fitting targets in every store.
+    targets::tar_target(
+      description = "Projection of spatial predictors for the unit continent",
+      name = "config_spatial_crs_for_unit",
+      command = resolve_spatial_crs(
+        scale_id = resolve_scale_id_from_store(),
+        continent_id = load_active_config_value("continent_id"),
+        crs_by_continent = load_active_config_value("spatial_crs_by_continent")
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
     targets::tar_target(
       description = stringr::str_c(
         "Project shared coordinates to metric km using ",
-        "the configured target CRS"
+        "the unit's continental projection"
       ),
       name = "data_coords_projected",
       command = project_coords_to_metric(
         data_coords = data_coords_analysis,
-        target_crs = config_spatial_predictors |>
-          purrr::chuck("spatial_crs")
+        target_crs = config_spatial_crs_for_unit
       )
     ),
     targets::tar_target(
