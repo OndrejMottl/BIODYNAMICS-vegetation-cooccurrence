@@ -1,0 +1,29 @@
+project:
+  type: default
+  output-dir: _output
+  render:
+    - index.qmd
+  pre-render:
+    - "Rscript R/pre_render.R"
+
+format:
+  revealjs:
+    theme:
+      - default
+      - oracle.scss
+    width: 1600
+    height: 900
+    slide-number: true
+    embed-resources: true
+    center-title-slide: false
+    code-line-numbers: false
+    code-overflow: scroll
+    preview-links: auto
+    output-file: index
+    output-ext: html
+    pdf-separate-fragments: false
+
+execute:
+  echo: false
+  warning: false
+  message: false

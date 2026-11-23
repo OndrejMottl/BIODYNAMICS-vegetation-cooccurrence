@@ -1,0 +1,23 @@
+quantity,group,value
+n_models,NA,229
+n_models_unpenalised_cov,NA,140
+r2_log_taxa_nagelkerke,NA,0.6750482640554542
+r2_log_taxa_deviance,NA,0.5860677955732546
+r2_log_taxa_nagelkerke_unpenalised_cov,NA,0.731177274081534
+slope_log_taxa_nagelkerke,NA,12.096617674951618
+slope_log_taxa_nagelkerke_unpenalised_cov,NA,11.597852638816738
+r2_climate_balance_log_taxa_deviance,NA,0.026032590868965293
+n_taxa_common,NA,8
+genus_share_Raw median,local,30.68183971808266
+genus_share_Raw median,regional,34.373256406940456
+genus_share_Raw median,continental,41.37605039640703
+genus_share_At equal taxon number,local,26.696564365167276
+genus_share_At equal taxon number,regional,24.57278163284822
+genus_share_At equal taxon number,continental,18.21370734892478
+genus_median_n_taxa,local,12
+genus_median_n_taxa,regional,15
+genus_median_n_taxa,continental,54
+nested_difference_at_equal_size,Modern plots: Local to regional,-10.889952314371378
+nested_difference_at_equal_size,Fossil pollen: Local to regional,2.381338313208434
+nested_difference_at_equal_size,Modern plots: Regional to continental,-13.663951901103713
+nested_difference_at_equal_size,Fossil pollen: Regional to continental,0.06728933277208135
