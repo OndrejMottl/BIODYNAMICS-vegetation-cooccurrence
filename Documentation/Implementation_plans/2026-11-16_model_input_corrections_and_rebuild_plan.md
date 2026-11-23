@@ -97,17 +97,18 @@ Detailed implementation plan: [2026-11-16_stage_a_model_input_corrections.md](20
 2. **Decisions before the rebuild (Ondřej).**
    - Whether to keep a copy of the October stores for a before/after comparison of the published results. The rebuild overwrites them.
    - Whether to rerun the Stage 02 calibration on the corrected data or keep the calibrated settings.
-3. **Rebuild.** Run the main workflow in the order of `Documentation/Materials/main_analysis_workflow_guide.md`: the trait reference and functional-type classifications, Stage 01 preparation, tier tuning, every spatial tier (fossil and modern), the temporal runners 07-09 and the common-regularisation sensitivity. The recorded compute of the published spatial units alone is about 140 h (63 h fossil, 80 h modern; `refit_cost_by_unit.csv`), without tier tuning, temporal stores, sensitivity and the trait reference.
-4. **Checks after the rebuild.**
+3. **Remove the temporary 0 ka exclusions.** On 23 November 2026 the Europe and America temporal profiles got `temporal_slices.excluded_ages: c(0)` for an early cross-validated refit of their production stores for the BES 2026 talk (an exception to the production-store rule approved by Ondřej). Only the Stage 01 fold preparation ran; both fit runners stopped because the Stage 02 calibration no longer matches the configuration, and Ondřej chose to leave calibration and the temporal refit to this stage. No model was refitted; the June fits are also archived in `Data/targets/_archive/2026-11-23_june_temporal_fits/`. Remove both exclusions and their `configuration_reference_changes.csv` rows through the configuration reference update before rebuilding.
+4. **Rebuild.** Run the main workflow in the order of `Documentation/Materials/main_analysis_workflow_guide.md`: the trait reference and functional-type classifications, Stage 01 preparation, tier tuning, every spatial tier (fossil and modern), the temporal runners 07-09 and the common-regularisation sensitivity. The recorded compute of the published spatial units alone is about 140 h (63 h fossil, 80 h modern; `refit_cost_by_unit.csv`), without tier tuning, temporal stores, sensitivity and the trait reference.
+5. **Checks after the rebuild.**
    - `Validate_model_stores.R` passes on every store with an empty ledger.
    - Europe and America 0 ka are fitted. Asia 0 ka stays excluded (one sample) unless the release adds samples; then remove the exclusion through the configuration reference update.
    - Stage 04 shows no `unexpected_error` slice.
    - `bio4` varies continuously in the modern European and Asian stores.
-5. **Republish.**
+6. **Republish.**
    - Stage 04 components 01-04 and the Stage 05 tables.
    - Temporal network metrics and residual association matrices.
    - Temporal similarity and half-life, using the [#183] engine.
-6. **Documentation.** Correct the calibration statements in `Documentation/Reports/Third_report/_Project_status_and_direction.qmd`. Add a new dated publication-products README next to `publication_products_2026-10-22/` that records the VegVault version.
+7. **Documentation.** Correct the calibration statements in `Documentation/Reports/Third_report/_Project_status_and_direction.qmd`. Add a new dated publication-products README next to `publication_products_2026-10-22/` that records the VegVault version.
 
 **Done:** the validator passes with an empty ledger, and every published table has provenance columns and build dates. PR relationships: Closes [#181], [#203], [#204], [#205], [#207], [#208].
 

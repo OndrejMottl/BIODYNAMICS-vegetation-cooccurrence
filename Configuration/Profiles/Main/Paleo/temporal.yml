@@ -9,6 +9,10 @@ project_paleo_temporal_europe:
   #   extraction window because it feeds the age interpolation.
   temporal_slices:
     age_window: !expr c(0, 17500)
+    # Temporary: bio4 is 0 for every 0 ka sample in VegVault 1.0.0, so the
+    #   predictor is constant and the slice aborts the build (issue #181,
+    #   VegVault#78). Remove once the corrected VegVault release is used.
+    excluded_ages: !expr c(0)
   vegvault_data:
     x_lim: !expr c(-10, 40)
     y_lim: !expr c(35, 70)
@@ -58,6 +62,10 @@ project_paleo_temporal_america:
   #   extraction window because it feeds the age interpolation.
   temporal_slices:
     age_window: !expr c(0, 19500)
+    # Temporary: bio4 is 0 for every 0 ka sample in VegVault 1.0.0, so the
+    #   predictor is constant and the slice aborts the build (issue #181,
+    #   VegVault#78). Remove once the corrected VegVault release is used.
+    excluded_ages: !expr c(0)
   vegvault_data:
     x_lim: !expr c(-130, -60)
     y_lim: !expr c(30, 70)
