@@ -52,6 +52,21 @@ Use the standalone HTML deck for animated figures.
 - [Download PDF](../Presentations/CSPE_2026/_output/cspe_2026_presentation.pdf)
 - [View Quarto source](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Presentations/CSPE_2026/index.qmd)
 
+### BES 2026
+
+The BES 2026 presentation was recorded for the online programme of the British Ecological Society Annual Meeting 2026.
+It follows the CSPE 2026 narrative, shows the newer cross-validated spatial results, and adds a section on how the association share depends on the number of taxa in a model.
+All results are preliminary.
+
+::: {.callout-warning}
+The PDF backup contains static figures only.
+Use the standalone HTML deck for animated figures.
+:::
+
+- [Open standalone HTML](../Presentations/BES_2026/_output/index.html)
+- [Download PDF](../Presentations/BES_2026/_output/bes_2026_presentation.pdf)
+- [View Quarto source](https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/blob/main/Documentation/Presentations/BES_2026/index.qmd)
+
 ## Pipeline Progress
 
 The pipeline graphs below are generated from `{targets}` stores and show current build state for selected workflows.
