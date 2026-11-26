@@ -17,7 +17,7 @@ Each stage starts only after the previous one is merged into `main`.
 - **Plot filter ([#205]):** plots get their own relative-abundance threshold. The value is chosen by Ondřej from the stage C diagnostics. Stage C's code and diagnostics run before the Stage B rebuild, so the 275 modern models are fitted once, with the new threshold.
 - **The corrected release is VegVault 2.0.0 (25 Nov 2026).** It is built and accepted but not yet published, and comes with vaultkeepr 0.2.0. It is a major release, with a new schema, renumbered ids, trait units standardised at the source and corrected taxonomy, so it does not drop in under the old path. The new Stage V makes the repository changes it needs.
 - **Traits (25 Nov 2026).** Retire the VegVault 1.0.0 trait corrections, regenerate the review queues on 2.0.0 and sort them automatically first; Ondřej decides only what the automated sorting cannot settle. The design that stops with an error on changed input stays.
-- **Functional types (25 Nov 2026).** Stage B waits for an adoption decision in [#179], so that the functional-type models are fitted once. [#202] is not added to the rebuild. The Stage V plan proposes a decision checkpoint, after which Stage B uses the current classification.
+- **Functional types (25 Nov 2026).** Stage B waits for an adoption decision in [#179], so that the functional-type models are fitted once. [#202] is not added to the rebuild. The decision checkpoint is 4 Dec 2026 (decided 26 Nov 2026). If [#179] has no adoption decision by then, Stage B uses the current hierarchical classification.
 
 ## Rules for every stage
 
@@ -115,7 +115,7 @@ Detailed implementation plan: [2026-11-25_vegvault_2_migration_plan.md](2026-11-
 **Start:**
 
 - A, V and C are merged, and Ondřej has set the plot threshold.
-- [#179] has an adoption decision, or its decision checkpoint has passed.
+- [#179] has an adoption decision, or its decision checkpoint (4 Dec 2026) has passed.
 - The 2.0.0 database is in `Data/Input/VegVault.sqlite`.
 
 Create branch `full-rebuild-corrected-vegvault` from `main` and run in the main checkout.

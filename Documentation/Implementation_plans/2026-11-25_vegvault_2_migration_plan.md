@@ -59,10 +59,11 @@ Facts found in the code and the two upstream repositories that shape this plan:
   - Hard-coded ids remain in `save_trait_source_scale_report.R:64` (`data_source_type_id = 4`) and in the supplementary `Predict_from_model.R:83-115`.
 - **Temporal exclusions.** `main` has only the Asia 0 ka exclusion (`temporal.yml:112`). The temporary Europe and America 0 ka exclusions are on the unmerged branch `bes-2026-presentation`.
 
-## Decisions (Ondřej, 25 Nov 2026)
+## Decisions (Ondřej, 25-26 Nov 2026)
 
 - **Traits: retire the v1 corrections and sort the v2 review automatically first.** Drop the source-scale rules and every `scale` decision. Regenerate the review queues on v2 and run the existing automated sorting; Ondřej decides only what it cannot settle. Keep the design that stops with an error when the input changes.
 - **Scope: hold Stage B until [#179] has an adoption decision,** so that the functional-type models are fitted once. [#202] is not added to the rebuild.
+- **Checkpoint for [#179]: 4 Dec 2026 (decided 26 Nov 2026).** If [#179] has no adoption decision by then, Stage B uses the current hierarchical classification, which [#179] itself names as a valid outcome.
 
 ## Rules
 
@@ -312,7 +313,7 @@ Outputs go to `Documentation/Reports/Model_evaluation/vegvault_2_migration_2026-
   - Dates: the grant ends on 31 Dec 2026; the methods meeting is in the week of 14 Dec; Round 1 is due on 11 Jan 2027.
   - Compute: the published spatial units alone took about 140 h (`refit_cost_by_unit.csv`).
   - [#179] has no implementation yet and specifies a full benchmark. It is the largest risk to these dates.
-  - Proposal for Ondřej to confirm or change: a decision checkpoint on 4 Dec 2026. If [#179] has no adoption decision by then, Stage B uses the current hierarchical classification, which [#179] itself names as a valid outcome.
+  - Decision checkpoint: 4 Dec 2026 (Ondřej, 26 Nov 2026). If [#179] has no adoption decision by then, Stage B uses the current hierarchical classification, which [#179] itself names as a valid outcome.
 - **Before Stage B starts:**
   - re-pin vaultkeepr to its tag (V0);
   - remove the Europe and America 0 ka exclusions if `bes-2026-presentation` has been merged;
@@ -330,7 +331,7 @@ Outputs go to `Documentation/Reports/Model_evaluation/vegvault_2_migration_2026-
 | New taxon names stop the classification checks | V4 diagnostic before V3f step 4 |
 | A v1 source rule is not fixed at source | Retirement check stops the migration |
 | Edits to shared trait functions invalidate functional-type targets | Intended before the rebuild; all edits finish before Stage B |
-| [#179] delays Stage B past the dates above | Decision checkpoint |
+| [#179] delays Stage B past the dates above | Decision checkpoint on 4 Dec 2026 |
 
 <!-- Issue and pull-request links -->
 
