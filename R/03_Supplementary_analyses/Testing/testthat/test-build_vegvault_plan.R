@@ -437,6 +437,43 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "build_vegvault_plan types a window without any dataset as no records",
+  {
+    test_db <-
+      here::here("Data/Input/VegVault.sqlite")
+
+    testthat::skip_if_not(
+      base::file.exists(test_db),
+      "VegVault database not available"
+    )
+
+    data_release <-
+      load_vegvault_database_version(
+        path_to_vegvault = test_db,
+        vegvault_version = load_config_value(
+          config_id = "default",
+          value = base::c("vegvault_data", "vegvault_version")
+        )
+      )
+
+    # Open central Pacific: no dataset of any type. vaultkeepr 0.2.0 builds
+    #   an empty plan here rather than stopping, so the record check names
+    #   the empty window.
+    testthat::expect_error(
+      build_vegvault_plan(
+        path_to_vegvault = test_db,
+        data_vegvault_release = data_release,
+        x_lim = base::c(-150, -145),
+        y_lim = base::c(-10, -5),
+        age_lim = base::c(0, 20000),
+        sel_dataset_type = "fossil_pollen_archive"
+      ),
+      class = "biodynamics_vegvault_no_records"
+    )
+  }
+)
+
+testthat::test_that(
   "build_vegvault_plan keeps a window with records and gridpoints",
   {
     test_db <-

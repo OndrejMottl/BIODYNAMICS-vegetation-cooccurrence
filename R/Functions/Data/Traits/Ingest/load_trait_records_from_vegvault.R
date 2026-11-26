@@ -3,8 +3,8 @@
 #' Loads functional trait records from the VegVault SQLite database for
 #' specified trait domains. Optional geographic filtering limits records
 #' to datasets within the specified longitude/latitude bounding box.
-#' Taxon names are returned as-is (`classify_to = NULL`) for downstream
-#' manual classification.
+#' Taxon names are returned as-is (`classify_to = "original"`) for
+#' downstream manual classification.
 #' @param path_vegvault
 #' A character string specifying the path to the VegVault SQLite database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
@@ -43,8 +43,8 @@
 #'      If vaultkeepr raises an error during plan assembly (e.g. no data
 #'      for the given domain names), the error is caught and re-thrown
 #'      via `cli::cli_abort()` with the original message preserved.
-#'   4. Retrieves trait values using `classify_to = NULL` to preserve raw
-#'      taxon names for downstream manual classification via the same
+#'   4. Retrieves trait values using `classify_to = "original"` to preserve
+#'      raw taxon names for downstream manual classification via the same
 #'      taxospace + auxiliary-table pipeline used for community data.
 #'   5. Returns the loaded data, including source identifiers, as a flat
 #'      data frame.
@@ -115,11 +115,13 @@ load_trait_records_from_vegvault <- function(
   result_trait_query <-
     tryCatch(
       expr = {
-        # Build trait query — traits are species-level properties.
-        # classify_to = NULL preserves raw taxon names for downstream
-        # manual classification via the same taxospace pipeline used
-        # for community data. An optional geo-filter restricts datasets
-        # to the continental bounding box containing the project area.
+        # Build trait query - traits are species-level properties.
+        # classify_to = "original" keeps the raw taxon names for downstream
+        # manual classification via the same taxospace pipeline used for
+        # community data. vaultkeepr 0.2.0 reads NULL the same way; naming
+        # the value keeps the choice visible. An optional geo-filter
+        # restricts datasets to the continental bounding box containing the
+        # project area.
         query_trait_data <-
           vaultkeepr::open_vault(
             path = path_vegvault
@@ -147,7 +149,7 @@ load_trait_records_from_vegvault <- function(
         query_trait_data |>
           vaultkeepr::get_samples() |>
           vaultkeepr::get_traits(
-            classify_to = NULL,
+            classify_to = "original",
             verbose = FALSE
           ) |>
           vaultkeepr::select_traits_by_domain_name(

@@ -1,0 +1,32 @@
+# Stage V VegVault 2.0.0 migration: evidence (November 2026)
+
+Evidence produced while moving the project from VegVault 1.0.0 to VegVault 2.0.0, following `Documentation/Implementation_plans/2026-11-25_vegvault_2_migration_plan.md` (part of [#180]). Every query opened the database files read-only. No production store was rebuilt. The 1.0.0 file is kept as `Data/Input/VegVault_1.0.0.sqlite` for the comparisons.
+
+## Files
+
+| File | Content | Made by |
+| --- | --- | --- |
+| `trait_extraction_timing.csv` | Trait extraction time and record count per continental window, for VegVault 1.0.0 with vaultkeepr 0.1.0 and for 2.0.0 with vaultkeepr 0.2.0. The two releases time different steps; see `step_timed`. | 2.0.0: `Data/Temp/vegvault_2_migration/time_trait_extraction.R` (disposable helper). 1.0.0: metadata of the archived trait store `Data/targets/_archive/2026-11_vegvault_1_0_0_traits_reference/`. Combined by `Data/Temp/vegvault_2_migration/combine_trait_timing.R` (disposable helper). |
+
+## Release record (step V1)
+
+- Every pipeline now reads the VegVault release from the database file on each build (target `config_vegvault_release`: version, build commit and build manifest hash). Replacing the file therefore marks the extraction targets as outdated, and the store validator reports the change.
+- The accepted 2.0.0 file reports version 2.0.0, commit `f19d588` and manifest hash `94516fdf…`. Its SHA-256 (`559577c7…`) matched the release check of 25 November 2026.
+- The CZ trial run (`R/03_Supplementary_analyses/Testing/Smoke/run_cz_pipelines.R`) completed on 2.0.0. The CZ fossil-pollen window holds 56 datasets in 2.0.0 against 47 in 1.0.0, and 1,343 fossil samples with age uncertainty against 972. The CZ modern window holds 2,318 plot datasets against 2,320. The 1.0.0 trial stores are kept in `Data/Temp/vegvault_2_migration/cz_stores_vegvault_1_0_0/`.
+
+## Extraction on vaultkeepr 0.2.0 (step V2)
+
+- **Empty windows.** vaultkeepr 0.2.0 builds an empty query instead of stopping when a window holds no data. The project's own record check still raises the typed `biodynamics_vegvault_no_records` condition for every case tried: open ocean, a window with datasets but no samples in the age range, and a window without vegetation plots. The Eastern Siberia window (unit `as_r006`) that the tests used as an empty fossil-pollen window holds two fossil-pollen datasets (77 samples) in 2.0.0, so the test now uses a central Sahara window.
+- **Age uncertainty.** `extract_age_uncertainty_from_vegvault()` returns the same columns (`dataset_name`, `sample_name`, `iteration`, `age_uncertainty`) and 1,000 iterations per sample. Fossil sample names now carry the Neotoma dataset id (`fossilpol_<Neotoma dataset id>_<level>`).
+- **dbplyr version.** vaultkeepr 0.2.0 needs dbplyr 2.6.0 or newer: with dbplyr 2.5.0, its filters on selected ids produce invalid SQL and `get_age_uncertainty()` stops. The project now pins dbplyr 2.6.0; reported as [vaultkeepr#79].
+- **Trait extraction time.** Raw extraction on 2.0.0 took 80 s for Europe and 78 s for Asia, so one run per continent is affordable without a change to vaultkeepr. About 75 s of each run is the full join of the trait table that `get_traits()` builds when taxon names stay original ([vaultkeepr#77]). The 1.0.0 times (5 s, 3 s and 591 s for America) are not directly comparable: they include the later filtering steps, and vaultkeepr 0.1.0 did not restrict trait datasets to the window, which inflated America to 8.7 million records.
+- **Trait data sources.** The America extraction stopped after 211 s on the project's check that every trait record has one data source. In 2.0.0, 3,609 BIEN trait datasets (dataset ids 221,648 to 225,657; 7,869 plant height values) have no data source, although the same datasets had one in 1.0.0. 3,604 of them lie in the America window. Reported as [VegVault#167], to be corrected before 2.0.0 is published. The trait pipeline cannot pass for America until then.
+- **Trait call.** `load_trait_records_from_vegvault()` now asks vaultkeepr for original taxon names explicitly (`classify_to = "original"`). vaultkeepr 0.2.0 reads the previous `NULL` the same way, so the records do not change.
+- **Outdated supplementary scripts, left as they are.** `R/03_Supplementary_analyses/Prediction/Predict_from_model.R` uses the 1.0.0 ids for the gridpoint source type and two climate variables and opens the database writable. `R/03_Supplementary_analyses/Age_uncertainty_exploration_2026-05-04.R` calls `build_vegvault_plan()` without the release record that the function has required since step V1. Neither is part of the rebuild.
+
+<!-- Issue and pull-request links -->
+
+[#180]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/180
+[vaultkeepr#77]: https://github.com/OndrejMottl/vaultkeepr/issues/77
+[vaultkeepr#79]: https://github.com/OndrejMottl/vaultkeepr/issues/79
+[VegVault#167]: https://github.com/OndrejMottl/VegVault/issues/167

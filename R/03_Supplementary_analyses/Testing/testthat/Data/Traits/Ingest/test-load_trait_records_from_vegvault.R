@@ -170,3 +170,67 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "load_trait_records_from_vegvault() keeps original taxon names",
+  {
+    path_vault <-
+      withr::local_tempfile(fileext = ".sqlite")
+
+    connection_vault <-
+      DBI::dbConnect(
+        drv = RSQLite::SQLite(),
+        dbname = path_vault
+      )
+
+    DBI::dbWriteTable(
+      conn = connection_vault,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      )
+    )
+
+    DBI::dbDisconnect(connection_vault)
+
+    data_release <-
+      tibble::tibble(
+        vegvault_version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      )
+
+    list_captured <-
+      base::new.env()
+
+    testthat::local_mocked_bindings(
+      open_vault = function(...) base::list(),
+      get_datasets = function(con, ...) con,
+      select_dataset_by_type = function(con, ...) con,
+      get_samples = function(con, ...) con,
+      get_traits = function(con, ...) {
+        list_captured[["classify_to"]] <-
+          base::list(...)[["classify_to"]]
+        base::stop("get_traits() reached")
+      },
+      .package = "vaultkeepr"
+    )
+
+    testthat::expect_error(
+      load_trait_records_from_vegvault(
+        path_vegvault = path_vault,
+        data_vegvault_release = data_release,
+        vec_trait_domain_names = "SLA"
+      ),
+      regexp = "get_traits[(][)] reached"
+    )
+
+    testthat::expect_identical(
+      list_captured[["classify_to"]],
+      "original"
+    )
+  }
+)

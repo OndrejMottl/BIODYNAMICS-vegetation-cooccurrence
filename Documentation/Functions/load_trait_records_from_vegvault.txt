@@ -6,7 +6,7 @@ Description:
      for specified trait domains. Optional geographic filtering limits
      records to datasets within the specified longitude/latitude
      bounding box. Taxon names are returned as-is (`classify_to =
-     NULL`) for downstream manual classification.
+     "original"`) for downstream manual classification.
 
 Usage:
 
@@ -56,11 +56,11 @@ Details:
      vaultkeepr raises an error during plan assembly (e.g. no data for
      the given domain names), the error is caught and re-thrown via
      `cli::cli_abort()` with the original message preserved.  4.
-     Retrieves trait values using `classify_to = NULL` to preserve raw
-     taxon names for downstream manual classification via the same
-     taxospace + auxiliary-table pipeline used for community data.  5.
-     Returns the loaded data, including source identifiers, as a flat
-     data frame.
+     Retrieves trait values using `classify_to = "original"` to
+     preserve raw taxon names for downstream manual classification via
+     the same taxospace + auxiliary-table pipeline used for community
+     data.  5. Returns the loaded data, including source identifiers,
+     as a flat data frame.
 
      The direct query for dataset sources opens the file read-only.
 
