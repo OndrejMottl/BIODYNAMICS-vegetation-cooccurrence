@@ -15,11 +15,21 @@ Usage:
 Arguments:
 
 data_trait_records: Untouched trait records containing source and
-          record identifiers.
+          record identifiers. Records without a data source (`NA`)
+          match no rule.
 
-data_trait_source_scale_rules: Validated source-scale rules.
+data_trait_source_scale_rules: Validated source-scale rules. Rules that
+          are not `approved` are ignored, and the rule set may have no
+          rows.
 
 Value:
 
      A named list with source-scaled records and rule- and record-level
-     audits.
+     audits. Without approved rules, the records are returned unchanged
+     and both audits have no rows but the same columns and types as
+     when rules apply.
+
+See Also:
+
+     [validate_trait_source_scale_rules()],
+     [save_trait_source_scale_report()]

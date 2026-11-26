@@ -2,28 +2,47 @@ Validate Trait Source Scale Rules
 
 Description:
 
-     Fails closed unless source-scale rules match the active VegVault
-     version, source metadata, selectors, and expected record counts
-     exactly.
+     Fails closed unless source-scale rules match the VegVault release,
+     source metadata, selectors, and expected record counts exactly.
 
 Usage:
 
      validate_trait_source_scale_rules(
        data_trait_source_scale_rules,
        data_trait_records,
-       path_vegvault
+       path_vegvault,
+       data_vegvault_release
      )
 
 Arguments:
 
 data_trait_source_scale_rules: Rules loaded by
-          [load_trait_source_scale_rules()].
+          [load_trait_source_scale_rules()]. A rule set with no rows is
+          valid.
 
 data_trait_records: Untouched extracted trait records containing
-          `data_source_id`.
+          `data_source_id`. Records without a data source (`NA`) match
+          no rule.
 
 path_vegvault: Character scalar path to the VegVault SQLite database.
+
+data_vegvault_release: A one-row data frame with the VegVault release
+          record the pipeline built from the same file (the
+          `config_vegvault_release` target), as returned by
+          [load_vegvault_database_version()].
+
+Details:
+
+     [validate_vegvault_release()] first confirms that the file holds
+     the release in `data_vegvault_release`. Every rule must then name
+     that release in `vegvault_version`. The source descriptions are
+     read from the file with a read-only connection.
 
 Value:
 
      The validated source-scale rule tibble.
+
+See Also:
+
+     [load_trait_source_scale_rules()],
+     [apply_trait_source_scale_rules()], [validate_vegvault_release()]

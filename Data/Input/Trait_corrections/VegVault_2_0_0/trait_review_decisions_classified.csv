@@ -1,0 +1,1 @@
+decision_id,candidate_id,taxon_name,trait_domain_name,trait_name,dataset_id,value_lower,value_lower_inclusive,value_upper,value_upper_inclusive,action,scale_factor,rationale,evidence_reference,source_reference,review_status,reviewer,reviewed_at

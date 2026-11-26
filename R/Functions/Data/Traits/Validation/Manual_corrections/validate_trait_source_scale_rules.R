@@ -1,20 +1,34 @@
 #' @title Validate Trait Source Scale Rules
 #' @description
-#' Fails closed unless source-scale rules match the active VegVault version,
+#' Fails closed unless source-scale rules match the VegVault release,
 #' source metadata, selectors, and expected record counts exactly.
 #' @param data_trait_source_scale_rules
-#' Rules loaded by [load_trait_source_scale_rules()].
+#' Rules loaded by [load_trait_source_scale_rules()]. A rule set with no
+#' rows is valid.
 #' @param data_trait_records
-#' Untouched extracted trait records containing `data_source_id`.
+#' Untouched extracted trait records containing `data_source_id`. Records
+#' without a data source (`NA`) match no rule.
 #' @param path_vegvault
 #' Character scalar path to the VegVault SQLite database.
+#' @param data_vegvault_release
+#' A one-row data frame with the VegVault release record the pipeline
+#' built from the same file (the `config_vegvault_release` target), as
+#' returned by [load_vegvault_database_version()].
 #' @return
 #' The validated source-scale rule tibble.
+#' @details
+#' [validate_vegvault_release()] first confirms that the file holds the
+#' release in `data_vegvault_release`. Every rule must then name that
+#' release in `vegvault_version`. The source descriptions are read from
+#' the file with a read-only connection.
+#' @seealso [load_trait_source_scale_rules()],
+#'   [apply_trait_source_scale_rules()], [validate_vegvault_release()]
 #' @export
 validate_trait_source_scale_rules <- function(
     data_trait_source_scale_rules,
     data_trait_records,
-    path_vegvault) {
+    path_vegvault,
+    data_vegvault_release) {
   assertthat::assert_that(
     base::is.data.frame(data_trait_source_scale_rules),
     base::is.data.frame(data_trait_records),
@@ -49,6 +63,11 @@ validate_trait_source_scale_rules <- function(
     base::all(rule_columns %in% base::names(data_trait_source_scale_rules)),
     base::all(record_columns %in% base::names(data_trait_records)),
     msg = "Source-scale inputs are missing required columns."
+  )
+
+  validate_vegvault_release(
+    path_to_vegvault = path_vegvault,
+    data_vegvault_release = data_vegvault_release
   )
 
   character_columns <-
@@ -170,27 +189,18 @@ validate_trait_source_scale_rules <- function(
     DBI::dbDisconnect(connection_vegvault),
     add = TRUE
   )
-  data_current_version <-
-    DBI::dbGetQuery(
-      connection_vegvault,
-      paste0(
-        "SELECT version FROM version_control ",
-        "ORDER BY date(update_date) DESC, id DESC LIMIT 1"
-      )
-    )
-  assertthat::assert_that(
-    base::nrow(data_current_version) == 1L,
-    msg = "VegVault must contain exactly one latest version entry."
-  )
-  current_version <- data_current_version[["version"]][[1L]]
+  release_version <- data_vegvault_release[["vegvault_version"]][[1L]]
   if (
     base::any(
       data_trait_source_scale_rules[["vegvault_version"]] !=
-        current_version
+        release_version
     )
   ) {
     cli::cli_abort(
-      "Source-scale rule version does not match the current VegVault version."
+      c(
+        "Source-scale rule version does not match the VegVault release.",
+        "i" = "The release is {.val {release_version}}."
+      )
     )
   }
   data_source_lookup <-

@@ -1,0 +1,79 @@
+<!DOCTYPE html><html><head><title>R: Resolve Trait Correction Directory</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>resolve_trait_correction_directory</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Resolve Trait Correction Directory</h2>
+
+<h3>Description</h3>
+
+<p>Returns the folder of reviewed trait-correction files that belongs to one
+VegVault release, for example 'VegVault_2_0_0/' for VegVault 2.0.0.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>resolve_trait_correction_directory(
+  vegvault_version,
+  dir_trait_corrections = here::here("Data/Input/Trait_corrections")
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="vegvault_version">vegvault_version</code></td>
+<td>
+<p>A single character string with the VegVault release in the form
+'&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;' (the 'vegvault_version' of the
+'config_vegvault_release' target).</p>
+</td></tr>
+<tr><td><code id="dir_trait_corrections">dir_trait_corrections</code></td>
+<td>
+<p>A single character string with the folder that holds one subfolder per
+VegVault release (default: 'here::here(&quot;Data/Input/Trait_corrections&quot;)').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The folder name is 'VegVault_' followed by the version with its dots
+replaced by underscores. The function stops with an error of class
+'biodynamics_trait_correction_directory_missing', naming the missing
+folder, when the release has none. Decisions reviewed for one release are
+therefore never applied to another by accident.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A character string with the path of the release folder.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[load_trait_source_scale_rules()],
+[load_trait_review_decisions()]
+</p>
+
+</main>
+
+</div>
+</body></html>

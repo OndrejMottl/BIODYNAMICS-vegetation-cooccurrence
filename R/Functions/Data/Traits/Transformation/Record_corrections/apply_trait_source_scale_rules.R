@@ -4,10 +4,16 @@
 #' trait value with its stable VegVault identifiers.
 #' @param data_trait_records
 #' Untouched trait records containing source and record identifiers.
+#' Records without a data source (`NA`) match no rule.
 #' @param data_trait_source_scale_rules
-#' Validated source-scale rules.
+#' Validated source-scale rules. Rules that are not `approved` are ignored,
+#' and the rule set may have no rows.
 #' @return
 #' A named list with source-scaled records and rule- and record-level audits.
+#' Without approved rules, the records are returned unchanged and both audits
+#' have no rows but the same columns and types as when rules apply.
+#' @seealso [validate_trait_source_scale_rules()],
+#'   [save_trait_source_scale_report()]
 #' @export
 apply_trait_source_scale_rules <- function(
     data_trait_records,
@@ -67,6 +73,49 @@ apply_trait_source_scale_rules <- function(
     data_trait_source_scale_rules |>
     dplyr::filter(.data[["review_status"]] == "approved")
   data_corrected <- data_trait_records
+
+  # Typed templates give both audits the same columns and types when no
+  #   approved rule applies, so later steps never see a column-less table
+  data_rule_audit_template <-
+    tibble::tibble(
+      source_scale_rule_id = base::character(),
+      data_source_id =
+        data_trait_source_scale_rules[["data_source_id"]][0L],
+      trait_domain_name = base::character(),
+      trait_name = base::character(),
+      scale_factor = base::numeric(),
+      n_matched = base::integer(),
+      n_scaled = base::integer(),
+      value_min_before = base::numeric(),
+      value_max_before = base::numeric(),
+      value_min_after = base::numeric(),
+      value_max_after = base::numeric()
+    )
+  data_record_audit_template <-
+    tibble::tibble(
+      source_scale_record_id = base::character(),
+      source_scale_rule_id = base::character()
+    ) |>
+    dplyr::bind_cols(
+      data_trait_records[
+        0L,
+        base::c(
+          record_id_columns,
+          "taxon_name",
+          "data_source_id",
+          "trait_domain_name",
+          "trait_name"
+        ),
+        drop = FALSE
+      ] |>
+        tibble::as_tibble()
+    ) |>
+    dplyr::mutate(
+      trait_value_before = base::numeric(),
+      trait_value_after = base::numeric(),
+      scale_factor = base::numeric()
+    )
+
   rule_audit_rows <-
     base::vector("list", base::nrow(data_approved_rules))
   record_audit_rows <-
@@ -137,8 +186,16 @@ apply_trait_source_scale_rules <- function(
       )
   }
 
-  data_rule_audit <- dplyr::bind_rows(rule_audit_rows)
-  data_record_audit <- dplyr::bind_rows(record_audit_rows)
+  data_rule_audit <-
+    dplyr::bind_rows(
+      data_rule_audit_template,
+      rule_audit_rows
+    )
+  data_record_audit <-
+    dplyr::bind_rows(
+      data_record_audit_template,
+      record_audit_rows
+    )
   return(
     base::list(
       data_trait_records_source_scaled = data_corrected,

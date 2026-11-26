@@ -1,0 +1,40 @@
+Resolve Trait Correction Directory
+
+Description:
+
+     Returns the folder of reviewed trait-correction files that belongs
+     to one VegVault release, for example `VegVault_2_0_0/` for
+     VegVault 2.0.0.
+
+Usage:
+
+     resolve_trait_correction_directory(
+       vegvault_version,
+       dir_trait_corrections = here::here("Data/Input/Trait_corrections")
+     )
+
+Arguments:
+
+vegvault_version: A single character string with the VegVault release
+          in the form `<major>.<minor>.<patch>` (the `vegvault_version`
+          of the `config_vegvault_release` target).
+
+dir_trait_corrections: A single character string with the folder that
+          holds one subfolder per VegVault release (default:
+          `here::here("Data/Input/Trait_corrections")`).
+
+Details:
+
+     The folder name is `VegVault_` followed by the version with its
+     dots replaced by underscores. The function stops with an error of
+     class `biodynamics_trait_correction_directory_missing`, naming the
+     missing folder, when the release has none. Decisions reviewed for
+     one release are therefore never applied to another by accident.
+
+Value:
+
+     A character string with the path of the release folder.
+
+See Also:
+
+     [load_trait_source_scale_rules()], [load_trait_review_decisions()]
