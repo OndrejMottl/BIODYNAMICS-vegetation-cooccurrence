@@ -1,7 +1,7 @@
 scale_id,vegvault_version,vaultkeepr_version,step_timed,seconds,n_records,status
 america,1.0.0,0.1.0,"load_continental_trait_records_from_vegvault (extraction, completeness filter, taxon names)",590.8,8713468,completed
-america,2.0.0,0.2.0,load_trait_records_from_vegvault (extraction only),211.1,NA,stopped: Dataset-to-source resolution must not multiply or lose records.
+america,2.0.0,0.2.0,load_trait_records_from_vegvault (extraction only),203.4,8711891,completed
 asia,1.0.0,0.1.0,"load_continental_trait_records_from_vegvault (extraction, completeness filter, taxon names)",2.6,1117,completed
-asia,2.0.0,0.2.0,load_trait_records_from_vegvault (extraction only),78,1116,completed
+asia,2.0.0,0.2.0,load_trait_records_from_vegvault (extraction only),72.2,1116,completed
 europe,1.0.0,0.1.0,"load_continental_trait_records_from_vegvault (extraction, completeness filter, taxon names)",4.9,262540,completed
-europe,2.0.0,0.2.0,load_trait_records_from_vegvault (extraction only),79.9,232843,completed
+europe,2.0.0,0.2.0,load_trait_records_from_vegvault (extraction only),76.3,232843,completed

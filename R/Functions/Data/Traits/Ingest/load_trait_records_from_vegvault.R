@@ -29,7 +29,8 @@
 #' A flat data frame containing loaded trait records with columns
 #' including `dataset_id`, `dataset_name`, `data_source_id`, `sample_id`,
 #' `trait_id`, `taxon_id`, `trait_domain_name`, `trait_name`, and
-#' `trait_value`.
+#' `trait_value`. `data_source_id` is `NA` for records of datasets without
+#' a data source.
 #' @details
 #' The function performs the following steps:
 #'
@@ -49,7 +50,12 @@
 #'   5. Returns the loaded data, including source identifiers, as a flat
 #'      data frame.
 #'
-#' The direct query for dataset sources opens the file read-only.
+#' The data source of each record comes from a direct read-only query of
+#' `Datasets`. The function stops when a record's dataset is not in
+#' `Datasets` or when a dataset appears twice. A dataset without a data
+#' source is kept, with `data_source_id` `NA`: in VegVault 2.0.0 these are
+#' BIEN trait records that name no provider, which 1.0.0 linked to a data
+#' source with an empty description.
 #' @seealso [extract_data_from_vegvault()], [validate_vegvault_release()]
 #' @export
 load_trait_records_from_vegvault <- function(
@@ -203,21 +209,43 @@ load_trait_records_from_vegvault <- function(
     !base::anyDuplicated(data_dataset_sources[["dataset_id"]]),
     msg = "Each VegVault dataset must map to exactly one data source."
   )
+
+  vec_dataset_ids_unknown <-
+    data_trait_records[["dataset_id"]] |>
+    base::unique() |>
+    base::setdiff(data_dataset_sources[["dataset_id"]])
+
+  if (
+    base::length(vec_dataset_ids_unknown) > 0L
+  ) {
+    cli::cli_abort(
+      c(
+        "Every trait record must belong to a VegVault dataset.",
+        "x" = stringr::str_c(
+          "{base::length(vec_dataset_ids_unknown)} dataset id{?s} ",
+          "not found in {.field Datasets}."
+        )
+      )
+    )
+  }
+
   n_records_before_join <- base::nrow(data_trait_records)
-  data_trait_records <-
+
+  # A dataset may have no data source, so data_source_id may be NA: in
+  #   VegVault 2.0.0, BIEN trait records that name no provider have none
+  #   (1.0.0 gave them a data source with an empty description)
+  data_trait_records_with_source <-
     data_trait_records |>
     dplyr::select(-dplyr::any_of("data_source_id")) |>
     dplyr::left_join(
       data_dataset_sources,
       by = dplyr::join_by(dataset_id)
     )
+
   assertthat::assert_that(
-    base::nrow(data_trait_records) == n_records_before_join,
-    !base::any(base::is.na(data_trait_records[["data_source_id"]])),
-    msg = paste0(
-      "Dataset-to-source resolution must not multiply or lose records."
-    )
+    base::nrow(data_trait_records_with_source) == n_records_before_join,
+    msg = "Dataset-to-source resolution must not multiply records."
   )
 
-  return(data_trait_records)
+  return(data_trait_records_with_source)
 }

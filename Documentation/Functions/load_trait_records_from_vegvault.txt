@@ -62,14 +62,20 @@ Details:
      data.  5. Returns the loaded data, including source identifiers,
      as a flat data frame.
 
-     The direct query for dataset sources opens the file read-only.
+     The data source of each record comes from a direct read-only query
+     of `Datasets`. The function stops when a record's dataset is not
+     in `Datasets` or when a dataset appears twice. A dataset without a
+     data source is kept, with `data_source_id` `NA`: in VegVault 2.0.0
+     these are BIEN trait records that name no provider, which 1.0.0
+     linked to a data source with an empty description.
 
 Value:
 
      A flat data frame containing loaded trait records with columns
      including `dataset_id`, `dataset_name`, `data_source_id`,
      `sample_id`, `trait_id`, `taxon_id`, `trait_domain_name`,
-     `trait_name`, and `trait_value`.
+     `trait_name`, and `trait_value`. `data_source_id` is `NA` for
+     records of datasets without a data source.
 
 See Also:
 
