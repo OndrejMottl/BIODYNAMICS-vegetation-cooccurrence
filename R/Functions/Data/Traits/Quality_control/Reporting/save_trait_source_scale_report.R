@@ -51,7 +51,11 @@ save_trait_source_scale_report <- function(
   )
 
   connection_vegvault <-
-    DBI::dbConnect(RSQLite::SQLite(), path_vegvault)
+    DBI::dbConnect(
+      drv = RSQLite::SQLite(),
+      dbname = path_vegvault,
+      flags = RSQLite::SQLITE_RO
+    )
   base::on.exit(
     DBI::dbDisconnect(connection_vegvault),
     add = TRUE

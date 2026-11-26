@@ -116,3 +116,78 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "load_paleo_temporal_slice_provenance() records the VegVault version",
+  {
+    res <-
+      load_paleo_temporal_slice_provenance(
+        store_path = "store",
+        meta_fn = function(...) {
+          build_test_temporal_meta() |>
+            dplyr::bind_rows(
+              tibble::tibble(
+                name = "config_vegvault_release",
+                error = NA_character_,
+                time = base::as.POSIXct("2026-11-01 09:00:00", tz = "UTC")
+              )
+            )
+        },
+        read_target_fn = function(name, store) {
+          if (
+            name == "config_vegvault_release"
+          ) {
+            return(
+              tibble::tibble(
+                vegvault_version = "2.0.0",
+                git_commit = "f19d588",
+                manifest_sha256 = "hash_accepted"
+              )
+            )
+          }
+
+          tibble::tibble(
+            cv_strategy = "spatially_stratified_group_kfold",
+            regularization_source = "unit_cv",
+            candidate_id = "candidate_008"
+          )
+        }
+      )
+
+    res_without_release <-
+      load_paleo_temporal_slice_provenance(
+        store_path = "store",
+        meta_fn = function(...) build_test_temporal_meta(),
+        read_target_fn = function(name, store) {
+          tibble::tibble(
+            cv_strategy = "spatially_stratified_group_kfold",
+            regularization_source = "unit_cv",
+            candidate_id = "candidate_008"
+          )
+        }
+      )
+
+    res_empty <-
+      load_paleo_temporal_slice_provenance(
+        store_path = "store",
+        meta_fn = function(...) {
+          tibble::tibble(
+            name = "config_x",
+            error = NA_character_,
+            time = base::as.POSIXct("2026-11-01", tz = "UTC")
+          )
+        },
+        read_target_fn = function(...) NULL
+      )
+
+    testthat::expect_equal(
+      res[["vegvault_version"]],
+      base::c("2.0.0", "2.0.0")
+    )
+    testthat::expect_equal(
+      res_without_release[["vegvault_version"]],
+      base::c(NA_character_, NA_character_)
+    )
+    testthat::expect_type(res_empty[["vegvault_version"]], "character")
+  }
+)

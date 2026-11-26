@@ -12,6 +12,7 @@ Usage:
 
      load_trait_records_from_vegvault(
        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       data_vegvault_release,
        vec_trait_domain_names = NULL,
        vec_longitude_limits = NULL,
        vec_latitude_limits = NULL
@@ -22,6 +23,11 @@ Arguments:
 path_vegvault: A character string specifying the path to the VegVault
           SQLite database (default:
           `here::here("Data/Input/VegVault.sqlite")`).
+
+data_vegvault_release: A one-row data frame with the VegVault release
+          record the pipeline built from the same file (the
+          `config_vegvault_release` target), as returned by
+          [load_vegvault_database_version()].
 
 vec_trait_domain_names: A character vector specifying the trait domain
           names to load (e.g. `c("Specific leaf area (SLA)", "Plant
@@ -42,9 +48,10 @@ Details:
      The function performs the following steps:
 
      1. Validates input parameters.  2. Checks the presence of the
-     VegVault SQLite database.  3. Builds the vaultkeepr query plan
-     (lazy SQL). If geographic limits are supplied, datasets are
-     filtered to the bounding box using
+     VegVault SQLite database, and with [validate_vegvault_release()]
+     that it holds the release in `data_vegvault_release`.  3. Builds
+     the vaultkeepr query plan (lazy SQL). If geographic limits are
+     supplied, datasets are filtered to the bounding box using
      `vaultkeepr::select_dataset_by_geo()` before sample retrieval.  If
      vaultkeepr raises an error during plan assembly (e.g. no data for
      the given domain names), the error is caught and re-thrown via
@@ -55,6 +62,8 @@ Details:
      Returns the loaded data, including source identifiers, as a flat
      data frame.
 
+     The direct query for dataset sources opens the file read-only.
+
 Value:
 
      A flat data frame containing loaded trait records with columns
@@ -64,4 +73,4 @@ Value:
 
 See Also:
 
-     [extract_data_from_vegvault()]
+     [extract_data_from_vegvault()], [validate_vegvault_release()]

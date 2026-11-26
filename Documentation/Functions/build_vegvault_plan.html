@@ -33,6 +33,7 @@ passed directly to 'extract_data_from_vegvault()' or
 
 <pre><code class='language-R'>build_vegvault_plan(
   path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  data_vegvault_release,
   x_lim = NULL,
   y_lim = NULL,
   age_lim = NULL,
@@ -49,6 +50,12 @@ passed directly to 'extract_data_from_vegvault()' or
 <p>A character string specifying the path to the VegVault SQLite
 database
 (default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+<tr><td><code id="data_vegvault_release">data_vegvault_release</code></td>
+<td>
+<p>A one-row data frame with the VegVault release record the pipeline
+built from the same file (the 'config_vegvault_release' target), as
+returned by [load_vegvault_database_version()].</p>
 </td></tr>
 <tr><td><code id="x_lim">x_lim</code></td>
 <td>
@@ -76,6 +83,10 @@ BP 'c(min, max)'.</p>
 
 <h3>Details</h3>
 
+<p>Before any query, [validate_vegvault_release()] checks that the file
+holds the release in 'data_vegvault_release', so the plan never reads a
+file other than the one its pipeline dependency describes.
+</p>
 <p>The plan is assembled via the following vaultkeepr chain:
 'open_vault()' -&gt; 'get_datasets()' -&gt;
 'select_dataset_by_type()' -&gt; 'select_dataset_by_geo()' -&gt;
@@ -105,7 +116,8 @@ type, geographic, and age-range filters, ready for use with
 <h3>See Also</h3>
 
 <p>[extract_data_from_vegvault()],
-[extract_age_uncertainty_from_vegvault()]
+[extract_age_uncertainty_from_vegvault()],
+[validate_vegvault_release()]
 </p>
 
 </main>

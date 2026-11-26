@@ -26,6 +26,10 @@
 #' variance partition (`variance_partition_built_at`, from
 #' `list_jsdm_variance_partition_<resolution>`), taken from the store
 #' metadata. Build times are `NA` when the metadata has no `time` field.
+#' `vegvault_version` is the VegVault release the store was built from, read
+#' from its `config_vegvault_release` target with
+#' [load_store_vegvault_version()]; it is `NA` for stores built before that
+#' target existed.
 #' @export
 load_spatial_model_results <- function(
     store_index,
@@ -122,6 +126,14 @@ load_spatial_model_results <- function(
         ) {
           return(data_empty_result)
         }
+
+        # The VegVault release of the store, the same for all resolutions
+        sel_vegvault_version <-
+          load_store_vegvault_version(
+            store_path = store_path,
+            data_meta = data_meta,
+            read_target_fn = read_target_fn
+          )
 
         resolution_ids |>
           purrr::map(
@@ -367,7 +379,8 @@ load_spatial_model_results <- function(
                     dplyr::pull("candidate_id") |>
                     purrr::chuck(1L),
                   final_model_built_at = vec_build_times[[1L]],
-                  variance_partition_built_at = vec_build_times[[2L]]
+                  variance_partition_built_at = vec_build_times[[2L]],
+                  vegvault_version = sel_vegvault_version
                 ) |>
                 dplyr::select(
                   "data_source",
@@ -398,7 +411,8 @@ load_spatial_model_results <- function(
                   "source_tier",
                   "candidate_id",
                   "final_model_built_at",
-                  "variance_partition_built_at"
+                  "variance_partition_built_at",
+                  "vegvault_version"
                 )
             }
           ) |>

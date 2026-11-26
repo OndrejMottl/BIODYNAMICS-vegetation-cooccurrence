@@ -8,6 +8,7 @@ Usage:
 
      load_trait_domain_names_from_vegvault(
        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       data_vegvault_release,
        verbose = TRUE
      )
 
@@ -16,6 +17,11 @@ Arguments:
 path_vegvault: A character string specifying the path to the VegVault
           SQLite database (default:
           `here::here("Data/Input/VegVault.sqlite")`).
+
+data_vegvault_release: A one-row data frame with the VegVault release
+          record the pipeline built from the same file (the
+          `config_vegvault_release` target), as returned by
+          [load_vegvault_database_version()].
 
  verbose: Logical. If `TRUE` (default), progress messages are printed
           to the console via `cli`. Set to `FALSE` to suppress all
@@ -26,14 +32,15 @@ Details:
      The function performs the following steps:
 
      1. Validates input parameters.  2. Checks the presence of the
-     VegVault SQLite database using `validate_vegvault_presence()`.  3.
-     Opens a DBI connection to the SQLite database.  4. Queries the
-     `TraitsDomain` table for distinct `trait_domain_name` values and
-     collects results.  5. Closes the database connection.  6. Removes
-     `NA` values from the result.  7. Asserts that at least one domain
-     name was found.  8. Optionally logs the result via
-     `cli::cli_inform()`.  9. Returns the character vector of domain
-     names.
+     VegVault SQLite database using `validate_vegvault_presence()`, and
+     with [validate_vegvault_release()] that it holds the release in
+     `data_vegvault_release`.  3. Opens a read-only DBI connection to
+     the SQLite database.  4. Queries the `TraitsDomain` table for
+     distinct `trait_domain_name` values and collects results.  5.
+     Closes the database connection.  6. Removes `NA` values from the
+     result.  7. Asserts that at least one domain name was found.  8.
+     Optionally logs the result via `cli::cli_inform()`.  9. Returns
+     the character vector of domain names.
 
 Value:
 
@@ -42,4 +49,5 @@ Value:
 
 See Also:
 
-     [load_trait_records_from_vegvault()]
+     [load_trait_records_from_vegvault()],
+     [validate_vegvault_release()]

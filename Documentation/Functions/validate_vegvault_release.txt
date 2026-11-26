@@ -1,0 +1,58 @@
+Validate That a VegVault File Holds the Recorded Release
+
+Description:
+
+     Re-reads the release record of a VegVault SQLite file and stops
+     with an error unless it equals the record the pipeline built from
+     the same file (the `config_vegvault_release` target).
+
+Usage:
+
+     validate_vegvault_release(path_to_vegvault, data_vegvault_release)
+
+Arguments:
+
+path_to_vegvault: A character string with the path to the VegVault
+          SQLite database.
+
+data_vegvault_release: A one-row data frame with character columns
+          `vegvault_version`, `git_commit` and `manifest_sha256`, as
+          returned by [load_vegvault_database_version()].
+
+Details:
+
+     The release record is read with
+     [load_vegvault_database_version()], which opens the file read-only
+     and stops when the version differs from `vegvault_version`. The
+     three fields are then compared one by one, with `NA` equal only to
+     `NA`. A difference in `git_commit` or `manifest_sha256` means the
+     file was rebuilt or replaced under the same version, and stops
+     with an error of class `biodynamics_vegvault_release_mismatch`.
+
+     Functions that open VegVault for a pipeline target call this check
+     before any query, so a target never reads a file other than the
+     one its `config_vegvault_release` dependency describes. The check
+     does not rely on vaultkeepr: vaultkeepr 0.2.0 records the version
+     only on the object returned by `vaultkeepr::open_vault()`, and the
+     later steps of a query drop it.
+
+Value:
+
+     `TRUE`, invisibly, when the file holds the recorded release.
+
+See Also:
+
+     [load_vegvault_database_version()], [build_vegvault_plan()]
+
+Examples:
+
+     ## Not run:
+
+     data_vegvault_release <-
+       load_vegvault_database_version(vegvault_version = "2.0.0")
+
+     validate_vegvault_release(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       data_vegvault_release = data_vegvault_release
+     )
+     ## End(Not run)

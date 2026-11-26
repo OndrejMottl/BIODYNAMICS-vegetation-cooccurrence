@@ -16,16 +16,17 @@
 #   branch target.
 #
 # Targets in execution order:
+#   0. config_vegvault_release  - VegVault release record (always cued)
 #   1. file_spatial_grid        - tracks spatial_grid.csv (format="file")
-#   2. data_continental_rows    – filtered to scale == "continental"
-#   3. vec_trait_domain_names   – all trait domains in VegVault
+#   2. data_continental_rows    - filtered to scale == "continental"
+#   3. vec_trait_domain_names   - all trait domains in VegVault
 #   4. data_traits_continent    - per-continent extraction (dynamic branch)
 #   5. data_traits_raw          - untouched continents combined
 #
 # NOTE: VegVault.sqlite is NOT tracked as format="file" to avoid
-#   hashing a multi-GB file on every tar_make() call. Re-extraction
-#   is triggered manually:
-#     targets::tar_invalidate("data_traits_continent")
+#   hashing a multi-GB file on every tar_make() call. Instead, the
+#   always-cued config_vegvault_release reads the release record from
+#   the file, so replacing the database reruns the extraction targets.
 
 
 #----------------------------------------------------------#
@@ -55,6 +56,23 @@ suppressMessages(
 pipe_segment_traits_extract <-
   list(
 
+    # -- 0. VegVault release record ----------------------
+    # Read on every build. The database is not a file target, so this
+    # always-cued record is what makes a database swap visible: the
+    # extraction targets below depend on it, and the store validator
+    # reports a changed record as config_changed.
+    targets::tar_target(
+      description = "VegVault release record of the input database",
+      name = "config_vegvault_release",
+      command = load_vegvault_database_version(
+        path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        vegvault_version = load_active_config_value(
+          value = c("vegvault_data", "vegvault_version")
+        )
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
+
     # ── 1. Track spatial grid CSV ───────────────────────
     # format = "file" means the downstream target rebuilds whenever
     # the CSV is edited (e.g. a new continental row is added).
@@ -83,8 +101,8 @@ pipe_segment_traits_extract <-
     # Queries the TraitsDomain metadata table to get all domain
     # names currently in VegVault. This avoids hardcoding domain
     # strings in the pipeline.
-    # NOT format="file" — re-run manually via tar_invalidate() if
-    # the VegVault database is updated with new trait domains.
+    # Reruns when config_vegvault_release changes, that is when the
+    # database is replaced.
     targets::tar_target(
       description = "Discover all trait domain names from VegVault",
       name = vec_trait_domain_names,
@@ -92,6 +110,7 @@ pipe_segment_traits_extract <-
         path_vegvault = here::here(
           "Data/Input/VegVault.sqlite"
         ),
+        data_vegvault_release = config_vegvault_release,
         verbose = TRUE
       )
     ),
@@ -117,6 +136,7 @@ pipe_segment_traits_extract <-
           path_vegvault = here::here(
             "Data/Input/VegVault.sqlite"
           ),
+          data_vegvault_release = config_vegvault_release,
           verbose = TRUE
         ) |>
           dplyr::mutate(

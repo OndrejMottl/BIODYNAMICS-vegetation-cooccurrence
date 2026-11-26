@@ -353,3 +353,66 @@ testthat::test_that(
     )
   }
 )
+
+testthat::test_that(
+  "load_spatial_model_results records the VegVault version of the store",
+  {
+    data_result <-
+      load_spatial_model_results(
+        store_index = make_test_store_index(store_path = "released-store"),
+        resolution_ids = "genus",
+        meta_fn = function(...) {
+          tibble::tibble(
+            name = base::c(
+              "list_jsdm_variance_partition_genus",
+              "config_vegvault_release"
+            ),
+            error = NA_character_
+          )
+        },
+        read_target_fn = function(name, store) {
+          if (
+            name == "config_vegvault_release"
+          ) {
+            return(
+              tibble::tibble(
+                vegvault_version = "2.0.0",
+                git_commit = "f19d588",
+                manifest_sha256 = "hash_accepted"
+              )
+            )
+          }
+
+          make_test_anova()
+        }
+      )
+
+    data_result_without_release <-
+      load_spatial_model_results(
+        store_index = make_test_store_index(store_path = "older-store"),
+        resolution_ids = "genus",
+        meta_fn = function(...) {
+          tibble::tibble(
+            name = "list_jsdm_variance_partition_genus",
+            error = NA_character_
+          )
+        },
+        read_target_fn = function(...) make_test_anova()
+      )
+
+    testthat::expect_equal(base::nrow(data_result), 3L)
+    testthat::expect_equal(
+      base::unique(data_result[["vegvault_version"]]),
+      "2.0.0"
+    )
+    testthat::expect_true(
+      base::all(
+        base::is.na(data_result_without_release[["vegvault_version"]])
+      )
+    )
+    testthat::expect_type(
+      data_result_without_release[["vegvault_version"]],
+      "character"
+    )
+  }
+)

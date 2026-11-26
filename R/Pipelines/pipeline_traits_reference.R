@@ -73,7 +73,9 @@
 #     )
 #   )
 #
-# To force re-extraction from VegVault (not done automatically):
+# Re-extraction from VegVault follows the release record: replacing
+#   Data/Input/VegVault.sqlite changes config_vegvault_release (Segment 1),
+#   which reruns the extraction. To force it for the same file:
 #
 #   targets::tar_invalidate("data_traits_continent")
 

@@ -10,6 +10,10 @@
 #' A character string specifying the path to the VegVault SQLite
 #' database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
+#' @param data_vegvault_release
+#' A one-row data frame with the VegVault release record the pipeline
+#' built from the same file (the `config_vegvault_release` target), as
+#' returned by [load_vegvault_database_version()].
 #' @param x_lim
 #' A numeric vector of length 2 specifying the longitude range
 #' `c(min, max)`.
@@ -29,6 +33,10 @@
 #' `extract_data_from_vegvault()` or
 #' `extract_age_uncertainty_from_vegvault()`.
 #' @details
+#' Before any query, [validate_vegvault_release()] checks that the file
+#' holds the release in `data_vegvault_release`, so the plan never reads a
+#' file other than the one its pipeline dependency describes.
+#'
 #' The plan is assembled via the following vaultkeepr chain:
 #'   `open_vault()` -> `get_datasets()` ->
 #'   `select_dataset_by_type()` -> `select_dataset_by_geo()` ->
@@ -45,10 +53,12 @@
 #' stop with an empty message.
 #' @seealso
 #'   [extract_data_from_vegvault()],
-#'   [extract_age_uncertainty_from_vegvault()]
+#'   [extract_age_uncertainty_from_vegvault()],
+#'   [validate_vegvault_release()]
 #' @export
 build_vegvault_plan <- function(
     path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+    data_vegvault_release,
     x_lim = NULL,
     y_lim = NULL,
     age_lim = NULL,
@@ -84,6 +94,13 @@ build_vegvault_plan <- function(
     msg = paste0(
       "'sel_dataset_type' must be a non-empty character vector"
     )
+  )
+
+  #-- Check release ------------------------------------------------------------
+
+  validate_vegvault_release(
+    path_to_vegvault = path_to_vegvault,
+    data_vegvault_release = data_vegvault_release
   )
 
   #-- Build plan ---------------------------------------------------------------

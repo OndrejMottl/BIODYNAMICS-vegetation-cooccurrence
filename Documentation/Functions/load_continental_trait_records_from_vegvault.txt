@@ -12,6 +12,7 @@ Usage:
        data_continental_unit,
        vec_trait_domain_names,
        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       data_vegvault_release,
        verbose = TRUE
      )
 
@@ -28,6 +29,13 @@ vec_trait_domain_names: A non-empty character vector of trait domain
 path_vegvault: A single character string giving the path to the
           VegVault SQLite database (default:
           `here::here("Data/Input/VegVault.sqlite")`).
+
+data_vegvault_release: A one-row data frame with the VegVault release
+          record the pipeline built from the same file (the
+          `config_vegvault_release` target), as returned by
+          [load_vegvault_database_version()]. It is passed to
+          [load_trait_records_from_vegvault()], which checks it before
+          any query.
 
  verbose: A single logical value. If `TRUE` (default), progress
           messages are printed via `cli::cli_inform()`. Set to `FALSE`

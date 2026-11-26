@@ -336,9 +336,19 @@ testthat::test_that(
       "VegVault database not available"
     )
 
+    data_release <-
+      load_vegvault_database_version(
+        path_to_vegvault = test_db,
+        vegvault_version = load_config_value(
+          config_id = "default",
+          value = base::c("vegvault_data", "vegvault_version")
+        )
+      )
+
     res_plan <-
       build_vegvault_plan(
         path_to_vegvault = test_db,
+        data_vegvault_release = data_release,
         x_lim = base::c(12, 18.9),
         y_lim = base::c(48.5, 51.5),
         age_lim = base::c(0, 5000),

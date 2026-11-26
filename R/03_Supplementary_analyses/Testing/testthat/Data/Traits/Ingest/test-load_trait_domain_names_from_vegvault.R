@@ -4,6 +4,15 @@
 path_test_db <-
   "R/03_Supplementary_analyses/Testing/testthat/trait_domains_test.sqlite"
 
+# Release record matching the version_control row written into each
+#   DB-dependent test database.
+data_release_test <-
+  tibble::tibble(
+    vegvault_version = "2.0.0",
+    git_commit = "f19d588",
+    manifest_sha256 = "hash_accepted"
+  )
+
 # ----------------------------------------------------------#
 # Input Validation -----
 # ----------------------------------------------------------#
@@ -96,11 +105,24 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     result <-
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = FALSE
       )
 
@@ -129,11 +151,24 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     result <-
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = FALSE
       )
 
@@ -168,11 +203,24 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     result <-
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = FALSE
       )
 
@@ -203,11 +251,24 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     result <-
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = FALSE
       )
 
@@ -236,11 +297,24 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     testthat::expect_error(
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = FALSE
       )
     )
@@ -272,11 +346,24 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     testthat::expect_no_message(
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = FALSE
       )
     )
@@ -304,15 +391,119 @@ testthat::test_that(
       overwrite = TRUE
     )
 
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_accepted"
+      ),
+      overwrite = TRUE
+    )
+
     DBI::dbDisconnect(conn)
 
     testthat::expect_message(
       load_trait_domain_names_from_vegvault(
         path_vegvault = here::here(path_test_db),
+        data_vegvault_release = data_release_test,
         verbose = TRUE
       )
     )
 
     base::unlink(here::here(path_test_db))
+  }
+)
+
+# ----------------------------------------------------------#
+# Release Check -----
+# ----------------------------------------------------------#
+
+testthat::test_that(
+  "load_trait_domain_names_from_vegvault() stops on another release",
+  {
+    path_vault <-
+      withr::local_tempfile(fileext = ".sqlite")
+
+    conn <-
+      DBI::dbConnect(
+        RSQLite::SQLite(),
+        path_vault
+      )
+
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "TraitsDomain",
+      value = base::data.frame(
+        trait_domain_name = "SLA",
+        stringsAsFactors = FALSE
+      )
+    )
+
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0",
+        git_commit = "f19d588",
+        manifest_sha256 = "hash_rebuilt"
+      )
+    )
+
+    DBI::dbDisconnect(conn)
+
+    testthat::expect_error(
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = path_vault,
+        data_vegvault_release = data_release_test,
+        verbose = FALSE
+      ),
+      class = "biodynamics_vegvault_release_mismatch"
+    )
+  }
+)
+
+testthat::test_that(
+  "load_trait_domain_names_from_vegvault() requires the release record",
+  {
+    path_vault <-
+      withr::local_tempfile(fileext = ".sqlite")
+
+    conn <-
+      DBI::dbConnect(
+        RSQLite::SQLite(),
+        path_vault
+      )
+
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "TraitsDomain",
+      value = base::data.frame(
+        trait_domain_name = "SLA",
+        stringsAsFactors = FALSE
+      )
+    )
+
+    DBI::dbWriteTable(
+      conn = conn,
+      name = "version_control",
+      value = tibble::tibble(
+        id = 5L,
+        version = "2.0.0"
+      )
+    )
+
+    DBI::dbDisconnect(conn)
+
+    testthat::expect_error(
+      load_trait_domain_names_from_vegvault(
+        path_vegvault = path_vault,
+        verbose = FALSE
+      ),
+      regexp = "data_vegvault_release"
+    )
   }
 )

@@ -1,0 +1,101 @@
+---
+format: html
+title: load_store_vegvault_version()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_store_vegvault_version</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load the VegVault Version a Targets Store Was Built From</h2>
+
+<h3>Description</h3>
+
+<p>Reads the 'config_vegvault_release' target of one targets store and
+returns the VegVault version it records.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_store_vegvault_version(
+  store_path,
+  data_meta,
+  read_target_fn = targets::tar_read_raw
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="store_path">store_path</code></td>
+<td>
+<p>A single character string with the path to the targets store.</p>
+</td></tr>
+<tr><td><code id="data_meta">data_meta</code></td>
+<td>
+<p>Metadata of the store with at least the columns 'name' and 'error', as
+returned by [targets::tar_meta()], or 'NULL' when it could not be read.</p>
+</td></tr>
+<tr><td><code id="read_target_fn">read_target_fn</code></td>
+<td>
+<p>Function used to load one target. Defaults to [targets::tar_read_raw()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Stores built before the release record was added to the pipelines have
+no 'config_vegvault_release' target, so published tables show 'NA' for
+them rather than a guessed version. The target is read only when its
+metadata records no error.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A single character string, the VegVault version of the store, for
+example '&quot;2.0.0&quot;'. 'NA_character_' when the store has no successful
+'config_vegvault_release' target.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[load_vegvault_database_version()], [has_target_succeeded()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+store_path &lt;-
+  "Data/targets/paleo_temporal_europe/pipeline_paleo_temporal"
+
+load_store_vegvault_version(
+  store_path = store_path,
+  data_meta = targets::tar_meta(store = store_path)
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

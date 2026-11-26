@@ -8,6 +8,10 @@
 #' @param path_vegvault
 #' A character string specifying the path to the VegVault SQLite database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
+#' @param data_vegvault_release
+#' A one-row data frame with the VegVault release record the pipeline
+#' built from the same file (the `config_vegvault_release` target), as
+#' returned by [load_vegvault_database_version()].
 #' @param vec_trait_domain_names
 #' A character vector specifying the trait domain names to load
 #' (e.g. `c("Specific leaf area (SLA)", "Plant height vegetative")`).
@@ -30,7 +34,9 @@
 #' The function performs the following steps:
 #'
 #'   1. Validates input parameters.
-#'   2. Checks the presence of the VegVault SQLite database.
+#'   2. Checks the presence of the VegVault SQLite database, and with
+#'      [validate_vegvault_release()] that it holds the release in
+#'      `data_vegvault_release`.
 #'   3. Builds the vaultkeepr query plan (lazy SQL). If geographic limits
 #'      are supplied, datasets are filtered to the bounding box using
 #'      `vaultkeepr::select_dataset_by_geo()` before sample retrieval.
@@ -42,12 +48,15 @@
 #'      taxospace + auxiliary-table pipeline used for community data.
 #'   5. Returns the loaded data, including source identifiers, as a flat
 #'      data frame.
-#' @seealso [extract_data_from_vegvault()]
+#'
+#' The direct query for dataset sources opens the file read-only.
+#' @seealso [extract_data_from_vegvault()], [validate_vegvault_release()]
 #' @export
 load_trait_records_from_vegvault <- function(
     path_vegvault = here::here(
       "Data/Input/VegVault.sqlite"
     ),
+    data_vegvault_release,
     vec_trait_domain_names = NULL,
     vec_longitude_limits = NULL,
     vec_latitude_limits = NULL) {
@@ -97,6 +106,11 @@ load_trait_records_from_vegvault <- function(
       )
     )
   }
+
+  validate_vegvault_release(
+    path_to_vegvault = path_vegvault,
+    data_vegvault_release = data_vegvault_release
+  )
 
   result_trait_query <-
     tryCatch(
@@ -166,7 +180,11 @@ load_trait_records_from_vegvault <- function(
     )
 
   connection_vegvault <-
-    DBI::dbConnect(RSQLite::SQLite(), path_vegvault)
+    DBI::dbConnect(
+      drv = RSQLite::SQLite(),
+      dbname = path_vegvault,
+      flags = RSQLite::SQLITE_RO
+    )
   base::on.exit(
     DBI::dbDisconnect(connection_vegvault),
     add = TRUE

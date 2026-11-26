@@ -123,6 +123,21 @@ pipe_segment_config_common <-
         sel_dataset_type = config_sel_dataset_type
       )
     ),
+    # Release record of the VegVault file, read on every build. The file is
+    #   not a file target, so this always-cued record is what makes a
+    #   database swap visible: the extraction targets depend on it, and the
+    #   store validator reports a changed record as config_changed.
+    targets::tar_target(
+      description = "VegVault release record of the input database",
+      name = "config_vegvault_release",
+      command = load_vegvault_database_version(
+        path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        vegvault_version = load_active_config_value(
+          value = c("vegvault_data", "vegvault_version")
+        )
+      ),
+      cue = targets::tar_cue(mode = "always")
+    ),
     #--------------------------------------------------#
     targets::tar_target(
       description = "Configuration for data processing - time step",

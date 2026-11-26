@@ -189,6 +189,144 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "diagnose_model_store_freshness() reports a swapped VegVault release",
+  {
+    path_vault <-
+      withr::local_tempfile(fileext = ".sqlite")
+    path_vault_rebuilt <-
+      withr::local_tempfile(fileext = ".sqlite")
+    path_vault_previous <-
+      withr::local_tempfile(fileext = ".sqlite")
+
+    list_version_tables <-
+      base::list(
+        tibble::tibble(
+          id = 5L,
+          version = "2.0.0",
+          git_commit = "f19d588",
+          manifest_sha256 = "hash_accepted"
+        ),
+        tibble::tibble(
+          id = 5L,
+          version = "2.0.0",
+          git_commit = "f19d588",
+          manifest_sha256 = "hash_rebuilt"
+        ),
+        tibble::tibble(
+          id = 4L,
+          version = "1.0.0"
+        )
+      )
+
+    purrr::walk2(
+      .x = base::c(path_vault, path_vault_rebuilt, path_vault_previous),
+      .y = list_version_tables,
+      .f = ~ {
+        connection_vault <-
+          DBI::dbConnect(
+            drv = RSQLite::SQLite(),
+            dbname = .x
+          )
+        DBI::dbWriteTable(
+          conn = connection_vault,
+          name = "version_control",
+          value = .y
+        )
+        DBI::dbDisconnect(connection_vault)
+      }
+    )
+
+    command_release <-
+      stringr::str_glue(
+        "load_vegvault_database_version(",
+        "path_to_vegvault = {base::deparse(path_vault)}, ",
+        "vegvault_version = \"2.0.0\")"
+      ) |>
+      base::as.character()
+
+    data_manifest <-
+      tibble::tibble(
+        name = base::c("config_vegvault_release", "data_vegvault_extracted"),
+        command = base::c(command_release, "config_vegvault_release"),
+        cue_mode = base::c("always", "thorough")
+      )
+
+    data_edges <-
+      tibble::tibble(
+        from = "config_vegvault_release",
+        to = "data_vegvault_extracted"
+      )
+
+    data_release_cached <-
+      load_vegvault_database_version(
+        path_to_vegvault = path_vault,
+        vegvault_version = "2.0.0"
+      )
+
+    list_arguments <-
+      base::list(
+        pipeline_script = "pipeline.R",
+        store_path = base::tempdir(),
+        profile_id = "profile",
+        data_manifest = data_manifest,
+        data_edges = data_edges,
+        outdated_function = function(...) base::character(),
+        read_target_function = function(name, ...) data_release_cached,
+        load_metadata_function = function(...) {
+          tibble::tibble(
+            name = data_manifest[["name"]],
+            error = NA_character_
+          )
+        }
+      )
+
+    res_current <-
+      rlang::exec(.fn = diagnose_model_store_freshness, !!!list_arguments)
+
+    base::file.copy(
+      from = path_vault_rebuilt,
+      to = path_vault,
+      overwrite = TRUE
+    )
+
+    res_rebuilt <-
+      rlang::exec(.fn = diagnose_model_store_freshness, !!!list_arguments)
+
+    base::file.copy(
+      from = path_vault_previous,
+      to = path_vault,
+      overwrite = TRUE
+    )
+
+    res_previous <-
+      rlang::exec(.fn = diagnose_model_store_freshness, !!!list_arguments)
+
+    testthat::expect_s3_class(data_release_cached, "tbl_df")
+    testthat::expect_false(
+      "config_changed" %in% res_current[["finding_type"]]
+    )
+    testthat::expect_equal(
+      res_rebuilt[["target_name"]][
+        res_rebuilt[["finding_type"]] == "config_changed"
+      ],
+      "config_vegvault_release"
+    )
+    testthat::expect_equal(
+      res_rebuilt[["target_name"]][
+        res_rebuilt[["finding_type"]] == "outdated"
+      ],
+      "data_vegvault_extracted"
+    )
+    testthat::expect_equal(
+      res_previous[["target_name"]][
+        res_previous[["finding_type"]] == "config_changed"
+      ],
+      "config_vegvault_release"
+    )
+  }
+)
+
+testthat::test_that(
   "diagnose_model_store_freshness() classifies cached errors",
   {
     data_manifest <-

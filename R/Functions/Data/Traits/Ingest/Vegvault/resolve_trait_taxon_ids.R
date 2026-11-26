@@ -51,8 +51,9 @@ resolve_trait_taxon_ids <- function(
 
   connection_vegvault <-
     DBI::dbConnect(
-      RSQLite::SQLite(),
-      path_vegvault
+      drv = RSQLite::SQLite(),
+      dbname = path_vegvault,
+      flags = RSQLite::SQLITE_RO
     )
 
   base::on.exit(

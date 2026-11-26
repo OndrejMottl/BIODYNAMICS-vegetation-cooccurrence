@@ -234,6 +234,7 @@
       "/Documentation/Website/Documentation/Functions/load_spatial_model_results.html",
       "/Documentation/Website/Documentation/Functions/load_spatial_resolution_prediction_inputs.html",
       "/Documentation/Website/Documentation/Functions/load_spatial_window.html",
+      "/Documentation/Website/Documentation/Functions/load_store_vegvault_version.html",
       "/Documentation/Website/Documentation/Functions/load_successful_model_target.html",
       "/Documentation/Website/Documentation/Functions/load_targets_store_metadata.html",
       "/Documentation/Website/Documentation/Functions/load_targets_target_by_fingerprint.html",
@@ -245,6 +246,7 @@
       "/Documentation/Website/Documentation/Functions/load_trait_records_from_vegvault.html",
       "/Documentation/Website/Documentation/Functions/load_trait_review_decisions.html",
       "/Documentation/Website/Documentation/Functions/load_trait_source_scale_rules.html",
+      "/Documentation/Website/Documentation/Functions/load_vegvault_database_version.html",
       "/Documentation/Website/Documentation/Functions/lookup_jsdm_variance_component.html",
       "/Documentation/Website/Documentation/Functions/muffle_package_version_warning.html",
       "/Documentation/Website/Documentation/Functions/normalise_coordinates.html",
@@ -424,6 +426,7 @@
       "/Documentation/Website/Documentation/Functions/validate_trait_review_decisions.html",
       "/Documentation/Website/Documentation/Functions/validate_trait_source_scale_rules.html",
       "/Documentation/Website/Documentation/Functions/validate_vegvault_presence.html",
+      "/Documentation/Website/Documentation/Functions/validate_vegvault_release.html",
       "/Documentation/Website/Documentation/Functions/write_trait_quality_control_report.html"
     ]
   }

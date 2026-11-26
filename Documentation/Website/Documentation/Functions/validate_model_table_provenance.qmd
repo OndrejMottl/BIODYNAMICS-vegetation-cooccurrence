@@ -34,7 +34,7 @@ checked row has a missing provenance value.
 <pre><code class='language-R'>validate_model_table_provenance(
   data_table,
   vec_required_columns = base::c("regularization_source", "candidate_id", "cv_strategy",
-    "final_model_built_at", "variance_partition_built_at"),
+    "final_model_built_at", "variance_partition_built_at", "vegvault_version"),
   availability_column = NULL,
   table_label = "model table"
 )
@@ -65,6 +65,14 @@ provenance empty.</p>
 </table>
 
 
+<h3>Details</h3>
+
+<p>By default every checked row must name the VegVault release its store
+was built from ('vegvault_version'), so tables from stores built before
+the release was recorded do not pass.
+</p>
+
+
 <h3>Value</h3>
 
 <p>Invisibly, 'data_table' when every checked row has complete provenance.
@@ -79,7 +87,8 @@ provenance empty.</p>
     candidate_id = "candidate_001",
     cv_strategy = "grouped_kfold",
     final_model_built_at = "2026-11-16 10:00:00",
-    variance_partition_built_at = "2026-11-16 11:00:00"
+    variance_partition_built_at = "2026-11-16 11:00:00",
+    vegvault_version = "2.0.0"
   )
 )
 </code></pre>
