@@ -7,6 +7,7 @@ Evidence produced while moving the project from VegVault 1.0.0 to VegVault 2.0.0
 | File | Content | Made by |
 | --- | --- | --- |
 | `trait_extraction_timing.csv` | Trait extraction time and record count per continental window, for VegVault 1.0.0 with vaultkeepr 0.1.0 and for 2.0.0 with vaultkeepr 0.2.0. The two releases time different steps; see `step_timed`. | 2.0.0: `Data/Temp/vegvault_2_migration/time_trait_extraction.R` (disposable helper). 1.0.0: metadata of the archived trait store `Data/targets/_archive/2026-11_vegvault_1_0_0_traits_reference/`. Combined by `Data/Temp/vegvault_2_migration/combine_trait_timing.R` (disposable helper). |
+| `trait_domain_unit_evidence.csv` | For each trait domain of the whole 2.0.0 file: the domain unit in `TraitsDomain`, the standardised unit of the unit-conversion rules and the output unit of the derivation rule its values carry, the number of values and the number of distinct conversion rules. | `Data/Temp/vegvault_2_migration/build_trait_domain_units.R` (disposable helper), which also wrote the proposed `Data/Input/Trait_corrections/VegVault_2_0_0/trait_domain_units.csv`. |
 
 ## Release record (step V1)
 
@@ -23,6 +24,12 @@ Evidence produced while moving the project from VegVault 1.0.0 to VegVault 2.0.0
 - **Trait data sources.** The America extraction stopped after 211 s on the project's check that every trait record has one data source. In 2.0.0, 3,609 BIEN trait datasets (7,869 plant height values, 3,604 of the datasets in the America window) have no data source, because their BIEN records name no provider. VegVault 1.0.0 linked the same records to a data source with an empty description (id 616): every one of these datasets with coordinates lies at the coordinates of a 1.0.0 dataset of that source, and of no other. 2.0.0 leaves the link empty, and the accepted file stays as it is ([VegVault#167]; the issue first read this as lost links, which the reply there corrects). `load_trait_records_from_vegvault()` therefore now keeps trait records without a data source, with `data_source_id` `NA`, and still stops when a record's dataset is missing from `Datasets` or appears twice. With this change the America window loads completely: 8,711,891 records, of which 6,653 (in 3,604 datasets, all plant height) have no data source.
 - **Trait call.** `load_trait_records_from_vegvault()` now asks vaultkeepr for original taxon names explicitly (`classify_to = "original"`). vaultkeepr 0.2.0 reads the previous `NULL` the same way, so the records do not change.
 - **Outdated supplementary scripts, left as they are.** `R/03_Supplementary_analyses/Prediction/Predict_from_model.R` uses the 1.0.0 ids for the gridpoint source type and two climate variables and opens the database writable. `R/03_Supplementary_analyses/Age_uncertainty_exploration_2026-05-04.R` calls `build_vegvault_plan()` without the release record that the function has required since step V1. Neither is part of the rebuild.
+
+## Trait units (step V3c)
+
+- **One unit per domain.** `TraitsDomain` of the accepted 2.0.0 file lists six trait domains, each with one unit: diaspore mass in mg, leaf area in mm2, leaf mass per area in mg/mm2, leaf nitrogen content per unit mass in mg/g, plant height in m, and stem specific density in g/cm3.
+- **Unit rules on every value.** All 10,920,952 trait values of the file carry a unit-conversion rule. In five domains, the standardised unit of every rule is the domain unit. All 276,786 leaf mass per area values are first standardised as specific leaf area (mm2 mg-1, 21 conversion rules) and then carry the derivation rule `sla_to_lma`, whose output unit is mg/mm2.
+- **Proposed unit table.** `Data/Input/Trait_corrections/VegVault_2_0_0/trait_domain_units.csv` records these six units, copied from `TraitsDomain` with a read-only query. Its build reference is the manifest hash of the release record. Its status is `source_standardised` for five domains and `source_derived` for leaf mass per area. Every row is `proposed`; the trait pipeline stops at `validate_trait_domain_units()` until the rows are approved.
 
 <!-- Issue and pull-request links -->
 

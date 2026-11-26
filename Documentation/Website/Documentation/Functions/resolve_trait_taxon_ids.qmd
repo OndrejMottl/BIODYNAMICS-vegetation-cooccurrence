@@ -68,7 +68,9 @@ join, and closes the connection via 'on.exit()'.
 <h3>Value</h3>
 
 <p>A tibble with 'taxon_name', all source identifiers, and the trait
-fields. The original 'taxon_id' is retained for auditability.
+fields, including the unit columns 'trait_unit', 'conversion_rule_key',
+and 'derivation_rule_key' when present. The original 'taxon_id' is
+retained for auditability.
 </p>
 
 

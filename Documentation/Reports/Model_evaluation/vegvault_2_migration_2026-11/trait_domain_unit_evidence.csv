@@ -1,0 +1,7 @@
+vegvault_version,vegvault_build_reference,trait_domain_name,domain_unit,conversion_unit,derivation_unit,derivation_rule_key,n_values,n_conversion_rules
+2.0.0,94516fdfe161eb20031708f458e7bacd435841680d0054925a6ec7d8659c98a0,Diaspore mass,mg,mg,,,214734,11
+2.0.0,94516fdfe161eb20031708f458e7bacd435841680d0054925a6ec7d8659c98a0,Leaf Area,mm2,mm2,,,192375,12
+2.0.0,94516fdfe161eb20031708f458e7bacd435841680d0054925a6ec7d8659c98a0,Leaf mass per area,mg/mm2,mm2 mg-1,mg/mm2,sla_to_lma,276786,21
+2.0.0,94516fdfe161eb20031708f458e7bacd435841680d0054925a6ec7d8659c98a0,Leaf nitrogen content per unit mass,mg/g,mg/g,,,102330,5
+2.0.0,94516fdfe161eb20031708f458e7bacd435841680d0054925a6ec7d8659c98a0,Plant heigh,m,m,,,10079291,5
+2.0.0,94516fdfe161eb20031708f458e7bacd435841680d0054925a6ec7d8659c98a0,Stem specific density,g/cm3,g/cm3,,,55436,9

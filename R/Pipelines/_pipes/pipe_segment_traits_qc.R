@@ -8,10 +8,11 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Resolves the trait-correction folder of the VegVault release, applies
-# version-guarded source scaling, builds the raw-stage review queue,
-# enforces complete human approval, applies residual exact selectors, and
-# exposes source- and decision-level audits.
+# Resolves the trait-correction folder of the VegVault release, checks one
+# approved unit per trait domain, applies version-guarded source scaling,
+# builds the raw-stage review queue, enforces complete human approval,
+# applies residual exact selectors, and exposes source- and decision-level
+# audits.
 
 
 #----------------------------------------------------------#
@@ -53,6 +54,35 @@ pipe_segment_traits_qc <-
         dir_trait_corrections = here::here(
           "Data/Input/Trait_corrections"
         )
+      )
+    ),
+
+    targets::tar_target(
+      description = "Track the reviewed trait-domain unit table",
+      name = file_trait_domain_units,
+      command = base::file.path(
+        dir_trait_corrections,
+        "trait_domain_units.csv"
+      ),
+      format = "file"
+    ),
+
+    targets::tar_target(
+      description = "Load the reviewed trait-domain unit table",
+      name = data_trait_domain_units,
+      command = load_trait_domain_units(
+        path_trait_domain_units = file_trait_domain_units
+      )
+    ),
+
+    targets::tar_target(
+      description = "GUARD: one approved unit per trait domain",
+      name = data_trait_domain_units_validated,
+      command = validate_trait_domain_units(
+        data_trait_domain_units = data_trait_domain_units,
+        data_trait_records = data_traits_raw,
+        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        data_vegvault_release = config_vegvault_release
       )
     ),
 
