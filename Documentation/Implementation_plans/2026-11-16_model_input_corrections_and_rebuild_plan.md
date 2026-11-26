@@ -1,6 +1,13 @@
 # Model input corrections and rebuild plan
 
-Issues: [#181], [#203], [#204], [#205], [#206], [#207], [#208] (all part of [#180]). Sequence: **A**, then the corrected VegVault release, then the code and diagnostics of **C**, then the full rebuild of **B**. Each stage starts only after the previous one is merged into `main`.
+Issues: [#181], [#203], [#204], [#205], [#206], [#207], [#208] (all part of [#180]). Sequence (updated 25 Nov 2026):
+
+1. **A** (merged in [#214]).
+2. **V**: move to VegVault 2.0.0 and vaultkeepr 0.2.0.
+3. The code and diagnostics of **C**, alongside the functional-type classification of [#179].
+4. The full rebuild of **B**.
+
+Each stage starts only after the previous one is merged into `main`.
 
 ## Decisions
 
@@ -8,6 +15,9 @@ Issues: [#181], [#203], [#204], [#205], [#206], [#207], [#208] (all part of [#18
 - **Ledger.** The freshness ledger stays in place for targets left outdated on purpose, but after the full rebuild it should be empty.
 - **Projection ([#204]):** chosen per continent by measured distortion. Europe keeps EPSG:3035 exactly.
 - **Plot filter ([#205]):** plots get their own relative-abundance threshold. The value is chosen by Ondřej from the stage C diagnostics. Stage C's code and diagnostics run before the Stage B rebuild, so the 275 modern models are fitted once, with the new threshold.
+- **The corrected release is VegVault 2.0.0 (25 Nov 2026).** It is built and accepted but not yet published, and comes with vaultkeepr 0.2.0. It is a major release, with a new schema, renumbered ids, trait units standardised at the source and corrected taxonomy, so it does not drop in under the old path. The new Stage V makes the repository changes it needs.
+- **Traits (25 Nov 2026).** Retire the VegVault 1.0.0 trait corrections, regenerate the review queues on 2.0.0 and sort them automatically first; Ondřej decides only what the automated sorting cannot settle. The design that stops with an error on changed input stays.
+- **Functional types (25 Nov 2026).** Stage B waits for an adoption decision in [#179], so that the functional-type models are fitted once. [#202] is not added to the rebuild. The Stage V plan proposes a decision checkpoint, after which Stage B uses the current classification.
 
 ## Rules for every stage
 
@@ -72,9 +82,24 @@ Detailed implementation plan: [2026-11-16_stage_a_model_input_corrections.md](20
 
 **Done:** all checks green, the CZ smoke run (`run_cz_pipelines.R`) passes, the audit matches expectations, and the pilot, distortion and MEM tables are drafted. PR relationships: Part of [#181], [#203], [#204], [#207], [#208]; Closes [#206].
 
+## Stage V: VegVault 2.0.0 and vaultkeepr 0.2.0
+
+Detailed implementation plan: [2026-11-25_vegvault_2_migration_plan.md](2026-11-25_vegvault_2_migration_plan.md).
+
+**Start:** A is merged. Ondřej has put the 2.0.0 database in `Data/Input/VegVault.sqlite` (the 1.0.0 file is kept as `Data/Input/VegVault_1.0.0.sqlite`) and has installed vaultkeepr 0.2.0 through renv. Stage V builds no production store.
+
+1. Make the database version a `{targets}` dependency (`config_vegvault_release`), so that a database change outdates the extraction targets and the store validator reports it.
+2. Confirm the extraction functions on vaultkeepr 0.2.0, and time the continental trait extraction.
+3. Retire the 1.0.0 trait corrections into a version-specific folder and check that each 1.0.0 source rule is fixed at the source. Then sort the 2.0.0 review queues automatically, with Ondřej's decisions on the rest, and build the 2.0.0 trait analysis release.
+4. Classify the new taxon names and VegVault's combined pollen types in the auxiliary table.
+5. Compare 1.0.0 and 2.0.0 for the project windows. This includes the `bio4` and `bio12` checks that Stage B step 1 previously held, and the Asia 0 ka sample count.
+6. Update the input and trait-correction documentation.
+
+**Done:** all checks green; the CZ smoke run and the trait reference pipeline, through to the release, pass on 2.0.0; no 1.0.0 source rule remains unfixed; the comparison tables are drafted. PR relationships: Part of [#180].
+
 ## Stage C: relative-abundance threshold for vegetation plots ([#205])
 
-**Start:** A is merged and the corrected VegVault release is in `Data/Input/VegVault.sqlite`, because the diagnostics read its plot data. Work in a worktree or the main checkout; Stage C builds no production store. If [#179] has adopted a new functional-type classification, use it.
+**Start:** V is merged, so the 2.0.0 database is in `Data/Input/VegVault.sqlite`; the diagnostics read its plot data. Work in a worktree or the main checkout; Stage C builds no production store. Stage C runs alongside [#179]. The modern viability check of [#179] uses the threshold Ondřej sets here.
 
 1. **Relative abundance.** Add a modern-only target in `pipe_segment_community_prepare_modern.R` that converts each plot to relative abundance. Place it after colocated aggregation and before the Plantae filter, mirroring `prepare_community_proportions()` for pollen.
 2. **Threshold key.** Add `minimal_relative_abundance_plots`, read by a modern-only config target and not added to `config_data_processing`.
@@ -87,13 +112,18 @@ Detailed implementation plan: [2026-11-16_stage_a_model_input_corrections.md](20
 
 ## Stage B: full rebuild from the corrected VegVault and republication ([#207], and the rebuild parts of [#181], [#203], [#204], [#205], [#208])
 
-**Start:** A and C are merged, Ondřej has set the plot threshold, and the corrected VegVault release is in `Data/Input/VegVault.sqlite`. Create branch `full-rebuild-corrected-vegvault` from `main` and run in the main checkout.
+**Start:**
+
+- A, V and C are merged, and Ondřej has set the plot threshold.
+- [#179] has an adoption decision, or its decision checkpoint has passed.
+- The 2.0.0 database is in `Data/Input/VegVault.sqlite`.
+
+Create branch `full-rebuild-corrected-vegvault` from `main` and run in the main checkout.
 
 1. **Check the release (read-only).** Stop and report if any check fails.
-   - Record the VegVault version.
-   - `bio4` at age 0 has no zeros south of 65.7 degrees N and agrees with the same gridpoints at 500 cal yr BP (repeat the queries in the Stage A report).
-   - `bio12` at age 0 is no longer clipped at 6553.5 mm, or the clipping is documented in the release.
-   - Compare `Data/Input/Trait_corrections/` with the corrected traits, so that no correction is applied twice (functional types use VegVault traits through `pipeline_traits_reference.R`).
+   - Record the VegVault version, its SHA-256 and the vaultkeepr version, from `config_vegvault_release` and `renv.lock`.
+   - The `bio4` and `bio12` checks and the comparison of the trait corrections were done in Stage V (comparison tables and the source-rule retirement check). Confirm that the database has not changed since: same SHA-256, and `config_vegvault_release` is not reported as changed.
+   - The `bio12` cap at 6553.5 mm remains in 2.0.0. VegVault documents it as a lower bound ("at least 6553.5 mm").
 2. **Decisions before the rebuild (Ondřej).**
    - Whether to keep a copy of the October stores for a before/after comparison of the published results. The rebuild overwrites them.
    - Whether to rerun the Stage 02 calibration on the corrected data or keep the calibrated settings.
@@ -111,6 +141,17 @@ Detailed implementation plan: [2026-11-16_stage_a_model_input_corrections.md](20
 
 **Done:** the validator passes with an empty ledger, and every published table has provenance columns and build dates. PR relationships: Closes [#181], [#203], [#204], [#205], [#207], [#208].
 
+### Additions from Stage V (25 Nov 2026)
+
+- **Before the rebuild.**
+  - Re-pin vaultkeepr to the `v0.2.0` tag, and confirm that its `R/` code is unchanged from the commit used in Stage V.
+  - The functional-type classifications use the outcome of [#179].
+- **Temporary 0 ka exclusions.** The Europe and America ones exist only on the branch `bes-2026-presentation`. If that branch is merged before the rebuild, remove them as its version of this plan describes. The Asia exclusion stays unless the Stage V comparison finds at least 10 samples at 0 ka.
+- **Further decisions before the rebuild (Ondřej).**
+  - When to delete `Data/Input/VegVault_1.0.0.sqlite` (102 GiB). It is needed until the published results have been compared with the rebuilt ones.
+  - Whether the four trait sensitivity variants still run. Their reason, the provisional units of VegVault 1.0.0, no longer applies.
+- **Publication products.** The publication-products README records the VegVault DOI and the vaultkeepr version, as well as the VegVault version.
+
 <!-- Issue and pull-request links -->
 
 [#178]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/pull/178
@@ -118,11 +159,13 @@ Detailed implementation plan: [2026-11-16_stage_a_model_input_corrections.md](20
 [#180]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/180
 [#181]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/181
 [#183]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/183
+[#202]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/202
 [#203]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/203
 [#204]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/204
 [#205]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/205
 [#206]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/206
 [#207]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/207
 [#208]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/208
+[#214]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/pull/214
 [VegVault#76]: https://github.com/OndrejMottl/VegVault/issues/76
 [VegVault#78]: https://github.com/OndrejMottl/VegVault/issues/78
