@@ -19,7 +19,7 @@
 #   community taxa.
 #
 # Targets in execution order:
-#   1. list_trait_analysis_release - frozen records and evidence status
+#   1. list_trait_analysis_release - frozen records, units and status
 #   2. data_traits_analysis_release - records exposed for consumers
 #   3. data_trait_analysis_release_status - six-domain release contract
 #   4. list_trait_source_anomaly_diagnostics - source diagnostics
@@ -54,25 +54,30 @@ suppressMessages(
 pipe_segment_traits_table <-
   list(
 
-    # ── 1. Freeze the interim VegVault 1.0.0 analysis release ─
+    # ── 1. Freeze the reviewed VegVault analysis release ─
+    # release_id and release_date are set on the day the classified
+    #   review is approved (vegvault_<version>_reviewed_<YYYY_MM_DD>);
+    #   until then the NA values stop the release on purpose
     targets::tar_target(
       description = paste(
-        "Freeze corrected records behind the interim release contract"
+        "Freeze corrected records behind the reviewed release contract"
       ),
       name = list_trait_analysis_release,
       command = build_trait_analysis_release(
         data_trait_records = data_traits_classified_corrected,
-        vegvault_version = data_trait_source_scale_rules_validated |>
-          dplyr::pull("vegvault_version") |>
-          base::unique(),
-        release_id = "vegvault_1_0_0_interim_2026_08_31",
-        release_date = "2026-08-31"
+        data_trait_domain_units = data_trait_domain_units_validated,
+        vegvault_version = purrr::chuck(
+          config_vegvault_release,
+          "vegvault_version"
+        ),
+        release_id = NA_character_,
+        release_date = NA_character_
       )
     ),
 
     # ── 2. Expose frozen records for downstream analysis ─
     targets::tar_target(
-      description = "Expose frozen interim trait records",
+      description = "Expose frozen reviewed trait records",
       name = data_traits_analysis_release,
       command = purrr::chuck(
         list_trait_analysis_release,
@@ -82,7 +87,7 @@ pipe_segment_traits_table <-
 
     # ── 3. Expose machine-readable domain evidence status ─
     targets::tar_target(
-      description = "Expose interim trait-domain evidence status",
+      description = "Expose reviewed trait-domain units and status",
       name = data_trait_analysis_release_status,
       command = purrr::chuck(
         list_trait_analysis_release,

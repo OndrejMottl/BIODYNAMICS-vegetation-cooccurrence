@@ -35,7 +35,7 @@ flowchart TD
 | scientific_reference | 2 |
 | sensitivity | 1 |
 | supplementary_or_processing | 47 |
-| test | 479 |
+| test | 482 |
 
 ## Function capabilities
 
@@ -46,7 +46,7 @@ flowchart TD
 | Data/Samples | 7 |
 | Data/Spatial | 6 |
 | Data/Time | 12 |
-| Data/Traits | 53 |
+| Data/Traits | 56 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 7 |
 | Modelling/Cross_validation | 143 |
@@ -137,7 +137,7 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_traits_extract.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_traits_ft_clustering.R` | Data/Traits | 6 |
 | `R/Pipelines/_pipes/pipe_segment_traits_ft_clustering.R` | Pipeline/Configuration | 1 |
-| `R/Pipelines/_pipes/pipe_segment_traits_qc.R` | Data/Traits | 11 |
+| `R/Pipelines/_pipes/pipe_segment_traits_qc.R` | Data/Traits | 14 |
 | `R/Pipelines/_pipes/pipe_segment_traits_qc_classified.R` | Data/Traits | 6 |
 | `R/Pipelines/_pipes/pipe_segment_traits_table.R` | Data/Traits | 4 |
 | `R/Pipelines/_pipes/pipe_segment_vegvault_extract.R` | Data/Samples | 1 |
@@ -181,7 +181,7 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 403 |
+| literal_target | persisted_internal | 407 |
 | literal_target | public_or_frozen_cv_review | 72 |
 
 ## Architecture exceptions
