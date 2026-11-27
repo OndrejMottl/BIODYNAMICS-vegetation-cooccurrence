@@ -1,0 +1,62 @@
+Select Trait Review Proposals
+
+Description:
+
+     Selects one proposal for every trait-review candidate from the
+     automated sources, in a fixed order of precedence: the
+     conservative policy, then the interim closure, then the human
+     review queue.
+
+Usage:
+
+     select_trait_review_proposals(
+       data_trait_review_candidates,
+       data_policy_proposals,
+       data_closure_decisions,
+       data_queue_suggestions
+     )
+
+Arguments:
+
+data_trait_review_candidates: Current review candidates with unique
+          `candidate_id`, `taxon_name`, and `trait_domain_name`.
+
+data_policy_proposals: Policy proposals in the canonical decision
+          columns, at most one row per candidate (from
+          [build_trait_review_policy_outputs()]).
+
+data_closure_decisions: Closure decisions in the canonical decision
+          columns, at most one row per candidate (from
+          [build_trait_review_interim_closure()]).
+
+data_queue_suggestions: Suggested decisions in the canonical decision
+          columns for candidates that need human review, for example
+          scale proposals of
+          [build_trait_review_programmatic_reconciliation()]. A
+          candidate may have several rows.
+
+Details:
+
+     A candidate with a policy proposal takes it, and its closure
+     decision and suggestions are not used. A candidate without one
+     takes its closure decision. All other candidates form the queue.
+     Nothing is approved here: `has_overridden_suggestion` marks policy
+     and closure proposals of candidates that also have a queue
+     suggestion, so the reviewer can see which suggestions were set
+     aside.
+
+Value:
+
+     A tibble in the canonical decision columns plus `proposal_source`
+     (`"policy"`, `"closure"`, or `"queue"`) and
+     `has_overridden_suggestion`. Every row has `review_status`
+     `"proposed"` and no reviewer or review date. Queue candidates keep
+     all their suggestion rows; a queue candidate without a suggestion
+     gets one row with no `decision_id` and no `action`, to be
+     completed by the reviewer. Rows follow the candidate order.
+
+See Also:
+
+     [build_trait_review_policy_outputs()],
+     [build_trait_review_interim_closure()],
+     [validate_trait_review_decisions()]

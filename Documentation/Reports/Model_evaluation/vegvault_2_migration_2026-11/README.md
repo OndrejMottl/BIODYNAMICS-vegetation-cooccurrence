@@ -7,6 +7,8 @@ Evidence produced while moving the project from VegVault 1.0.0 to VegVault 2.0.0
 | File | Content | Made by |
 | --- | --- | --- |
 | `trait_extraction_timing.csv` | Trait extraction time and record count per continental window, for VegVault 1.0.0 with vaultkeepr 0.1.0 and for 2.0.0 with vaultkeepr 0.2.0. The two releases time different steps; see `step_timed`. | 2.0.0: `Data/Temp/vegvault_2_migration/time_trait_extraction.R` (disposable helper). 1.0.0: metadata of the archived trait store `Data/targets/_archive/2026-11_vegvault_1_0_0_traits_reference/`. Combined by `Data/Temp/vegvault_2_migration/combine_trait_timing.R` (disposable helper). |
+| `trait_source_rule_retirement.csv` | For each of the ten VegVault 1.0.0 source-scale rules: its 2.0.0 source id, the taxa shared between the releases, the 2.0.0/1.0.0 ratio of per-taxon medians for the rule's source and for the reference sources of its domain, the scale exponent and the retirement status. | `R/03_Supplementary_analyses/One_time/Trait_corrections/run_trait_source_rule_retirement_check.R`, with `classify_trait_source_rule_retirement()`. |
+| `trait_v1_review_decision_evidence.csv` | The 57 `scale` and 20 `exclude` review decisions of VegVault 1.0.0 (raw stage; the classified stage had only `none`), with the records of their taxon and domain and the records their value bounds select in each release. For information; no v1 decision is carried over. | Same runner. |
 | `trait_domain_unit_evidence.csv` | For each trait domain of the whole 2.0.0 file: the domain unit in `TraitsDomain`, the standardised unit of the unit-conversion rules and the output unit of the derivation rule its values carry, the number of values and the number of distinct conversion rules. | `Data/Temp/vegvault_2_migration/build_trait_domain_units.R` (disposable helper), which also wrote the proposed `Data/Input/Trait_corrections/VegVault_2_0_0/trait_domain_units.csv`. |
 
 ## Release record (step V1)
@@ -29,11 +31,24 @@ Evidence produced while moving the project from VegVault 1.0.0 to VegVault 2.0.0
 
 - **One unit per domain.** `TraitsDomain` of the accepted 2.0.0 file lists six trait domains, each with one unit: diaspore mass in mg, leaf area in mm2, leaf mass per area in mg/mm2, leaf nitrogen content per unit mass in mg/g, plant height in m, and stem specific density in g/cm3.
 - **Unit rules on every value.** All 10,920,952 trait values of the file carry a unit-conversion rule. In five domains, the standardised unit of every rule is the domain unit. All 276,786 leaf mass per area values are first standardised as specific leaf area (mm2 mg-1, 21 conversion rules) and then carry the derivation rule `sla_to_lma`, whose output unit is mg/mm2.
-- **Proposed unit table.** `Data/Input/Trait_corrections/VegVault_2_0_0/trait_domain_units.csv` records these six units, copied from `TraitsDomain` with a read-only query. Its build reference is the manifest hash of the release record. Its status is `source_standardised` for five domains and `source_derived` for leaf mass per area. Every row is `proposed`; the trait pipeline stops at `validate_trait_domain_units()` until the rows are approved.
+- **Unit table.** `Data/Input/Trait_corrections/VegVault_2_0_0/trait_domain_units.csv` records these six units, copied from `TraitsDomain` with a read-only query. Its build reference is the manifest hash of the release record. Its status is `source_standardised` for five domains and `source_derived` for leaf mass per area. Ondřej approved the six rows on 26 November 2026.
+- **Unit column lost in extraction.** The first 2.0.0 trait store (`Data/Temp/vegvault_2_migration/traits_reference_v2/`) stopped at `validate_trait_domain_units()`: its 8,945,850 records carry `conversion_rule_key` and `derivation_rule_key` but no `trait_unit`. In vaultkeepr 0.2.0, `get_traits()` adds `trait_unit`, and `select_traits_by_domain_name()` then joins the whole `TraitsDomain` table, which also holds `trait_unit`; the query returns `trait_unit.x` and `trait_unit.y`, and the project keeps neither. Reported as [vaultkeepr#80], to be fixed before 0.2.0 is tagged.
+
+## Retirement of the v1 trait corrections (step V3e)
+
+- **Source rules.** All ten VegVault 1.0.0 source-scale rules are `fixed_at_source`: VegVault 2.0.0 applies each rule's factor itself, with scale exponents between 0.99 and 1.00 over 13 to 995 shared taxa per source. The four leaf area sources reported in cm2 are converted to mm2 (source ratio 100, reference ratio 1.03). The five plant height sources were the only ones in m while the rest of 1.0.0 was in cm; 2.0.0 is in m throughout (source ratio 1, reference ratio 0.01). Stem specific density of BAAD is divided by 1,000 at the source. No 2.0.0 source-scale rule is needed.
+- **Review decisions.** 29 of the 57 v1 `scale` decisions would still select 279 records in 2.0.0, and scale them a second time; dropping them was right. All 20 v1 `exclude` decisions still find their 15,865 non-positive values in 2.0.0; the automated sorting proposes such exclusions again from the 2.0.0 data.
+
+## Raw review queue (step V3f)
+
+- **Candidates.** The raw review queue of 2.0.0 holds 5,223 candidates, against the 3,500 to 4,300 that the plan estimated. Leaf mass per area contributes 1,646, of which 1,135 were in the part of the v1 review that was never finished.
+- **Automated sorting.** `run_trait_review_vegvault_2_0_0_triage.R` gives 5,172 candidates (99%) an automated proposal: 5,125 `none` and 23 `exclude` from the policy, 23 `none` and 1 `exclude` from the interim closure. All are proposals; none is approved.
+- **Human queue.** 51 candidates remain. In each, one source differs from the others of the same taxon by a factor that looks like a unit error. For one, the review submission's scale factor is corroborated by a source pair and is offered as a suggestion; the other 50 have no proposal.
 
 <!-- Issue and pull-request links -->
 
 [#180]: https://github.com/OndrejMottl/BIODYNAMICS-vegetation-cooccurrence/issues/180
 [vaultkeepr#77]: https://github.com/OndrejMottl/vaultkeepr/issues/77
 [vaultkeepr#79]: https://github.com/OndrejMottl/vaultkeepr/issues/79
+[vaultkeepr#80]: https://github.com/OndrejMottl/vaultkeepr/issues/80
 [VegVault#167]: https://github.com/OndrejMottl/VegVault/issues/167

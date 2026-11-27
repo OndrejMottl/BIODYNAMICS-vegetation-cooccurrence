@@ -1,0 +1,126 @@
+---
+format: html
+title: classify_trait_source_rule_retirement()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>classify_trait_source_rule_retirement</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Classify Trait Source Rule Retirement</h2>
+
+<h3>Description</h3>
+
+<p>Classifies each whole-source scaling rule of one VegVault release by
+whether a later release already corrects the source, so that the rule can
+be retired without scaling the source twice.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>classify_trait_source_rule_retirement(
+  data_source_scale_rules,
+  data_trait_records_before,
+  data_trait_records_after,
+  data_sources_after,
+  min_shared_taxa = 3L,
+  exponent_tolerance = 0.25
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="data_source_scale_rules">data_source_scale_rules</code></td>
+<td>
+<p>Rules of the earlier release with 'source_scale_rule_id',
+'data_source_id', 'expected_data_source_desc', 'trait_domain_name',
+'trait_name', and 'scale_factor'.</p>
+</td></tr>
+<tr><td><code id="data_trait_records_before">data_trait_records_before</code></td>
+<td>
+<p>Unscaled trait records of the earlier release with 'data_source_id',
+'taxon_name', 'trait_domain_name', 'trait_name', and 'trait_value'.</p>
+</td></tr>
+<tr><td><code id="data_trait_records_after">data_trait_records_after</code></td>
+<td>
+<p>Trait records of the later release with the same columns. Their
+'data_source_id' values use the numbering of the later release.</p>
+</td></tr>
+<tr><td><code id="data_sources_after">data_sources_after</code></td>
+<td>
+<p>Data sources of the later release with 'data_source_id' and
+'data_source_desc'.</p>
+</td></tr>
+<tr><td><code id="min_shared_taxa">min_shared_taxa</code></td>
+<td>
+<p>Integer scalar. The fewest taxa a rule's source must share between the
+releases before it is classified (default '3L').</p>
+</td></tr>
+<tr><td><code id="exponent_tolerance">exponent_tolerance</code></td>
+<td>
+<p>Numeric scalar between 0 and 0.5. How far the scale exponent may lie from
+1 or 0 for 'fixed_at_source' or 'still_unscaled' (default '0.25').</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>Data source ids are not stable between releases, so a rule's source is
+found in the later release by its exact description. For the rule's
+source and, separately, for all sources of the same domain (and trait
+name, when the rule names one) that no rule names, the function takes the
+median
+value per taxon in each release and the median over shared taxa of the
+ratio later / earlier ('ratio_source', 'ratio_reference'). Dividing the
+two removes any unit change that the later release applied to the whole
+domain. 'scale_exponent' is the logarithm of that quotient in the base of
+the rule's 'scale_factor':
+</p>
+<p>* 'fixed_at_source': the exponent lies within 'exponent_tolerance' of
+1, so the later release applies the rule's factor itself;
+* 'still_unscaled': the exponent lies within 'exponent_tolerance' of
+0, so the source keeps its earlier scale;
+* &lsquo;absent_from_release': the source has no records of the rule&rsquo;s
+domain in the later release, or its description is not found;
+* 'unresolved': fewer than 'min_shared_taxa' shared taxa, or an
+exponent near neither 0 nor 1.
+</p>
+<p>Only positive per-taxon medians enter the ratios.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A tibble with one row per rule: the rule fields, 'data_source_id_after',
+'n_taxa_before', 'n_taxa_after', 'n_taxa_shared', 'ratio_source',
+'ratio_reference', 'scale_exponent', and 'retirement_status'.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[validate_trait_source_scale_rules()],
+[apply_trait_source_scale_rules()]
+</p>
+
+</main>
+
+</div>
+</body></html>
