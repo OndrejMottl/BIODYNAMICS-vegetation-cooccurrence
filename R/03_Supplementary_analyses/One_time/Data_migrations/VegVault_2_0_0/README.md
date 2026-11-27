@@ -1,29 +1,35 @@
-# VegVault 2.0.0 release comparison
+# VegVault 2.0.0 release comparison and taxon review
 
 ## Purpose and backstory
 
-The project moved from VegVault 1.0.0 to VegVault 2.0.0 before the full rebuild of its models (`Documentation/Implementation_plans/2026-11-25_vegvault_2_migration_plan.md`, step V5). Version 2.0.0 is a major release: a fresh Neotoma download of fossil pollen, merged plot taxa, trait units standardised at the source, TRY coordinates outside the valid range set to missing, and corrected present-day temperature seasonality (`bio4`). These scripts compare the two files for the project's continental windows, so that the change of input data is documented before any model is refitted. Their results replace the release checks planned for the start of the rebuild.
+The project moved from VegVault 1.0.0 to VegVault 2.0.0 before the full rebuild of its models (`Documentation/Implementation_plans/2026-11-25_vegvault_2_migration_plan.md`, steps V4 and V5). Version 2.0.0 is a major release: a fresh Neotoma download of fossil pollen, merged plot taxa, trait units standardised at the source, TRY coordinates outside the valid range set to missing, and corrected present-day temperature seasonality (`bio4`). The two comparison scripts compare the two files for the project's continental windows, so that the change of input data is documented before any model is refitted. Their results replace the release checks planned for the start of the rebuild.
+
+The taxon review runner prepares a check of the rows added to `Data/Input/aux_classification_table.csv` for 2.0.0: the combined pollen types whose classification changes, and the names that the automatic lookup leaves unclassified (step V4). The rows were added before the check, so that the rebuild can proceed; the check decides whether any of them changes before the full refit.
 
 ## Status and entry point
 
-Status: one-time provenance of the migration. Both scripts only read the two database files.
+Status: one-time provenance of the migration. The comparison scripts only read the two database files. The review runner only reads the evidence tables and the auxiliary table.
 
 Entry points, run from the repository root with the pinned R version:
 
 ```powershell
 rig run -r 4.5.1 R/03_Supplementary_analyses/One_time/Data_migrations/VegVault_2_0_0/compare_vegvault_release_records.R
 rig run -r 4.5.1 R/03_Supplementary_analyses/One_time/Data_migrations/VegVault_2_0_0/compare_vegvault_release_climate.R
+rig run -r 4.5.1 R/03_Supplementary_analyses/One_time/Data_migrations/VegVault_2_0_0/render_taxa_classification_review_packet.R
 ```
+
+The review runner renders `taxa_classification_review_packet.qmd` with Quarto, so `QUARTO_R` must point to the pinned R.
 
 ## Prerequisites and configuration
 
 - `Data/Input/VegVault.sqlite` (2.0.0) and `Data/Input/VegVault_1.0.0.sqlite`, opened read-only. The 1.0.0 file is kept until the rebuild is finished.
 - The continental rows of `Data/Input/spatial_grid.csv`. The temporal profiles use the same three windows.
 - The extraction settings of `project_paleo_spatial_continental` (fossil pollen, 0 to 20,000 cal yr BP, and the climate variables) and `project_modern_spatial_continental` (vegetation plots at 0 cal yr BP).
+- For the review runner: the V4 evidence tables `taxa_combined_pollen_types.csv`, `taxa_unclassified_names_draft_rows.csv` and `taxa_classification_names_to_resolve.csv`, and the 65 rows in `Data/Input/aux_classification_table.csv`. The runner stops if any of the 65 names has no row.
 
 ## Outputs and interpretation
 
-All outputs go to `Documentation/Reports/Model_evaluation/vegvault_2_migration_2026-11/`; its README interprets them.
+The comparison outputs go to `Documentation/Reports/Model_evaluation/vegvault_2_migration_2026-11/`; its README interprets them.
 
 - `compare_vegvault_release_records.R`:
   - `release_window_counts.csv`: datasets, samples and taxa per continent, data type and release. Records without a value (presence-only plot records) are counted separately, because `vaultkeepr::extract_data()` drops them and they never reach the pipelines.
@@ -36,6 +42,12 @@ All outputs go to `Documentation/Reports/Model_evaluation/vegvault_2_migration_2
 
 The counts use direct SQL with the windows and age ranges of the pipelines, not the pipelines themselves; deduplication and later filters of the pipelines are not applied.
 
+- `render_taxa_classification_review_packet.R` writes to `Outputs/Reports/Taxa_classification/`:
+  - `taxa_classification_review_response_sheet.csv`: one row per name, with its data type, continents, sample count, current placement, proposed rank, taxon and lineage, the reasoning and confidence, and empty columns for the reviewer (`agree`, `reviewer_rank`, `reviewer_taxon`, `reviewer_comment`);
+  - `taxa_classification_review_packet.pdf`: the instructions and the same rows as tables, in four groups from the least to the most certain.
+
+A returned sheet is a review submission: keep it unchanged, and change the auxiliary table only where the review gives a reason.
+
 ## Regeneration and retirement
 
-Rerun only if either database file changes. Retire with the 1.0.0 file, after the rebuild on 2.0.0 is finished and published.
+Rerun the comparison scripts only if either database file changes. Rerun the review runner only if the evidence tables or the 65 rows change. Retire the folder with the 1.0.0 file, after the rebuild on 2.0.0 is finished and published.
