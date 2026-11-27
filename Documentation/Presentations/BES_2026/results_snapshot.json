@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mode": "frozen_iavs_artifacts",
+  "snapshot_id": "2026-11-23_bes_preliminary",
+  "snapshot_date": "2026-11-23",
+  "snapshot_display_date": "23 November 2026",
+  "source_presentation": "CSPE_2026",
+  "source_presentation_path": "Documentation/Presentations/CSPE_2026",
+  "spatial_targets_archive": "Data/targets/paleo_spatial_{continental,regional,local}",
+  "archive_scope": [
+    "paleo_spatial_continental",
+    "paleo_spatial_regional",
+    "paleo_spatial_local",
+    "paleo_temporal_europe",
+    "paleo_temporal_america",
+    "paleo_temporal_asia"
+  ],
+  "archive_limitations": "Spatial results are the October 2026 cross-validated fits. Temporal results are the June 2026 fits unless RESULTS_PROVENANCE.md records the November rerun. Prediction animations are frozen IAVS 2026 assets. All results are preliminary and will be replaced by the rebuild from the corrected VegVault release.",
+  "rationale": "The BES 2026 presentation shows the newest available fits ahead of the full rebuild; the mode name is kept for loader compatibility.",
+  "summary_counts": {
+    "cores": 1130,
+    "communities": 29904,
+    "taxa": 256,
+    "trait_values": 8961225,
+    "functional_types": 23,
+    "models": 324
+  }
+}

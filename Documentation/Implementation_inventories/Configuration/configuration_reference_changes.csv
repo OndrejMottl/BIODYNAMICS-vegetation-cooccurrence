@@ -27,3 +27,7 @@ issue204_continent_asia,project_paleo_temporal_asia,continent_id,#204,Selects th
 issue204_continent_issue138_asia,project_paleo_temporal_issue138_asia_staged,continent_id,#204,Inherited from project_paleo_temporal_asia.
 issue204_crs_by_continent,*,spatial_crs_by_continent,#204,Per-continent projection of spatial-predictor coordinates.
 issue204_continent_cz_modern,project_cz_modern,continent_id,#204,The Czech smoke store is not a grid unit; its projection needs the continent.
+issue181_excluded_europe,project_paleo_temporal_europe,temporal_slices.excluded_ages,#181,Temporary: 0 ka bio4 is constant zero in VegVault 1.0.0 (VegVault#78) and aborts the build; remove after the corrected VegVault release.
+issue181_excluded_issue138_europe,project_paleo_temporal_issue138_europe_staged,temporal_slices.excluded_ages,#181,Inherited from project_paleo_temporal_europe.
+issue181_excluded_america,project_paleo_temporal_america,temporal_slices.excluded_ages,#181,Temporary: 0 ka bio4 is constant zero in VegVault 1.0.0 (VegVault#78) and aborts the build; remove after the corrected VegVault release.
+issue181_excluded_issue138_america,project_paleo_temporal_issue138_america_staged,temporal_slices.excluded_ages,#181,Inherited from project_paleo_temporal_america.
