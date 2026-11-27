@@ -186,3 +186,123 @@ testthat::test_that("load_taxa_classification() loads from cache on hit", {
     "fake_cached_value"
   )
 })
+
+testthat::test_that("load_taxa_classification() renames a shared cache hit", {
+  dir_taxa_classification_cache <-
+    base::tempfile(pattern = "taxospace_test_")
+  base::dir.create(dir_taxa_classification_cache, recursive = TRUE)
+
+  data_taxa_classification_fake <-
+    tibble::tibble(
+      sel_name = "Quercus petraea",
+      name = base::c("Quercus", "Quercus petraea"),
+      rank = base::c("genus", "species"),
+      id = base::c(1L, 2L)
+    )
+
+  qs2::qs_save(
+    data_taxa_classification_fake,
+    base::file.path(dir_taxa_classification_cache, "Quercus_petraea.qs")
+  )
+
+  # "Quercus-petraea" maps to the file of "Quercus petraea" on every system
+  res_taxa_classification <-
+    load_taxa_classification(
+      vec_taxa = "Quercus-petraea",
+      dir_taxa_classification_cache = dir_taxa_classification_cache
+    )
+
+  testthat::expect_equal(
+    dplyr::pull(res_taxa_classification, sel_name),
+    base::c("Quercus-petraea", "Quercus-petraea")
+  )
+
+  testthat::expect_equal(
+    dplyr::pull(res_taxa_classification, name),
+    base::c("Quercus", "Quercus petraea")
+  )
+
+  testthat::expect_equal(
+    dplyr::pull(res_taxa_classification, rank),
+    base::c("genus", "species")
+  )
+})
+
+testthat::test_that("load_taxa_classification() renames a case-only hit", {
+  dir_taxa_classification_cache <-
+    base::tempfile(pattern = "taxospace_test_")
+  base::dir.create(dir_taxa_classification_cache, recursive = TRUE)
+
+  data_taxa_classification_fake <-
+    tibble::tibble(
+      sel_name = "Quercus petraea",
+      name = "Quercus petraea",
+      rank = "species",
+      id = 2L
+    )
+
+  qs2::qs_save(
+    data_taxa_classification_fake,
+    base::file.path(dir_taxa_classification_cache, "Quercus_petraea.qs")
+  )
+
+  # Only where file names ignore case does "Quercus Petraea" hit this file
+  testthat::skip_if_not(
+    base::file.exists(
+      base::file.path(dir_taxa_classification_cache, "Quercus_Petraea.qs")
+    ),
+    message = "File names are case-sensitive on this system."
+  )
+
+  res_taxa_classification <-
+    load_taxa_classification(
+      vec_taxa = "Quercus Petraea",
+      dir_taxa_classification_cache = dir_taxa_classification_cache
+    )
+
+  testthat::expect_equal(
+    dplyr::pull(res_taxa_classification, sel_name),
+    "Quercus Petraea"
+  )
+
+  testthat::expect_equal(
+    dplyr::pull(res_taxa_classification, name),
+    "Quercus petraea"
+  )
+})
+
+testthat::test_that("load_taxa_classification() keeps names of a set hit", {
+  dir_taxa_classification_cache <-
+    base::tempfile(pattern = "taxospace_test_")
+  base::dir.create(dir_taxa_classification_cache, recursive = TRUE)
+
+  vec_taxa <-
+    base::c("Quercus robur", "Betula pendula")
+
+  data_taxa_classification_fake <-
+    tibble::tibble(
+      sel_name = base::c("Betula pendula", "Quercus robur"),
+      name = base::c("Betula pendula", "Quercus robur"),
+      rank = base::c("species", "species"),
+      id = base::c(1L, 2L)
+    )
+
+  qs2::qs_save(
+    data_taxa_classification_fake,
+    base::file.path(
+      dir_taxa_classification_cache,
+      stringr::str_glue("{rlang::hash(base::sort(vec_taxa))}.qs")
+    )
+  )
+
+  res_taxa_classification <-
+    load_taxa_classification(
+      vec_taxa = vec_taxa,
+      dir_taxa_classification_cache = dir_taxa_classification_cache
+    )
+
+  testthat::expect_equal(
+    dplyr::pull(res_taxa_classification, sel_name),
+    base::c("Betula pendula", "Quercus robur")
+  )
+})

@@ -13,8 +13,10 @@
 #' does not exist. The default is `here::here("Data/Temp/taxospace")`.
 #' @return
 #' A data frame with columns `sel_name`, `name`, `rank`, and `id`.
-#' Returns an empty tibble with those columns when no plant taxa
-#' are found or the taxospace service returns no classification.
+#' For a single taxon, `sel_name` is always the requested name, also
+#' when the classification comes from a cache file written for another
+#' spelling. Returns an empty tibble with those columns when no plant
+#' taxa are found or the taxospace service returns no classification.
 #' @details
 #' Uses `taxospace::get_classification()` to retrieve classification.
 #' Flags and filters for plant taxa (kingdom Plantae). Before calling
@@ -22,6 +24,14 @@
 #' `dir_taxa_classification_cache`. A successful result is saved to cache;
 #' the empty
 #' dummy tibble returned on failure is never cached.
+#'
+#' The cache file of a single taxon is named after the taxon, with every
+#' character other than a letter, digit or underscore replaced by `_`.
+#' Names that differ only in such characters share one file, and so do
+#' names that differ only in case where file names ignore case (Windows,
+#' macOS); "Quercus Petraea" then reads the file of "Quercus petraea".
+#' Such names share the cached classification, which is returned under
+#' the requested name.
 #' @seealso [taxospace::get_classification()], [qs2::qs_read()],
 #'   [qs2::qs_save()]
 #' @export
@@ -81,8 +91,23 @@ load_taxa_classification <- function(
   if (
     base::file.exists(file_taxa_classification_cache)
   ) {
-    res_taxa_classification_cached <-
+    data_taxa_classification_cached <-
       qs2::qs_read(file_taxa_classification_cache)
+
+    # The file of a single taxon may have been written for another
+    #   spelling with the same file name (see Details). Without the
+    #   rename, the requested name would be missing from the result and
+    #   count as unclassified.
+    res_taxa_classification_cached <-
+      if (
+        base::length(vec_taxa) == 1L
+      ) {
+        data_taxa_classification_cached |>
+          dplyr::mutate(sel_name = vec_taxa)
+      } else {
+        data_taxa_classification_cached
+      }
+
     return(res_taxa_classification_cached)
   }
 

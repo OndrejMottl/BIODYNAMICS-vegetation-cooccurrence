@@ -62,13 +62,23 @@ the taxospace service, checks for a cached '.qs' file in
 the empty
 dummy tibble returned on failure is never cached.
 </p>
+<p>The cache file of a single taxon is named after the taxon, with every
+character other than a letter, digit or underscore replaced by '_'.
+Names that differ only in such characters share one file, and so do
+names that differ only in case where file names ignore case (Windows,
+macOS); &quot;Quercus Petraea&quot; then reads the file of &quot;Quercus petraea&quot;.
+Such names share the cached classification, which is returned under
+the requested name.
+</p>
 
 
 <h3>Value</h3>
 
 <p>A data frame with columns 'sel_name', 'name', 'rank', and 'id'.
-Returns an empty tibble with those columns when no plant taxa
-are found or the taxospace service returns no classification.
+For a single taxon, 'sel_name' is always the requested name, also
+when the classification comes from a cache file written for another
+spelling. Returns an empty tibble with those columns when no plant
+taxa are found or the taxospace service returns no classification.
 </p>
 
 
