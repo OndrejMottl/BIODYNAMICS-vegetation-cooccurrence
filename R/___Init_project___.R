@@ -118,11 +118,10 @@ remotes::install_github(
 )
 
 # install vaultkeepr from GitHub
-# Pinned to the vaultkeepr 0.2.0 commit that reads VegVault 2.0.0; re-pin to
-#   the v0.2.0 tag once it exists
+# Pinned to the vaultkeepr 0.2.0 release, which reads VegVault 2.0.0
 remotes::install_github(
   repo = "OndrejMottl/vaultkeepr",
-  ref = "4a6579936d221139ca57b59115cd3a8b19ffcf96",
+  ref = "v0.2.0",
   quiet = FALSE,
   upgrade = "ask"
 )
