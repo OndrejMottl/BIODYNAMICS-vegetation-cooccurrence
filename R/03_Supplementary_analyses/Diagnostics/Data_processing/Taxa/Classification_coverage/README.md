@@ -46,7 +46,7 @@ Classification sources:
 - `cached_without_ranks`: a cache file exists but holds none of the seven ranks the project uses. The pipeline stops on this name.
 - `not_looked_up`: no cache file, and the run skipped the lookup.
 
-Names are counted from lazy queries with the plan builder and vaultkeepr calls of the pipelines. The community queries leave out `vaultkeepr::get_abiotic_data()`: it keeps every vegetation sample and only adds the climate of linked gridpoints, so it cannot change the names, and over the continental fossil-pollen windows it makes the query run for hours. A name the pipeline later drops (for example in deduplication) is still listed.
+Names are counted from lazy queries with the plan builder and vaultkeepr calls of the pipelines. Only records with a value count: `vaultkeepr::extract_data()` drops community records without one (for example presence-only plot records), and the trait loader keeps only existing values. The community queries leave out `vaultkeepr::get_abiotic_data()`: it keeps every vegetation sample and only adds the climate of linked gridpoints, so it cannot change the names, and over the continental fossil-pollen windows it makes the query run for hours. A name the pipeline later drops (for example in deduplication) is still listed.
 
 Proposed rows for combined types (`proposal_rule` in `taxa_combined_pollen_types.csv`):
 

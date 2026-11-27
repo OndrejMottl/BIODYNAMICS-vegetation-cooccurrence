@@ -266,8 +266,12 @@ data_window_taxa_community <-
       connection_window <-
         purrr::chuck(plan_window_taxa, "db_con")
 
+      # vaultkeepr::extract_data() drops records without a value (for
+      #   example presence-only plot records), so their names never
+      #   reach the classification.
       data_window_taxa <-
         purrr::chuck(plan_window_taxa, "data") |>
+        dplyr::filter(!base::is.na(.data[["value"]])) |>
         dplyr::group_by(.data[["taxon_id"]]) |>
         dplyr::summarise(
           n_datasets = dplyr::n_distinct(.data[["dataset_id"]]),
@@ -340,8 +344,10 @@ data_window_taxa_traits <-
       connection_window <-
         purrr::chuck(plan_window_traits, "db_con")
 
+      # filter_complete_trait_records() keeps only values that exist
       data_window_taxa <-
         purrr::chuck(plan_window_traits, "data") |>
+        dplyr::filter(!base::is.na(.data[["trait_value"]])) |>
         dplyr::group_by(.data[["taxon_id"]]) |>
         dplyr::summarise(
           n_datasets = dplyr::n_distinct(.data[["dataset_id"]]),
@@ -789,35 +795,40 @@ data_combined_pollen_types_in_windows_raw <-
       .data[["has_auxiliary_row"]] ~ "existing_auxiliary_row",
       .default = "lowest_shared_rank"
     ),
-    proposed_kingdom = dplyr::case_match(
-      .data[["proposal_rule"]],
-      "vegvault_2_0_0_family" ~ .data[["kingdom"]],
-      "existing_auxiliary_row" ~ .data[["project_kingdom"]],
-      "lowest_shared_rank" ~ .data[["shared_kingdom"]]
+    proposed_kingdom = dplyr::case_when(
+      .data[["proposal_rule"]] == "vegvault_2_0_0_family" ~
+        .data[["kingdom"]],
+      .data[["proposal_rule"]] == "existing_auxiliary_row" ~
+        .data[["project_kingdom"]],
+      .default = .data[["shared_kingdom"]]
     ),
-    proposed_phylum = dplyr::case_match(
-      .data[["proposal_rule"]],
-      "vegvault_2_0_0_family" ~ .data[["phylum"]],
-      "existing_auxiliary_row" ~ .data[["project_phylum"]],
-      "lowest_shared_rank" ~ .data[["shared_phylum"]]
+    proposed_phylum = dplyr::case_when(
+      .data[["proposal_rule"]] == "vegvault_2_0_0_family" ~
+        .data[["phylum"]],
+      .data[["proposal_rule"]] == "existing_auxiliary_row" ~
+        .data[["project_phylum"]],
+      .default = .data[["shared_phylum"]]
     ),
-    proposed_class = dplyr::case_match(
-      .data[["proposal_rule"]],
-      "vegvault_2_0_0_family" ~ .data[["class"]],
-      "existing_auxiliary_row" ~ .data[["project_class"]],
-      "lowest_shared_rank" ~ .data[["shared_class"]]
+    proposed_class = dplyr::case_when(
+      .data[["proposal_rule"]] == "vegvault_2_0_0_family" ~
+        .data[["class"]],
+      .data[["proposal_rule"]] == "existing_auxiliary_row" ~
+        .data[["project_class"]],
+      .default = .data[["shared_class"]]
     ),
-    proposed_order = dplyr::case_match(
-      .data[["proposal_rule"]],
-      "vegvault_2_0_0_family" ~ .data[["order"]],
-      "existing_auxiliary_row" ~ .data[["project_order"]],
-      "lowest_shared_rank" ~ .data[["shared_order"]]
+    proposed_order = dplyr::case_when(
+      .data[["proposal_rule"]] == "vegvault_2_0_0_family" ~
+        .data[["order"]],
+      .data[["proposal_rule"]] == "existing_auxiliary_row" ~
+        .data[["project_order"]],
+      .default = .data[["shared_order"]]
     ),
-    proposed_family = dplyr::case_match(
-      .data[["proposal_rule"]],
-      "vegvault_2_0_0_family" ~ .data[["vegvault_2_0_0_family"]],
-      "existing_auxiliary_row" ~ .data[["project_family"]],
-      "lowest_shared_rank" ~ .data[["shared_family"]]
+    proposed_family = dplyr::case_when(
+      .data[["proposal_rule"]] == "vegvault_2_0_0_family" ~
+        .data[["vegvault_2_0_0_family"]],
+      .data[["proposal_rule"]] == "existing_auxiliary_row" ~
+        .data[["project_family"]],
+      .default = .data[["shared_family"]]
     ),
     proposed_genus = dplyr::if_else(
       .data[["proposal_rule"]] == "existing_auxiliary_row",

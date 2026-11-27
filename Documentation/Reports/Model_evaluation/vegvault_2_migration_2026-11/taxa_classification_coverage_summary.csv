@@ -7,9 +7,8 @@ america,traits,auxiliary_table,30,0,95096
 america,traits,taxospace_cache,3236,0,8560609
 america,traits,taxospace_lookup,60,0,1041
 america,traits,unclassified,16,0,59
-america,vegetation_plot,auxiliary_table,21,0,2388
-america,vegetation_plot,taxospace_cache,5192,0,610375
-america,vegetation_plot,taxospace_lookup,2291,0,60321
+america,vegetation_plot,auxiliary_table,20,0,938
+america,vegetation_plot,taxospace_cache,4836,0,230933
 asia,fossil_pollen_archive,auxiliary_table,55,0,7075
 asia,fossil_pollen_archive,taxospace_cache,68,0,3792
 asia,fossil_pollen_archive,taxospace_lookup,2,2,64
