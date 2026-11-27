@@ -1,0 +1,196 @@
+taxon_name,classification_source,in_vegvault_1_0_0,continent_ids,data_types,n_datasets,n_samples,kingdom,phylum,class,order,family,genus,species
+Pinus Haplostellate),taxospace_lookup,FALSE,europe,fossil_pollen_archive,4,723,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Pinus,
+Vincetoxicum rossicum,taxospace_lookup,TRUE,america,traits,23,537,Plantae,Tracheophyta,Magnoliopsida,Gentianales,Apocynaceae,Vincetoxicum,Vincetoxicum rossicum
+Solidago sp,taxospace_lookup,TRUE,america,traits,23,378,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Solidago,
+Fraxinus Angustifolia Subsp Oxycarpa-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,2,179,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Fraxinus,
+Pinus Laricio,taxospace_lookup,FALSE,europe,fossil_pollen_archive,4,146,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Pinus,
+Betula Pendula-Type,taxospace_lookup,FALSE,asia|europe,fossil_pollen_archive,2,103,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Betula,Betula sect
+Quercus Ithaburensis-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,98,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,
+Ostrya Carpinus Orientalis-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,84,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Ostrya,
+Betula Pubescens Var Pumila-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,71,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Betula,Betula sect
+Quercus Cercocarpus,taxospace_lookup,FALSE,america,fossil_pollen_archive,1,71,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,
+Betula Tree),taxospace_lookup,TRUE,europe,fossil_pollen_archive,1,69,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Betula,Betula sect
+Quercus Robur/q Pubescens-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,43,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,
+Pinus Maritima,taxospace_lookup,FALSE,europe,fossil_pollen_archive,2,34,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Pinus,
+Pinus Haploxylon-Type,taxospace_lookup,FALSE,asia,fossil_pollen_archive,1,32,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Pinus,
+Rubus gr. Sylvatici,taxospace_lookup,TRUE,europe,traits,1,32,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,
+Artemisia barrelieri,taxospace_lookup,TRUE,europe,traits,26,28,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Artemisia,Artemisia barrelieri
+Nymphaea marliacea,taxospace_lookup,TRUE,europe,traits,1,26,Plantae,Tracheophyta,Magnoliopsida,Nymphaeales,Nymphaeaceae,Nymphaea,Nymphaea marliacea
+Vitex,taxospace_lookup,TRUE,europe,fossil_pollen_archive,1,21,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Vitex,
+Hammada articulata,taxospace_lookup,TRUE,europe,traits,18,19,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Amaranthaceae,Haloxylon,Haloxylon salicornicum
+Pistacia therebinthus,taxospace_lookup,TRUE,europe,traits,6,18,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Anacardiaceae,Pistacia,Pistacia terebinthus
+Pilosella glacialis,taxospace_lookup,TRUE,europe,traits,2,14,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Pilosella,Pilosella glacialis
+Achillea roseo-alba,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Achillea,Achillea roseoalba
+Cyperus difformis,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Cyperus,Cyperus difformis
+Heteranthera reniformis,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Liliopsida,Commelinales,Pontederiaceae,Heteranthera,Heteranthera reniformis
+Hieracium intybaceum,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Schlagintweitia,Schlagintweitia intybacea
+Hordeum hexastichum,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Hordeum,Hordeum vulgare
+Knautia velutina,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Caprifoliaceae,Knautia,Knautia velutina
+Lagarosiphon major,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Liliopsida,Alismatales,Hydrocharitaceae,Lagarosiphon,Lagarosiphon major
+Laserpitium nitidum,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Apiales,Apiaceae,Laserpitium,Laserpitium nitidum
+Leucanthemum vulgare var. vulgare,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Leucanthemum,Leucanthemum vulgare
+Melittis melissophyllum var. melissophyllum,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Melittis,Melittis melissophyllum
+Nelumbo nucifera,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Proteales,Nelumbonaceae,Nelumbo,Nelumbo nucifera
+Nymphaea marliacea_x,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Nymphaeales,Nymphaeaceae,Nymphaea,
+Oryza sativa,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Oryza,Oryza sativa
+Papaver apulum,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Ranunculales,Papaveraceae,Roemeria,Roemeria apula
+Physoplexis comosa,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Magnoliopsida,Asterales,Campanulaceae,Physoplexis,Physoplexis comosa
+Pleurozium schreberi,taxospace_lookup,TRUE,america,traits,1,13,Plantae,Bryophyta,Bryopsida,Hypnales,Hylocomiaceae,Pleurozium,Pleurozium schreberi
+Pyrus Sorbus,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,13,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Pyrus,
+Vallisneria spiralis,taxospace_lookup,TRUE,europe,traits,1,13,Plantae,Tracheophyta,Liliopsida,Alismatales,Hydrocharitaceae,Vallisneria,Vallisneria spiralis
+Cytisus emeriflorus,taxospace_lookup,TRUE,europe,traits,1,12,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Cytisus,Cytisus emeriflorus
+Egeria densa,taxospace_lookup,TRUE,europe,traits,1,12,Plantae,Tracheophyta,Liliopsida,Alismatales,Hydrocharitaceae,Elodea,Elodea densa
+Pinus Mugo/p Sylvestris,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,12,Plantae,Tracheophyta,Pinopsida,Pinales,Pinaceae,Pinus,
+Primula daonensis,taxospace_lookup,TRUE,europe,traits,2,12,Plantae,Tracheophyta,Magnoliopsida,Ericales,Primulaceae,Primula,Primula daonensis
+Xerolekia speciosissima,taxospace_lookup,TRUE,europe,traits,1,12,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Buphthalmum,Buphthalmum speciosissimum
+Matricaria matricarioides,taxospace_lookup,TRUE,america,traits,1,10,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Matricaria,Matricaria discoidea
+Neotinea tridentata,taxospace_lookup,TRUE,europe,traits,1,10,Plantae,Tracheophyta,Liliopsida,Asparagales,Orchidaceae,Neotinea,Neotinea tridentata
+Ophrys sphegodes subsp. atrata,taxospace_lookup,TRUE,europe,traits,1,10,Plantae,Tracheophyta,Liliopsida,Asparagales,Orchidaceae,Ophrys,Ophrys sphegodes
+Verbena urticafolium,taxospace_lookup,TRUE,america,traits,1,10,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Verbenaceae,Verbena,Verbena urticifolia
+Barbarea bracteosa,taxospace_lookup,TRUE,europe,traits,1,9,Plantae,Tracheophyta,Magnoliopsida,Brassicales,Brassicaceae,Barbarea,Barbarea bracteosa
+Cirsium montanum,taxospace_lookup,TRUE,europe,traits,1,9,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Cirsium,Cirsium monspessulanum
+Eryngium ilicifolium,taxospace_lookup,TRUE,europe,traits,9,9,Plantae,Tracheophyta,Magnoliopsida,Apiales,Apiaceae,Eryngium,Eryngium ilicifolium
+Frankenia corymbosa,taxospace_lookup,TRUE,europe,traits,9,9,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Frankeniaceae,Frankenia,Frankenia corymbosa
+Oenothera stucchii,taxospace_lookup,TRUE,europe,traits,1,9,Plantae,Tracheophyta,Magnoliopsida,Myrtales,Onagraceae,Oenothera,Oenothera stucchii
+Corollina Emerus,taxospace_lookup,TRUE,europe,traits,3,8,Plantae,Tracheophyta,Pinopsida,,Cheirolepidiaceae,Classopollis,
+Crataegus submollis,taxospace_lookup,TRUE,europe,traits,1,8,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Crataegus,Crataegus submollis
+Deutzia crenata,taxospace_lookup,TRUE,europe,traits,1,8,Plantae,Tracheophyta,Magnoliopsida,Cornales,Hydrangeaceae,Deutzia,Deutzia crenata
+Euphorbia dracunculoides,taxospace_lookup,TRUE,europe,traits,8,8,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Euphorbiaceae,Euphorbia,Euphorbia dracunculoides
+Parthenocissus tricuspidata,taxospace_lookup,TRUE,europe,traits,1,8,Plantae,Tracheophyta,Magnoliopsida,Vitales,Vitaceae,Parthenocissus,Parthenocissus tricuspidata
+Plantago maritima subsp. maritima,taxospace_lookup,TRUE,europe,traits,2,8,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Plantaginaceae,Plantago,Plantago maritima
+Rhamnus Cathartica-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,8,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,Rhamnus,
+Rubus Idaeus-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,3,8,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Rubus,
+Salix caesia,taxospace_lookup,TRUE,europe,traits,1,8,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,Salix caesia
+Hedypnois arenaria,taxospace_lookup,TRUE,europe,traits,7,7,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Hedypnois,Hedypnois arenaria
+Panax trifolius,taxospace_lookup,TRUE,america,traits,1,7,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Panax,Panax trifolius
+Plantago amplexicaulis,taxospace_lookup,TRUE,europe,traits,7,7,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Plantaginaceae,Plantago,Plantago amplexicaulis
+Reichardia intermedia,taxospace_lookup,TRUE,europe,traits,6,7,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Reichardia,Reichardia intermedia
+Cerastium orithales,taxospace_lookup,TRUE,europe,traits,1,6,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Caryophyllaceae,Cerastium,Cerastium orithales
+Ericaceae Empetrum Group,taxospace_lookup,FALSE,america,fossil_pollen_archive,1,6,Plantae,Tracheophyta,Magnoliopsida,Ericales,Ericaceae,,
+Juncus monanthos,taxospace_lookup,TRUE,europe,traits,1,6,Plantae,Tracheophyta,Liliopsida,Poales,Juncaceae,Oreojuncus,Oreojuncus monanthos
+Panicum linhymeri,taxospace_lookup,TRUE,america,traits,1,6,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Panicum,
+Calendula tripterocarpa,taxospace_lookup,TRUE,europe,traits,5,5,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Calendula,Calendula tripterocarpa
+Carex saw,taxospace_lookup,TRUE,america,traits,1,5,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Carex,
+Chrysopsis camphorum,taxospace_lookup,TRUE,america,traits,1,5,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Heterotheca,Heterotheca camporum
+Crotolaria sagatalis,taxospace_lookup,TRUE,america,traits,1,5,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Crotolaria,
+Linum sp,taxospace_lookup,TRUE,america,traits,1,4,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Linaceae,Linum,
+Odontites litoralis,taxospace_lookup,TRUE,europe,traits,1,4,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Orobanchaceae,Odontites,Odontites litoralis
+Ophrys flavicans_x,taxospace_lookup,TRUE,europe,traits,1,4,Plantae,Tracheophyta,Liliopsida,Asparagales,Orchidaceae,Ophrys,
+Taraxacum Sec. Erythrosperma,taxospace_lookup,TRUE,europe,traits,1,4,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Taraxacum,
+Valeriana pratensis,taxospace_lookup,TRUE,europe,traits,1,4,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Caprifoliaceae,Valeriana,Valeriana pratensis
+Vicia villosa subsp. villosa,taxospace_lookup,TRUE,europe,traits,1,4,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Vicia,Vicia villosa
+Volutaria tubuliflora,taxospace_lookup,TRUE,europe,traits,3,4,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Volutaria,Volutaria tubuliflora
+Agave sisalana,taxospace_lookup,TRUE,europe,traits,3,3,Plantae,Tracheophyta,Liliopsida,Asparagales,Asparagaceae,Agave,Agave sisalana
+Ceropegia europaea,taxospace_lookup,TRUE,europe,traits,3,3,Plantae,Tracheophyta,Magnoliopsida,Gentianales,Apocynaceae,Ceropegia,Ceropegia europaea
+Crataegus chrysocarpa,taxospace_lookup,TRUE,america,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Crataegus,Crataegus chrysocarpa
+Hypericum ellipticum,taxospace_lookup,TRUE,america,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Hypericaceae,Hypericum,Hypericum ellipticum
+Lactuca sp,taxospace_lookup,TRUE,america,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Lactuca,
+Leontodon taraxacoides subsp. taraxacoides,taxospace_lookup,TRUE,europe,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Thrincia,Thrincia saxatilis
+Plantago major subsp. winteri,taxospace_lookup,TRUE,europe,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Plantaginaceae,Plantago,Plantago uliginosa
+Senecio aquaticus subsp. barbareifolius,taxospace_lookup,TRUE,europe,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Jacobaea,Jacobaea aquatica
+Solidago macrophylla,taxospace_lookup,TRUE,america,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Solidago,Solidago macrophylla
+Viola cenisia,taxospace_lookup,TRUE,europe,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Violaceae,Viola,Viola cenisia
+Viola latiuscula,taxospace_lookup,TRUE,america,traits,1,3,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Violaceae,Viola,Viola latiuscula
+Agave fourcroydes,taxospace_lookup,TRUE,europe,traits,2,2,Plantae,Tracheophyta,Liliopsida,Asparagales,Asparagaceae,Agave,Agave fourcroydes
+Carex straminea,taxospace_lookup,TRUE,america,traits,1,2,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Carex,Carex straminea
+Carex turkestanica,taxospace_lookup,TRUE,america,traits,1,2,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Carex,Carex turkestanica
+Koeleria hirsuta,taxospace_lookup,TRUE,europe,traits,1,2,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Koeleria,Koeleria hirsuta
+Quercus Indet,taxospace_lookup,TRUE,europe,fossil_pollen_archive,2,2,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,
+Rumex spinosus,taxospace_lookup,TRUE,europe,traits,2,2,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Polygonaceae,Rumex,Rumex spinosus
+Salsola papillosa,taxospace_lookup,TRUE,europe,traits,2,2,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Amaranthaceae,Salsola,Salsola papillosa
+Agave gerardii,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Asparagales,Asparagaceae,Agave,
+Alchemilla murbeckiana,taxospace_lookup,TRUE,asia,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,Alchemilla,Alchemilla murbeckiana
+Anabasis articulata,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Amaranthaceae,Anabasis,Anabasis articulata
+Aristida viridis,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Aristida,
+Artemisia atrata,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Artemisia,Artemisia atrata
+Asclepias dumosus,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Gentianales,Apocynaceae,Asclepias,
+Aster ciliatus,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Symphyotrichum,Symphyotrichum ciliatum
+Atriplex glauca,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Amaranthaceae,Atriplex,Atriplex glauca
+Blephilia curtipendula,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Blephilia,
+Bouteloua americana,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Bouteloua,Bouteloua americana
+Cacalia cherokeensis,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Cacalia,
+Carex dark green,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Carex,Carex bullata
+Carex fuzzy,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Carex,
+Carex perlonga,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Carex,Carex perlonga
+Cirsium acaulon,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Cirsium,Cirsium acaulon
+Cistus Salviifolius-Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,1,Plantae,Tracheophyta,Magnoliopsida,Malvales,Cistaceae,Cistus,
+Coris monspeliensis subsp. hispanica,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Ericales,Primulaceae,Coris,Coris monspeliensis
+Cornus Type,taxospace_lookup,FALSE,europe,fossil_pollen_archive,1,1,Plantae,Tracheophyta,Magnoliopsida,Cornales,Cornaceae,Cornus,
+Crotalaria khasiana,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Crotalaria,Crotalaria khasiana
+Croton candida,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Euphorbiaceae,Croton,
+Cynomorium coccineum,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Saxifragales,Cynomoriaceae,Cynomorium,Cynomorium coccineum
+Dalea illinoi,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Dalea,
+Desmanthus illinoi.,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Desmanthus,
+Desmodium distortum,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Desmodium,Desmodium distortum
+Diphasiastrum zanclophyllum,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Lycopodiopsida,Lycopodiales,Lycopodiaceae,Diphasiastrum,Diphasiastrum zanclophyllum
+Eragrostis yuccifolium,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Eragrostis,
+Eryngium coelestinum,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Apiales,Apiaceae,Eryngium,
+Euphorbia berteroana,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Euphorbiaceae,Euphorbia,Euphorbia berteroana
+Fimbristylis volbulis,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Fimbristylis,
+Galactia nigracans,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Galactia,
+Genista jimenezii,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Genista,Genista cinerea
+Geranium rivulare,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Geraniales,Geraniaceae,Geranium,Geranium rivulare
+Hebe franciscana_x,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Plantaginaceae,Veronica,
+Hedyotis autumnale,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Gentianales,Rubiaceae,Hedyotis,
+Helenium tenellum,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Helenium,
+Heliotropium cuneata,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Boraginales,Heliotropiaceae,Heliotropium,
+Hippocrepis biflora,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Hippocrepis,Hippocrepis biflora
+Hippocrepis constricta,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Hippocrepis,Hippocrepis constricta
+Leitneria,taxospace_lookup,TRUE,america,fossil_pollen_archive,1,1,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Simaroubaceae,Leitneria,
+Lespedeza squarosa,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Lespedeza,
+Linociera,taxospace_lookup,TRUE,europe,fossil_pollen_archive,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,Chionanthus,
+Lobelia alba,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Campanulaceae,Lobelia,
+Lotus arenarius,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Lotus,Lotus arenarius
+Monarda sp,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Monarda,
+Myosotis sylvestris,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Boraginales,Boraginaceae,Myosotis,
+Neptunia sp,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Neptunia,
+Onosmodium flexile,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Boraginales,Boraginaceae,Lithospermum,
+Onosmodium sp,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Boraginales,Boraginaceae,Lithospermum,
+Oplopanax,taxospace_lookup,TRUE,america,fossil_pollen_archive,1,1,Plantae,Tracheophyta,Magnoliopsida,Apiales,Araliaceae,Oplopanax,
+Paspalum grandiflora,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Paspalum,
+Patellifolia patellaris,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Caryophyllales,Amaranthaceae,Patellifolia,Patellifolia procumbens
+Ptilium crista-castrensis,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Bryophyta,Bryopsida,Hypnales,Pylaisiaceae,Ptilium,Ptilium crista-castrensis
+Pycnanthemum pinnata,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Pycnanthemum,
+Quercus sap.,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Quercus,
+Ratibida hirta,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Ratibida,
+Rudbeckia humilis,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Rudbeckia,
+Ruellia lyrata,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Acanthaceae,Ruellia,
+Salix udensis,taxospace_lookup,TRUE,asia,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,Salix udensis
+Santolina viscosa,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Santolina,Santolina viscosa
+Schizachyrium oligantha,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Schizachyrium,
+Scleria glauca,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Cyperaceae,Scleria,
+Sideritis ibanyenzii,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,Sideritis,Sideritis ibanyenzii
+Silphium nutans,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Silphium,
+Sorghastrum clandenstina,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Sorghastrum,
+Sporobolus flava,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Sporobolus,
+Taraxacum Erythosperma,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,,
+Tephroseris crispa,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Tephroseris,Tephroseris crispa
+Tridens sp,taxospace_lookup,TRUE,america,traits,1,1,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Tridens,
+Veronica prostrata subsp. prostrata,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Plantaginaceae,Veronica,Veronica prostrata
+Viola balearica_x,taxospace_lookup,TRUE,europe,traits,1,1,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Violaceae,Viola,
+Cf Ulmus Sp,unclassified,FALSE,europe,fossil_pollen_archive,2,17,,,,,,,
+Moss,unclassified,TRUE,europe,traits,1,15,,,,,,,
+Gphalium uliginosum,unclassified,TRUE,america,traits,1,10,,,,,,,
+Tacetum vulgare,unclassified,TRUE,america,traits,1,10,,,,,,,
+Verbe hastata,unclassified,TRUE,america,traits,1,10,,,,,,,
+Hippochoeris radicata,unclassified,TRUE,europe,traits,1,9,,,,,,,
+Aphalis margaritaceae,unclassified,TRUE,america,traits,1,8,,,,,,,
+Cf Betula Nana-Type,unclassified,FALSE,europe,fossil_pollen_archive,1,6,,,,,,,
+Liria vulgaris,unclassified,TRUE,america,traits,1,6,,,,,,,
+Desmanthus illinoi,unclassified,TRUE,america,traits,1,4,,,,,,,
+Cf Fagus,unclassified,FALSE,europe,fossil_pollen_archive,1,2,,,,,,,
+Chamae fasiculata,unclassified,TRUE,america,traits,1,2,,,,,,,
+Hipparhenia hirta,unclassified,TRUE,europe,traits,2,2,,,,,,,
+Buchnera plantaginea,unclassified,TRUE,america,traits,1,1,,,,,,,
+Cf Berberis,unclassified,FALSE,america,fossil_pollen_archive,1,1,,,,,,,
+Cf Salix,unclassified,FALSE,europe,fossil_pollen_archive,1,1,,,,,,,
+Chamae camphorum,unclassified,TRUE,america,traits,1,1,,,,,,,
+Chamaechristae fasiculata,unclassified,TRUE,america,traits,1,1,,,,,,,
+Chrysopsis sagatalis,unclassified,TRUE,america,traits,1,1,,,,,,,
+Composite sp,unclassified,TRUE,europe,traits,1,1,,,,,,,
+Desmanthus ciliare,unclassified,TRUE,america,traits,1,1,,,,,,,
+Erce sp,unclassified,TRUE,europe,traits,1,1,,,,,,,
+Eupatorum corollata,unclassified,TRUE,america,traits,1,1,,,,,,,
+Prunella tenuifolium,unclassified,TRUE,america,traits,1,1,,,,,,,
+Setaria laciniatum,unclassified,TRUE,america,traits,1,1,,,,,,,
+Sumac sp,unclassified,TRUE,america,traits,1,1,,,,,,,

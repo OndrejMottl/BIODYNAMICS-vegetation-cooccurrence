@@ -1,0 +1,538 @@
+---
+title: "Trait review: cases left after the automated sorting"
+subtitle: "VegVault 2.0.0, raw taxon names"
+date: 2026/11/27
+date-format: long
+format:
+  pdf:
+    documentclass: article
+    geometry: "a4paper,landscape,margin=1.5cm"
+    fontsize: 10pt
+    toc: false
+    fig-pos: "H"
+execute:
+  echo: false
+  output: true
+  message: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+#| output: false
+
+library(here)
+
+here::i_am(
+  base::file.path(
+    "R/03_Supplementary_analyses/One_time/Trait_corrections",
+    "trait_review_raw_queue_packet.qmd"
+  )
+)
+
+suppressMessages(
+  suppressWarnings(
+    source(
+      here::here("R/___setup_project___.R")
+    )
+  )
+)
+
+dir_evidence <-
+  here::here(
+    "Documentation/Reports/Model_evaluation/vegvault_2_migration_2026-11"
+  )
+
+path_figures <-
+  here::here("Data/Temp/Trait_corrections/raw/review_packet_figures")
+
+base::dir.create(path_figures, recursive = TRUE, showWarnings = FALSE)
+
+graphical_options <-
+  load_config_value(
+    config_id = "default",
+    value = "graphical"
+  )
+
+label_count <-
+  scales::label_comma()
+```
+
+```{r}
+#| label: load-cases
+#| output: false
+
+data_sheet <-
+  readr::read_csv(
+    file = here::here(
+      "Outputs/Reports/Trait_corrections/raw",
+      "trait_review_raw_queue_response_sheet.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_draft <-
+  readr::read_csv(
+    file = base::file.path(
+      dir_evidence,
+      "trait_review_raw_queue_draft_resolutions.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_case_evidence <-
+  readr::read_csv(
+    file = base::file.path(
+      dir_evidence,
+      "trait_review_raw_queue_case_evidence.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+data_rule_check <-
+  readr::read_csv(
+    file = base::file.path(dir_evidence, "trait_conversion_rule_check.csv"),
+    show_col_types = FALSE
+  )
+
+data_triage_proposals <-
+  readr::read_csv(
+    file = here::here(
+      "Data/Temp/Trait_corrections/raw/vegvault_2_0_0_triage",
+      "trait_review_proposals.csv"
+    ),
+    show_col_types = FALSE
+  )
+
+n_candidates <-
+  data_triage_proposals |>
+  dplyr::distinct(.data[["candidate_id"]]) |>
+  base::nrow()
+
+n_queue <-
+  base::nrow(data_case_evidence)
+
+n_cases <-
+  base::nrow(data_sheet)
+
+n_held <-
+  data_draft |>
+  dplyr::filter(.data[["action"]] == "hold") |>
+  base::nrow()
+```
+
+## What this review is about
+
+The project reads plant trait values from VegVault 2.0.0, which converts every value to one unit per trait before storing it.
+An automated review grouped the values by taxon and trait, flagged `r label_count(n_candidates)` groups as unusual, and settled most of them by fixed rules.
+In `r n_queue` groups the rules found a pattern they are not allowed to judge: the median of one dataset is close to 10, 100 or 1,000 times the median of another dataset of the same taxon.
+Such a factor can mean that one dataset was recorded in a different unit, but it can also be natural variation, for example between young and mature plants, or between measurement methods.
+VegVault names the trait of plant height "Plant heigh"; the packet keeps that name.
+
+This packet holds `r n_cases` of these cases.
+`r n_held` more come from one source whose unit conversion in VegVault appears to be wrong; they wait for a correction in VegVault and are not included.
+Each case page shows a proposed decision with its reason and confidence.
+Please check each proposal, and agree with it or correct it.
+
+## How to read a case page
+
+- The figure shows every dataset of the taxon for this trait, one row per dataset, sorted by its median value (point). The line spans the smallest to the largest value of the dataset.
+- The horizontal axis is logarithmic, so each major step is a factor of 10. The dashed line is the median of all values of the taxon.
+- The colour shows the unit in which the source reported the values before VegVault converted them.
+- **L** marks the dataset with the lowest median and **H** the one with the highest; the table below the figure gives their details.
+- A dataset that lies far from all the others, with a gap, is more suspicious than one at the end of a continuous spread.
+- The values themselves matter most: are the values of L and H possible for the species, for example according to a flora?
+- The line on unit rules says whether the conversion used for L or H agrees with other conversions of the same trait across all taxa. Where it agrees, a wrong conversion is an unlikely explanation.
+
+## What to decide
+
+- **keep**: all values stay.
+- **exclude**: the values of one dataset are removed for this taxon and trait (L, H, or another dataset given by its id).
+- **scale**: the values of one dataset are multiplied by a factor. Use this only with evidence of a unit error in that dataset, for example from the documentation of its source.
+- **unsure**: the case cannot be judged from the evidence.
+
+## The response sheet
+
+The sheet `trait_review_raw_queue_response_sheet.csv` has one row per case, in the order of this packet, with the proposed decision already filled in.
+For each case, fill in `agree` (yes or no).
+If you do not agree, fill in `reviewer_action` (keep, exclude, scale or unsure), `reviewer_dataset` (L, H or a dataset id) and, for a scaling, `reviewer_factor`.
+Add a short `reviewer_comment` with your reason or source wherever it helps, in particular when you disagree.
+Leave the other columns as they are.
+
+\newpage
+
+```{r}
+#| label: load-records
+#| output: false
+
+data_trait_records <-
+  targets::tar_read(
+    name = "data_traits_raw",
+    store = here::here(
+      "Data/Temp/vegvault_2_migration/traits_reference_v2",
+      "pipeline_traits_reference"
+    )
+  ) |>
+  dplyr::filter(.data[["trait_value"]] > 0) |>
+  dplyr::semi_join(
+    data_sheet,
+    by = dplyr::join_by("taxon_name", "trait_domain_name")
+  )
+
+connection_vegvault <-
+  DBI::dbConnect(
+    drv = RSQLite::SQLite(),
+    dbname = here::here("Data/Input/VegVault.sqlite"),
+    flags = RSQLite::SQLITE_RO
+  )
+
+data_original_units <-
+  DBI::dbGetQuery(
+    conn = connection_vegvault,
+    statement = stringr::str_c(
+      "SELECT conversion_rule_key,",
+      " normalized_original_unit AS original_unit",
+      " FROM TraitUnitConversion"
+    )
+  ) |>
+  tibble::as_tibble()
+
+DBI::dbDisconnect(connection_vegvault)
+
+# One group per dataset and trait name, as in the automated review
+data_dataset_groups <-
+  data_trait_records |>
+  dplyr::left_join(
+    data_original_units,
+    by = dplyr::join_by("conversion_rule_key"),
+    multiple = "error"
+  ) |>
+  dplyr::group_by(
+    .data[["taxon_name"]],
+    .data[["trait_domain_name"]],
+    .data[["dataset_id"]],
+    .data[["trait_name"]]
+  ) |>
+  dplyr::summarise(
+    n_records = dplyr::n(),
+    median_value = stats::median(.data[["trait_value"]]),
+    minimum_value = base::min(.data[["trait_value"]]),
+    maximum_value = base::max(.data[["trait_value"]]),
+    original_unit = stringr::str_c(
+      base::sort(base::unique(.data[["original_unit"]])),
+      collapse = " / "
+    ),
+    .groups = "drop"
+  )
+
+label_value <-
+  scales::label_number(drop0trailing = TRUE, big.mark = ",")
+```
+
+```{r}
+#| label: case-pages
+#| results: asis
+
+base::seq_len(base::nrow(data_sheet)) |>
+  purrr::walk(
+    .f = ~ {
+      data_case <-
+        data_sheet |>
+        dplyr::slice(.x)
+
+      sel_case <- dplyr::pull(data_case, "case")
+      sel_candidate <- dplyr::pull(data_case, "candidate_id")
+      sel_taxon <- dplyr::pull(data_case, "taxon_name")
+      sel_domain <- dplyr::pull(data_case, "trait_domain_name")
+      sel_unit <- dplyr::pull(data_case, "trait_unit")
+      sel_action <- dplyr::pull(data_case, "proposed_action")
+      sel_dataset_label <- dplyr::pull(data_case, "proposed_dataset")
+
+      data_evidence <-
+        data_case_evidence |>
+        dplyr::filter(.data[["candidate_id"]] == sel_candidate)
+
+      data_proposal <-
+        data_draft |>
+        dplyr::filter(.data[["candidate_id"]] == sel_candidate)
+
+      data_groups <-
+        data_dataset_groups |>
+        dplyr::filter(
+          .data[["taxon_name"]] == sel_taxon,
+          .data[["trait_domain_name"]] == sel_domain
+        ) |>
+        dplyr::arrange(.data[["median_value"]]) |>
+        dplyr::mutate(
+          rank = dplyr::row_number(),
+          label = dplyr::case_when(
+            .data[["rank"]] == 1L ~ "L",
+            .data[["rank"]] == dplyr::n() ~ "H",
+            .default = NA_character_
+          )
+        )
+
+      data_case_records <-
+        data_trait_records |>
+        dplyr::filter(
+          .data[["taxon_name"]] == sel_taxon,
+          .data[["trait_domain_name"]] == sel_domain
+        )
+
+      median_all <-
+        data_case_records |>
+        dplyr::pull("trait_value") |>
+        stats::median()
+
+      # With many datasets the range lines would hide the medians
+      alpha_ranges <-
+        dplyr::if_else(base::nrow(data_groups) > 100L, 0.08, 0.5)
+
+      plot_case <-
+        data_groups |>
+        ggplot2::ggplot(
+          mapping = ggplot2::aes(
+            x = .data[["median_value"]],
+            y = .data[["rank"]],
+            colour = .data[["original_unit"]]
+          )
+        ) +
+        ggplot2::scale_x_log10(
+          labels = label_value,
+          expand = ggplot2::expansion(mult = 0.1)
+        ) +
+        ggplot2::scale_y_continuous(
+          expand = ggplot2::expansion(mult = 0.03, add = 0.8)
+        ) +
+        ggplot2::scale_colour_brewer(palette = "Dark2") +
+        # Labels at the outermost datasets may reach beyond the panel
+        ggplot2::coord_cartesian(clip = "off") +
+        ggplot2::labs(
+          x = stringr::str_glue("{sel_domain} ({sel_unit}), log scale"),
+          y = "Datasets (sorted by median)",
+          colour = "Original unit in source"
+        ) +
+        ggplot2::theme_classic() +
+        ggplot2::theme(
+          axis.text.y = ggplot2::element_blank(),
+          axis.ticks.y = ggplot2::element_blank(),
+          axis.title.y = ggplot2::element_text(size = 9),
+          legend.position = "top",
+          legend.margin = ggplot2::margin(0, 0, 0, 0),
+          legend.box.spacing = ggplot2::unit(2, "pt"),
+          plot.margin = ggplot2::margin(t = 6, r = 20, b = 4, l = 4)
+        ) +
+        ggview::canvas(
+          width = purrr::chuck(graphical_options, "width"),
+          height = purrr::chuck(graphical_options, "height") * 0.42,
+          units = purrr::chuck(graphical_options, "units"),
+          dpi = purrr::chuck(graphical_options, "dpi"),
+          bg = purrr::chuck(graphical_options, "bg")
+        ) +
+        ggplot2::geom_vline(
+          xintercept = median_all,
+          colour = "grey50",
+          linetype = "dashed"
+        ) +
+        ggplot2::geom_segment(
+          mapping = ggplot2::aes(
+            x = .data[["minimum_value"]],
+            xend = .data[["maximum_value"]],
+            yend = .data[["rank"]]
+          ),
+          alpha = alpha_ranges
+        ) +
+        ggplot2::geom_point(size = 1.8) +
+        # L is labelled left of and above its point, H right of and below
+        #   it, so that both labels stay inside the panel
+        ggplot2::geom_label(
+          data = data_groups |>
+            dplyr::filter(!base::is.na(.data[["label"]])) |>
+            dplyr::mutate(
+              hjust_label = dplyr::if_else(.data[["label"]] == "L", 1.4, -0.4),
+              vjust_label = dplyr::if_else(.data[["label"]] == "L", -0.1, 1.1)
+            ),
+          mapping = ggplot2::aes(
+            label = .data[["label"]],
+            hjust = .data[["hjust_label"]],
+            vjust = .data[["vjust_label"]]
+          ),
+          size = 4,
+          show.legend = FALSE
+        )
+
+      file_figure <-
+        base::file.path(
+          path_figures,
+          stringr::str_glue(
+            "case_{stringr::str_pad(sel_case, width = 2, pad = '0')}.png"
+          )
+        )
+
+      ggview::save_ggplot(
+        plot = plot_case,
+        file = file_figure
+      )
+
+      data_extremes <-
+        data_groups |>
+        dplyr::filter(!base::is.na(.data[["label"]])) |>
+        dplyr::arrange(.data[["label"]] == "H") |>
+        dplyr::mutate(
+          source = dplyr::if_else(
+            .data[["label"]] == "L",
+            dplyr::pull(data_evidence, "low_source"),
+            dplyr::pull(data_evidence, "high_source")
+          ),
+          gap = dplyr::if_else(
+            .data[["label"]] == "L",
+            dplyr::pull(data_evidence, "low_gap_to_next"),
+            dplyr::pull(data_evidence, "high_gap_to_next")
+          )
+        )
+
+      table_extremes <-
+        data_extremes |>
+        dplyr::mutate(
+          source_shown = stringr::str_trunc(
+            dplyr::coalesce(.data[["source"]], "(no source named)"),
+            width = 36
+          ),
+          trait_name_shown = stringr::str_trunc(
+            .data[["trait_name"]],
+            width = 36
+          ),
+          median_shown = base::format(
+            base::signif(.data[["median_value"]], 3),
+            big.mark = ",",
+            scientific = FALSE,
+            drop0trailing = TRUE,
+            trim = TRUE
+          ),
+          gap_shown = stringr::str_c(
+            "x",
+            base::format(
+              base::round(.data[["gap"]], 1),
+              nsmall = 1,
+              trim = TRUE
+            )
+          )
+        ) |>
+        dplyr::select(
+          " " = "label",
+          "Dataset id" = "dataset_id",
+          "Source" = "source_shown",
+          "Trait name" = "trait_name_shown",
+          "Original unit" = "original_unit",
+          "Records" = "n_records",
+          "Median" = "median_shown",
+          "Gap to next dataset" = "gap_shown"
+        ) |>
+        knitr::kable(format = "pipe", align = "llllcrrr")
+
+      vec_rules <-
+        data_case_records |>
+        dplyr::filter(
+          .data[["dataset_id"]] %in% dplyr::pull(data_extremes, "dataset_id")
+        ) |>
+        dplyr::pull("conversion_rule_key") |>
+        base::unique()
+
+      text_rules <-
+        data_rule_check |>
+        dplyr::filter(.data[["conversion_rule_key"]] %in% vec_rules) |>
+        dplyr::mutate(
+          ratio_shown = base::format(
+            base::round(.data[["ratio_median"]], 2),
+            nsmall = 2
+          ),
+          text = stringr::str_glue(
+            "`{conversion_rule_key}` (from {normalized_original_unit}): ",
+            "median ratio {ratio_shown} to other conversions over ",
+            "{n_shared_taxa} shared taxa"
+          )
+        ) |>
+        dplyr::pull("text") |>
+        stringr::str_c(collapse = "; ")
+
+      text_rules_line <-
+        if (
+          base::length(text_rules) == 1L && base::nzchar(text_rules)
+        ) {
+          stringr::str_c("Unit rules of L and H: ", text_rules, ".")
+        } else {
+          stringr::str_c(
+            "L and H come through the same unit rule, so the conversion ",
+            "cannot explain the factor."
+          )
+        }
+
+      n_records_proposed <-
+        data_extremes |>
+        dplyr::filter(.data[["label"]] == sel_dataset_label) |>
+        dplyr::pull("n_records")
+
+      text_proposal <-
+        if (
+          sel_action == "keep"
+        ) {
+          "Keep all values."
+        } else {
+          base::as.character(
+            stringr::str_glue(
+              "Exclude dataset {sel_dataset_label} ",
+              "({n_records_proposed} ",
+              "{base::ifelse(n_records_proposed == 1, 'record', 'records')})."
+            )
+          )
+        }
+
+      median_all_shown <-
+        base::format(
+          base::signif(median_all, 3),
+          big.mark = ",",
+          scientific = FALSE,
+          drop0trailing = TRUE,
+          trim = TRUE
+        )
+
+      ratio_shown <-
+        base::format(
+          base::round(dplyr::pull(data_evidence, "ratio_high_to_low"), 1),
+          nsmall = 1
+        )
+
+      base::cat(
+        stringr::str_glue(
+          "## Case {sel_case}: {sel_taxon}, {sel_domain}\n\n",
+          "![]({file_figure}){{width=100%}}\n\n",
+          "{label_count(base::nrow(data_groups))} datasets with ",
+          "{label_count(base::nrow(data_case_records))} values; ",
+          "median of all values {median_all_shown} {sel_unit}; ",
+          "H is {ratio_shown} times L.\n\n",
+          .trim = FALSE
+        )
+      )
+
+      # Pandoc reads a pipe table only between blank lines
+      base::cat("\n\n")
+
+      base::cat(table_extremes, sep = "\n")
+
+      base::cat("\n\n")
+
+      base::cat(
+        stringr::str_glue(
+          "\n\n{text_rules_line}\n\n",
+          "**Proposed decision: {text_proposal}** ",
+          "Confidence: {dplyr::pull(data_proposal, 'confidence')}.\n\n",
+          "Reason: {dplyr::pull(data_proposal, 'rationale')}\n\n",
+          "*Response sheet row {sel_case}.*\n\n",
+          "\\newpage\n\n",
+          .trim = FALSE
+        )
+      )
+    }
+  )
+```

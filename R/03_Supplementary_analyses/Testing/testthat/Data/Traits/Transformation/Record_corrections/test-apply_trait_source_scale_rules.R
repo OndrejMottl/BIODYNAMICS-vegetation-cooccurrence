@@ -47,6 +47,113 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "source scaling leaves records without a data source unchanged",
+  {
+    data_records <-
+      tibble::tibble(
+        dataset_id = base::c(1L, 2L),
+        sample_id = base::c(11L, 12L),
+        trait_id = base::c(21L, 22L),
+        taxon_id = base::c(31L, 32L),
+        taxon_name = base::c("A", "B"),
+        data_source_id = base::c(294L, NA_integer_),
+        trait_domain_name = "Leaf Area",
+        trait_name = "leaf area",
+        trait_value = base::c(1, 2)
+      )
+    data_rules <-
+      tibble::tibble(
+        source_scale_rule_id = "rule-294",
+        data_source_id = 294L,
+        trait_domain_name = "Leaf Area",
+        trait_name = "",
+        scale_factor = 100,
+        review_status = "approved"
+      )
+
+    list_result <-
+      apply_trait_source_scale_rules(
+        data_trait_records = data_records,
+        data_trait_source_scale_rules = data_rules
+      )
+
+    testthat::expect_equal(
+      dplyr::pull(
+        list_result[["data_trait_records_source_scaled"]],
+        trait_value
+      ),
+      base::c(100, 2)
+    )
+    testthat::expect_equal(
+      base::nrow(list_result[["data_source_scale_record_audit"]]),
+      1L
+    )
+  }
+)
+
+testthat::test_that(
+  "source scaling without approved rules returns typed empty audits",
+  {
+    data_records <-
+      tibble::tibble(
+        dataset_id = base::c(1L, 2L),
+        sample_id = base::c(11L, 12L),
+        trait_id = base::c(21L, 22L),
+        taxon_id = base::c(31L, 32L),
+        taxon_name = base::c("A", "B"),
+        data_source_id = base::c(294L, NA_integer_),
+        trait_domain_name = "Leaf Area",
+        trait_name = "leaf area",
+        trait_value = base::c(1, 2)
+      )
+    data_rules <-
+      tibble::tibble(
+        source_scale_rule_id = "rule-294",
+        data_source_id = 294L,
+        trait_domain_name = "Leaf Area",
+        trait_name = "",
+        scale_factor = 100,
+        review_status = "approved"
+      )
+
+    list_reference <-
+      apply_trait_source_scale_rules(
+        data_trait_records = data_records,
+        data_trait_source_scale_rules = data_rules
+      )
+    list_no_rules <-
+      apply_trait_source_scale_rules(
+        data_trait_records = data_records,
+        data_trait_source_scale_rules = data_rules[0L, ]
+      )
+    list_unapproved <-
+      apply_trait_source_scale_rules(
+        data_trait_records = data_records,
+        data_trait_source_scale_rules = data_rules |>
+          dplyr::mutate(review_status = "proposed")
+      )
+
+    purrr::walk(
+      .x = base::list(list_no_rules, list_unapproved),
+      .f = ~ {
+        testthat::expect_identical(
+          .x[["data_trait_records_source_scaled"]],
+          data_records
+        )
+        testthat::expect_identical(
+          .x[["data_source_scale_rule_audit"]],
+          list_reference[["data_source_scale_rule_audit"]][0L, ]
+        )
+        testthat::expect_identical(
+          .x[["data_source_scale_record_audit"]],
+          list_reference[["data_source_scale_record_audit"]][0L, ]
+        )
+      }
+    )
+  }
+)
+
+testthat::test_that(
   "source scaling rejects non-unique record identifiers",
   {
     data_records <-

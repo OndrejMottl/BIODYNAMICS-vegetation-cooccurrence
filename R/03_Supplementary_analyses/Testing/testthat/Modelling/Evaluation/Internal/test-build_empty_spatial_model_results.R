@@ -37,8 +37,10 @@ testthat::test_that(
         "source_tier",
         "candidate_id",
         "final_model_built_at",
-        "variance_partition_built_at"
+        "variance_partition_built_at",
+        "vegvault_version"
       )
     )
+    testthat::expect_type(data_result[["vegvault_version"]], "character")
   }
 )

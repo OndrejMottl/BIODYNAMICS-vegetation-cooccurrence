@@ -65,6 +65,7 @@ pipe_segment_vegvault_extract <-
             expr = {
               build_vegvault_plan(
                 path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+                data_vegvault_release = config_vegvault_release,
                 x_lim = sel_x_lim,
                 y_lim = sel_y_lim,
                 age_lim = sel_age_lim,

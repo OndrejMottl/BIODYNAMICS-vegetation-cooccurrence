@@ -38,8 +38,12 @@ Value:
      A tibble with one row per time slice found in the store metadata
      and columns `timeslice_id`, `age`, `cv_strategy`,
      `regularization_source`, `candidate_id`, `final_model_built_at`,
-     and `variance_partition_built_at`. Values are `NA` when a slice
-     has no successful provenance, final model, or partition target.
+     `variance_partition_built_at`, and `vegvault_version`. Values are
+     `NA` when a slice has no successful provenance, final model, or
+     partition target. `vegvault_version` is the VegVault release of
+     the whole store, read with [load_store_vegvault_version()]; it is
+     `NA` for stores built before the `config_vegvault_release` target
+     existed.
 
 See Also:
 

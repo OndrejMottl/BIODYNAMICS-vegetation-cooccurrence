@@ -78,6 +78,10 @@ candidate, and the build times of the final model
 variance partition ('variance_partition_built_at', from
 'list_jsdm_variance_partition_&lt;resolution&gt;'), taken from the store
 metadata. Build times are 'NA' when the metadata has no 'time' field.
+'vegvault_version' is the VegVault release the store was built from, read
+from its 'config_vegvault_release' target with
+[load_store_vegvault_version()]; it is 'NA' for stores built before that
+target existed.
 </p>
 
 </main>

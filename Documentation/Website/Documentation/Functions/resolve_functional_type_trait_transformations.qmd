@@ -50,8 +50,11 @@ variant. Supported values are &quot;all_six&quot;, &quot;without_lma&quot;,
 <h3>Details</h3>
 
 <p>The primary analysis uses all six traits. Sensitivity variants remove
-provisional-unit traits individually or together, or remove stem specific
-density to test sensitivity to its source uncertainty.
+leaf mass per area and leaf nitrogen content per unit mass individually
+or together, or remove stem specific density. The variants were set up
+while the units of these traits were provisional in VegVault 1.0.0;
+VegVault 2.0.0 standardises or derives all six at the source, and
+whether the variants still run is a separate analysis decision.
 </p>
 
 

@@ -42,7 +42,8 @@
       variance_partition_built_at = base::as.POSIXct(
         base::character(),
         tz = "UTC"
-      )
+      ),
+      vegvault_version = base::character()
     )
 
   return(res)

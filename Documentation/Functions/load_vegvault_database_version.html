@@ -1,0 +1,119 @@
+<!DOCTYPE html><html><head><title>R: Load the VegVault Database Version Record</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>load_vegvault_database_version</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Load the VegVault Database Version Record</h2>
+
+<h3>Description</h3>
+
+<p>Reads the current release record from the 'version_control' table of a
+VegVault SQLite file, opened read-only, and stops with an error unless
+its version equals the configured VegVault version.
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>load_vegvault_database_version(
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  vegvault_version
+)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<td>
+<p>A character string with the path to the VegVault SQLite database
+(default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+<tr><td><code id="vegvault_version">vegvault_version</code></td>
+<td>
+<p>A single non-empty character string, the VegVault version the project
+is configured for ('vegvault_data.vegvault_version' in 'config.yml'),
+for example '&quot;2.0.0&quot;'.</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The current release is the row with the highest 'id' among the rows
+that have a version, as in 'vaultkeepr::open_vault()'. The id decides,
+not the text order of the version, in which '&quot;2.10.0&quot;' comes before
+'&quot;2.9.0&quot;'.
+</p>
+<p>Unlike vaultkeepr, which reads such a file as VegVault 1.0.0, a file
+without a 'version_control' table or without any version row stops
+with an error: the release record is provenance and must come from the
+file itself.
+</p>
+<p>A version that differs from 'vegvault_version' stops with an error of
+class 'biodynamics_vegvault_version_mismatch'.
+</p>
+<p>The connection is opened with 'RSQLite::SQLITE_RO', so the file is
+never written. The record holds no path and no time stamp, so it is the
+same in every checkout of the same file. An always-cued target built
+from it changes only when the database release changes.
+</p>
+
+
+<h3>Value</h3>
+
+<p>A one-row tibble with three character columns:
+</p>
+
+<ul>
+<li><p> 'vegvault_version': the version of the current release, equal
+to 'vegvault_version'.
+</p>
+</li>
+<li><p> 'git_commit': the VegVault commit the file was built from.
+</p>
+</li>
+<li><p> 'manifest_sha256': the SHA-256 of the build manifest.
+</p>
+</li></ul>
+
+<p>'git_commit' and 'manifest_sha256' are 'NA' when the table has no such
+column (VegVault before 2.0.0) or no value in the current row.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[build_vegvault_plan()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+load_vegvault_database_version(
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  vegvault_version = "2.0.0"
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>

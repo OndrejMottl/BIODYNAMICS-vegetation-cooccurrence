@@ -1,0 +1,28 @@
+sel_name,readings,confidence,rationale,kingdom,phylum,class,order,family,genus,species
+Cf Ulmus Sp,Ulmus,high,"'Cf' entries go to their genus, as in the auxiliary table.",Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,Ulmus,NA
+Cf Betula Nana-Type,Betula,high,'Cf' entry of a pollen type; pollen types stay at the genus.,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,Betula,NA
+Cf Fagus,Fagus,high,'Cf' entries go to their genus.,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,Fagus,NA
+Cf Berberis,Berberis,high,'Cf' entries go to their genus.,Plantae,Tracheophyta,Magnoliopsida,Ranunculales,Berberidaceae,Berberis,NA
+Cf Salix,Salix,high,'Cf' entries go to their genus.,Plantae,Tracheophyta,Magnoliopsida,Malpighiales,Salicaceae,Salix,NA
+Ostrya Carpinus Orientalis-Type,Ostrya|Carpinus,high,Combined type missing from the VegVault list (the list has 'Ostrya Carpinus Orientalis'); lookup placed it at Ostrya.,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,NA,NA
+Gphalium uliginosum,Gnaphalium uliginosum,high,Source 304 drops 'na' from names (Gna-phalium).,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Gnaphalium,Gnaphalium uliginosum
+Tacetum vulgare,Tanacetum vulgare,high,Source 304 drops 'na' from names (Tana-cetum).,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Tanacetum,Tanacetum vulgare
+Verbe hastata,Verbena hastata,high,Source 304 drops 'na' from names (Verbe-na).,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Verbenaceae,Verbena,Verbena hastata
+Aphalis margaritaceae,Anaphalis margaritacea,high,Source 304 drops 'na' from names (Ana-phalis).,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Anaphalis,Anaphalis margaritacea
+Liria vulgaris,Linaria vulgaris,high,Source 304 drops 'na' from names (Lina-ria).,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Plantaginaceae,Linaria,Linaria vulgaris
+Hippochoeris radicata,Hypochaeris radicata,high,Variant spelling of Hypochaeris.,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,Hypochaeris,Hypochaeris radicata
+Hipparhenia hirta,Hyparrhenia hirta,high,Misspelling of Hyparrhenia.,Plantae,Tracheophyta,Liliopsida,Poales,Poaceae,Hyparrhenia,Hyparrhenia hirta
+Chamae fasiculata,Chamaecrista fasciculata,high,Truncated genus; the same source also writes 'Chamaechristae fasiculata'.,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Chamaecrista,Chamaecrista fasciculata
+Chamaechristae fasiculata,Chamaecrista fasciculata,high,Misspelling of Chamaecrista fasciculata.,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Chamaecrista,Chamaecrista fasciculata
+Desmanthus illinoi,Desmanthus illinoensis,high,Truncated epithet of Desmanthus illinoensis.,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,Desmanthus,Desmanthus illinoensis
+Composite sp,Asteraceae,high,Compositae is the old name of Asteraceae.,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,NA,NA
+Moss,none,high,"Not a vascular plant; no ranks, like 'Algae'.",NA,NA,NA,NA,NA,NA,NA
+Desmanthus ciliare,Desmanthus|Desmodium ciliare,medium,No Desmanthus ciliare is known; Desmodium ciliare is a prairie species. Both are Fabaceae.,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA
+Prunella tenuifolium,Prunella|Pycnanthemum tenuifolium,medium,No Prunella tenuifolium is known; Pycnanthemum tenuifolium is a prairie species. Both are Lamiaceae.,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Lamiaceae,NA,NA
+Chrysopsis sagatalis,Chrysopsis|Heterotheca|Pityopsis,medium,Epithet unknown; Chrysopsis in older North American usage also covers Heterotheca and Pityopsis. All are Asteraceae.,Plantae,Tracheophyta,Magnoliopsida,Asterales,Asteraceae,NA,NA
+Buchnera plantaginea,Buchnera,medium,Epithet unknown; the genus Buchnera exists (Buchnera americana).,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Orobanchaceae,Buchnera,NA
+Sumac sp,Rhus,medium,Common name; prairie sumacs are Rhus.,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Anacardiaceae,Rhus,NA
+Eupatorum corollata,Eupatorium|Euphorbia corollata,low,"The genus reads Eupatorium, the epithet belongs to Euphorbia corollata; the two share no family.",NA,NA,NA,NA,NA,NA,NA
+Setaria laciniatum,Setaria|Silphium laciniatum,low,"The genus reads Setaria, the epithet belongs to Silphium laciniatum; the two share no family.",NA,NA,NA,NA,NA,NA,NA
+Chamae camphorum,none,low,No evident reading (Chamaecrista? Heterotheca camporum?); left without ranks.,NA,NA,NA,NA,NA,NA,NA
+Erce sp,none,low,No evident reading; left without ranks.,NA,NA,NA,NA,NA,NA,NA

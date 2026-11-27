@@ -74,8 +74,8 @@ if (
 # 2. Load accepted temporal results -----
 #----------------------------------------------------------#
 
-# Regularisation provenance and build times per slice, so published rows
-#   show which fit and partition they come from.
+# Regularisation provenance, build times and VegVault release per slice, so
+#   published rows show which fit, partition and database they come from.
 data_temporal_provenance <-
   data_temporal_stores |>
   purrr::pmap(
@@ -89,7 +89,8 @@ data_temporal_provenance <-
           "regularization_source",
           "candidate_id",
           "final_model_built_at",
-          "variance_partition_built_at"
+          "variance_partition_built_at",
+          "vegvault_version"
         )
     }
   ) |>
@@ -178,7 +179,8 @@ data_temporal_unit <-
     "regularization_source",
     "candidate_id",
     "final_model_built_at",
-    "variance_partition_built_at"
+    "variance_partition_built_at",
+    "vegvault_version"
   ) |>
   dplyr::arrange(
     .data$continent_id,

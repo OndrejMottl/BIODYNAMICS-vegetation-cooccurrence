@@ -2800,6 +2800,11 @@
       "Maintainer": "Tyson Barrett <t.barrett88@gmail.com>",
       "Repository": "CRAN"
     },
+    "dbplyr": {
+      "Package": "dbplyr",
+      "Version": "2.6.0",
+      "Source": "Repository"
+    },
     "deldir": {
       "Package": "deldir",
       "Version": "2.0-4",
@@ -3219,7 +3224,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "Parsing and Evaluation Tools that Provide More Details than the Default",
-      "Authors@R": "c( person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\")), person(\"Yihui\", \"Xie\", role = \"aut\", comment = c(ORCID = \"0000-0003-0645-5666\")), person(\"Michael\", \"Lawrence\", role = \"ctb\"), person(\"Thomas\", \"Kluyver\", role = \"ctb\"), person(\"Jeroen\", \"Ooms\", role = \"ctb\"), person(\"Barret\", \"Schloerke\", role = \"ctb\"), person(\"Adam\", \"Ryczkowski\", role = \"ctb\"), person(\"Hiroaki\", \"Yutani\", role = \"ctb\"), person(\"Michel\", \"Lang\", role = \"ctb\"), person(\"Karolis\", \"KonceviÄius\", role = \"ctb\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
+      "Authors@R": "c( person(\"Hadley\", \"Wickham\", , \"hadley@posit.co\", role = c(\"aut\", \"cre\")), person(\"Yihui\", \"Xie\", role = \"aut\", comment = c(ORCID = \"0000-0003-0645-5666\")), person(\"Michael\", \"Lawrence\", role = \"ctb\"), person(\"Thomas\", \"Kluyver\", role = \"ctb\"), person(\"Jeroen\", \"Ooms\", role = \"ctb\"), person(\"Barret\", \"Schloerke\", role = \"ctb\"), person(\"Adam\", \"Ryczkowski\", role = \"ctb\"), person(\"Hiroaki\", \"Yutani\", role = \"ctb\"), person(\"Michel\", \"Lang\", role = \"ctb\"), person(\"Karolis\", \"KonceviÄ\u008dius\", role = \"ctb\"), person(\"Posit Software, PBC\", role = c(\"cph\", \"fnd\")) )",
       "Description": "Parsing and evaluation tools that make it easy to recreate the command line behaviour of R.",
       "License": "MIT + file LICENSE",
       "URL": "https://evaluate.r-lib.org/, https://github.com/r-lib/evaluate",
@@ -3245,7 +3250,7 @@
       "Encoding": "UTF-8",
       "RoxygenNote": "7.3.2",
       "NeedsCompilation": "no",
-      "Author": "Hadley Wickham [aut, cre], Yihui Xie [aut] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Michael Lawrence [ctb], Thomas Kluyver [ctb], Jeroen Ooms [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb], Hiroaki Yutani [ctb], Michel Lang [ctb], Karolis KonceviÄius [ctb], Posit Software, PBC [cph, fnd]",
+      "Author": "Hadley Wickham [aut, cre], Yihui Xie [aut] (ORCID: <https://orcid.org/0000-0003-0645-5666>), Michael Lawrence [ctb], Thomas Kluyver [ctb], Jeroen Ooms [ctb], Barret Schloerke [ctb], Adam Ryczkowski [ctb], Hiroaki Yutani [ctb], Michel Lang [ctb], Karolis KonceviÄ\u008dius [ctb], Posit Software, PBC [cph, fnd]",
       "Maintainer": "Hadley Wickham <hadley@posit.co>",
       "Repository": "https://packagemanager.posit.co/cran/latest"
     },
@@ -10747,51 +10752,14 @@
     },
     "vaultkeepr": {
       "Package": "vaultkeepr",
-      "Version": "0.1.0",
+      "Version": "0.2.0",
       "Source": "GitHub",
-      "Title": "Providing the Interface to Access the VegVault Database",
-      "Authors@R": "person(\"Ondrej\", \"Mottl\", , \"ondrej.mottl@gmail.com\", role = c(\"aut\", \"cre\"), comment = c(ORCID = \"0000-0002-9796-5081\"))",
-      "Maintainer": "Ondrej Mottl <ondrej.mottl@gmail.com>",
-      "Description": "An R package for extracting and analyzing data from the VegVault database.",
-      "License": "MIT + file LICENSE",
-      "URL": "https://github.com/OndrejMottl/vaultkeepr",
-      "Imports": [
-        "cli",
-        "DBI",
-        "lifecycle",
-        "magrittr",
-        "purrr",
-        "rlang",
-        "RSQLite",
-        "stringr",
-        "tibble"
-      ],
-      "Suggests": [
-        "dbplyr",
-        "dplyr",
-        "geosphere",
-        "ggplot2",
-        "knitr",
-        "rmarkdown",
-        "scales",
-        "testthat (>= 3.0.0)",
-        "tidyr"
-      ],
-      "VignetteBuilder": "knitr",
-      "Config/testthat/edition": "3",
-      "Config/testthat/start-first": "open_vault, explore_vault, get_datasets, get_readable_column_names, pack_data, extract_data, get_common_dataset_type, select_dataset_by_type, select_dataset_by_geo, get_samples, get_age_uncertainty, select_samples_by_age, classify_taxa, get_taxa, get_classification_table, select_taxa_by_name, get_taxon_names, select_taxa_by_id, get_abiotic_data, select_abiotic_var_by_id, select_abiotic_var_by_name, get_traits, select_traits_by_domain_name",
-      "Encoding": "UTF-8",
-      "Language": "en-GB",
-      "Roxygen": "list(markdown = TRUE)",
-      "RoxygenNote": "7.3.3",
-      "Author": "Ondrej Mottl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9796-5081>)",
       "RemoteType": "github",
       "RemoteHost": "api.github.com",
+      "RemoteUsername": "OndrejMottl",
       "RemoteRepo": "vaultkeepr",
-      "RemoteUsername": "ondrejmottl",
-      "RemotePkgRef": "ondrejmottl/vaultkeepr",
-      "RemoteRef": "HEAD",
-      "RemoteSha": "edf90b6d6e39bb6b35ab1f122d5741bc34f5568e"
+      "RemoteRef": "v0.2.0",
+      "RemoteSha": "cb215cfb5dff810dc60ed962d1c000d384123cef"
     },
     "vctrs": {
       "Package": "vctrs",

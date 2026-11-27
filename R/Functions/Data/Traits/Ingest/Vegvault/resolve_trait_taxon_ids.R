@@ -13,7 +13,9 @@
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
 #' @return
 #' A tibble with `taxon_name`, all source identifiers, and the trait
-#' fields. The original `taxon_id` is retained for auditability.
+#' fields, including the unit columns `trait_unit`, `conversion_rule_key`,
+#' and `derivation_rule_key` when present. The original `taxon_id` is
+#' retained for auditability.
 #' @details
 #' Opens a fresh database connection, loads the `Taxa` table, filters
 #' it to only the IDs present in `data_trait_records`, performs a left
@@ -51,8 +53,9 @@ resolve_trait_taxon_ids <- function(
 
   connection_vegvault <-
     DBI::dbConnect(
-      RSQLite::SQLite(),
-      path_vegvault
+      drv = RSQLite::SQLite(),
+      dbname = path_vegvault,
+      flags = RSQLite::SQLITE_RO
     )
 
   base::on.exit(
@@ -86,7 +89,10 @@ resolve_trait_taxon_ids <- function(
           "taxon_id",
           "trait_domain_name",
           "trait_name",
-          "trait_value"
+          "trait_value",
+          "trait_unit",
+          "conversion_rule_key",
+          "derivation_rule_key"
         )
       )
     )

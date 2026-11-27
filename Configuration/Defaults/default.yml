@@ -19,6 +19,11 @@ default:
     europe: 3035
     america: "+proj=aeqd +lat_0=50 +lon_0=-95 +datum=WGS84 +units=m +no_defs"
     asia: "+proj=aeqd +lat_0=62.5 +lon_0=100 +datum=WGS84 +units=m +no_defs"
+  # The VegVault release that Data/Input/VegVault.sqlite must hold. The
+  #   config_vegvault_release target stops when the file reports another
+  #   version, so a database swap cannot pass unnoticed.
+  vegvault_data:
+    vegvault_version: "2.0.0"
   data_processing:
     time_step: 500
     number_of_taxa: !expr Inf

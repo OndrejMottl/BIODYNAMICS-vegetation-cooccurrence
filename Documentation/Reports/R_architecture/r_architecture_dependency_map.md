@@ -25,7 +25,7 @@ flowchart TD
 
 | Classification | Active inventory rows |
 |---|---:|
-| diagnostic | 19 |
+| diagnostic | 20 |
 | issue_reproduction | 6 |
 | main_analysis | 37 |
 | one_time | 4 |
@@ -34,8 +34,8 @@ flowchart TD
 | reference | 14 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 47 |
-| test | 475 |
+| supplementary_or_processing | 54 |
+| test | 484 |
 
 ## Function capabilities
 
@@ -46,9 +46,9 @@ flowchart TD
 | Data/Samples | 7 |
 | Data/Spatial | 6 |
 | Data/Time | 12 |
-| Data/Traits | 53 |
+| Data/Traits | 58 |
 | Data_access/Files | 1 |
-| Data_access/Vegvault | 5 |
+| Data_access/Vegvault | 7 |
 | Modelling/Cross_validation | 143 |
 | Modelling/Decomposition | 19 |
 | Modelling/Evaluation | 17 |
@@ -59,7 +59,7 @@ flowchart TD
 | Pipeline/Configuration | 16 |
 | Pipeline/Definitions | 5 |
 | Pipeline/Orchestration | 9 |
-| Pipeline/Stores | 13 |
+| Pipeline/Stores | 14 |
 | Prediction/Climate | 1 |
 | Prediction/Grids | 1 |
 | Prediction/Inference | 2 |
@@ -92,6 +92,7 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_community_prepare_paleo.R` | Data/Time | 3 |
 | `R/Pipelines/_pipes/pipe_segment_community_prepare_paleo.R` | Data_access/Vegvault | 2 |
 | `R/Pipelines/_pipes/pipe_segment_config_common.R` | Data/Spatial | 1 |
+| `R/Pipelines/_pipes/pipe_segment_config_common.R` | Data_access/Vegvault | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_common.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_common.R` | Pipeline/Stores | 1 |
 | `R/Pipelines/_pipes/pipe_segment_config_model.R` | Modelling/Cross_validation | 1 |
@@ -132,9 +133,11 @@ flowchart TD
 | `R/Pipelines/_pipes/pipe_segment_traits_classification.R` | Data/Community | 7 |
 | `R/Pipelines/_pipes/pipe_segment_traits_extract.R` | Data/Spatial | 1 |
 | `R/Pipelines/_pipes/pipe_segment_traits_extract.R` | Data/Traits | 2 |
+| `R/Pipelines/_pipes/pipe_segment_traits_extract.R` | Data_access/Vegvault | 1 |
+| `R/Pipelines/_pipes/pipe_segment_traits_extract.R` | Pipeline/Configuration | 1 |
 | `R/Pipelines/_pipes/pipe_segment_traits_ft_clustering.R` | Data/Traits | 6 |
 | `R/Pipelines/_pipes/pipe_segment_traits_ft_clustering.R` | Pipeline/Configuration | 1 |
-| `R/Pipelines/_pipes/pipe_segment_traits_qc.R` | Data/Traits | 11 |
+| `R/Pipelines/_pipes/pipe_segment_traits_qc.R` | Data/Traits | 14 |
 | `R/Pipelines/_pipes/pipe_segment_traits_qc_classified.R` | Data/Traits | 6 |
 | `R/Pipelines/_pipes/pipe_segment_traits_table.R` | Data/Traits | 4 |
 | `R/Pipelines/_pipes/pipe_segment_vegvault_extract.R` | Data/Samples | 1 |
@@ -178,7 +181,7 @@ flowchart TD
 
 | Contract type | Scope | Contracts |
 |---|---|---:|
-| literal_target | persisted_internal | 401 |
+| literal_target | persisted_internal | 407 |
 | literal_target | public_or_frozen_cv_review | 72 |
 
 ## Architecture exceptions

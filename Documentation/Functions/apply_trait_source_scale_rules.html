@@ -39,11 +39,13 @@ trait value with its stable VegVault identifiers.
 <table role = "presentation">
 <tr><td><code id="data_trait_records">data_trait_records</code></td>
 <td>
-<p>Untouched trait records containing source and record identifiers.</p>
+<p>Untouched trait records containing source and record identifiers.
+Records without a data source ('NA') match no rule.</p>
 </td></tr>
 <tr><td><code id="data_trait_source_scale_rules">data_trait_source_scale_rules</code></td>
 <td>
-<p>Validated source-scale rules.</p>
+<p>Validated source-scale rules. Rules that are not 'approved' are ignored,
+and the rule set may have no rows.</p>
 </td></tr>
 </table>
 
@@ -51,6 +53,15 @@ trait value with its stable VegVault identifiers.
 <h3>Value</h3>
 
 <p>A named list with source-scaled records and rule- and record-level audits.
+Without approved rules, the records are returned unchanged and both audits
+have no rows but the same columns and types as when rules apply.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[validate_trait_source_scale_rules()],
+[save_trait_source_scale_report()]
 </p>
 
 </main>

@@ -45,8 +45,8 @@ pipe_segment_traits_qc_classified <-
         data_trait_records = data_traits_classified |>
           dplyr::select(-"taxon_name") |>
           dplyr::rename(taxon_name = "taxon_resolved"),
-        path_trait_corrections = here::here(
-          "Data/Input/Trait_corrections/",
+        path_trait_corrections = base::file.path(
+          dir_trait_corrections,
           "trait_review_decisions_classified.csv"
         ),
         path_trait_quality_control_report = here::here(
@@ -94,8 +94,8 @@ pipe_segment_traits_qc_classified <-
     targets::tar_target(
       description = "Track classified trait review decisions",
       name = file_trait_review_decisions_classified,
-      command = here::here(
-        "Data/Input/Trait_corrections/",
+      command = base::file.path(
+        dir_trait_corrections,
         "trait_review_decisions_classified.csv"
       ),
       format = "file"

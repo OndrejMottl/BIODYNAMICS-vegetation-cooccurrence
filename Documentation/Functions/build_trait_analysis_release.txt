@@ -1,15 +1,16 @@
-Build Interim Trait Analysis Release
+Build Trait Analysis Release
 
 Description:
 
-     Freezes corrected VegVault 1.0.0 records behind an explicit
-     six-domain analysis contract and records domain-level evidence
-     status.
+     Freezes corrected VegVault trait records behind an explicit
+     six-domain analysis contract and records the reviewed unit and
+     evidence status of each domain.
 
 Usage:
 
      build_trait_analysis_release(
        data_trait_records,
+       data_trait_domain_units,
        vegvault_version,
        release_id,
        release_date
@@ -17,27 +18,41 @@ Usage:
 
 Arguments:
 
-data_trait_records: Corrected classified trait records.
+data_trait_records: Corrected classified trait records with
+          `trait_domain_name`, `trait_unit`, and a numeric
+          `trait_value`.
 
-vegvault_version: Character scalar VegVault version.
+data_trait_domain_units: The validated trait-domain unit table of the
+          release, as returned by [validate_trait_domain_units()].
 
-release_id: Character scalar stable interim release identifier.
+vegvault_version: Character scalar VegVault version of the release (the
+          `vegvault_version` of the `config_vegvault_release` target).
 
-release_date: Character scalar release date in ISO format.
+release_id: Character scalar stable release identifier. It must start
+          with `vegvault_` and the version with underscores, for
+          example `vegvault_2_0_0_reviewed_2026_12_01`.
+
+release_date: Character scalar release date in ISO format
+          (`YYYY-MM-DD`).
 
 Details:
 
-     Leaf mass per area and leaf nitrogen content per unit mass remain
-     available in the primary six-trait analysis but are marked as
-     provisional because their original source units have not been
-     fully reconstructed. A different VegVault version fails closed so
-     a future corrected release must explicitly replace this
-     compatibility contract.
+     The release stops with an error when the unit table belongs to
+     another VegVault release, when `release_id` names another release,
+     when the records or the unit table do not hold exactly the six
+     supported domains, or when a record's unit differs from the unit
+     of its domain. The domain statuses come from the reviewed unit
+     table, not from this function.
 
 Value:
 
-     A list containing unchanged data_trait_records and a
-     data_trait_domain_status tibble.
+     A list containing the unchanged `data_trait_records` and a
+     `data_trait_domain_status` tibble: the unit table with
+     `release_id` and `release_date` in front, one row per domain.
+
+See Also:
+
+     [validate_trait_domain_units()], [load_trait_domain_units()]
 
 Examples:
 
@@ -45,8 +60,9 @@ Examples:
 
      build_trait_analysis_release(
        data_trait_records = data_traits_classified_corrected,
-       vegvault_version = "1.0.0",
-       release_id = "vegvault_1_0_0_interim_2026_08_31",
-       release_date = "2026-08-31"
+       data_trait_domain_units = data_trait_domain_units_validated,
+       vegvault_version = "2.0.0",
+       release_id = "vegvault_2_0_0_reviewed_2026_12_01",
+       release_date = "2026-12-01"
      )
      ## End(Not run)

@@ -12,9 +12,12 @@
 #' @return
 #' A tibble with one row per time slice found in the store metadata and
 #' columns `timeslice_id`, `age`, `cv_strategy`, `regularization_source`,
-#' `candidate_id`, `final_model_built_at`, and `variance_partition_built_at`.
+#' `candidate_id`, `final_model_built_at`, `variance_partition_built_at`, and
+#' `vegvault_version`.
 #' Values are `NA` when a slice has no successful provenance, final model, or
-#' partition target.
+#' partition target. `vegvault_version` is the VegVault release of the whole
+#' store, read with [load_store_vegvault_version()]; it is `NA` for stores
+#' built before the `config_vegvault_release` target existed.
 #' @details
 #' Slices are taken from the `data_sample_ids_timeslice_<age>` targets.
 #' Provenance comes from `data_sjsdm_cv_model_provenance_timeslice_<age>`;
@@ -58,6 +61,13 @@ load_paleo_temporal_slice_provenance <- function(
     data_meta[["name"]] |>
     stringr::str_subset("^data_sample_ids_timeslice_[0-9]+$") |>
     stringr::str_remove("^data_sample_ids_")
+
+  sel_vegvault_version <-
+    load_store_vegvault_version(
+      store_path = store_path,
+      data_meta = data_meta,
+      read_target_fn = read_target_fn
+    )
 
   res <-
     vec_timeslice_ids |>
@@ -124,7 +134,8 @@ load_paleo_temporal_slice_provenance <- function(
             vec_provenance_values[["regularization_source"]],
           candidate_id = vec_provenance_values[["candidate_id"]],
           final_model_built_at = vec_target_times[[1L]],
-          variance_partition_built_at = vec_target_times[[2L]]
+          variance_partition_built_at = vec_target_times[[2L]],
+          vegvault_version = sel_vegvault_version
         )
       }
     ) |>
@@ -148,7 +159,8 @@ load_paleo_temporal_slice_provenance <- function(
         variance_partition_built_at = base::as.POSIXct(
           base::character(),
           tz = "UTC"
-        )
+        ),
+        vegvault_version = base::character()
       )
   }
 

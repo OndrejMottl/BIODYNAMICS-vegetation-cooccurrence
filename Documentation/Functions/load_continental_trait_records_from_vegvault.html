@@ -32,6 +32,7 @@ taxon IDs to taxon names. Optionally prints progress messages.
   data_continental_unit,
   vec_trait_domain_names,
   path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  data_vegvault_release,
   verbose = TRUE
 )
 </code></pre>
@@ -56,6 +57,13 @@ and 'y_max'.</p>
 <p>A single character string giving the path to the VegVault
 SQLite database
 (default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+<tr><td><code id="data_vegvault_release">data_vegvault_release</code></td>
+<td>
+<p>A one-row data frame with the VegVault release record the pipeline
+built from the same file (the 'config_vegvault_release' target), as
+returned by [load_vegvault_database_version()]. It is passed to
+[load_trait_records_from_vegvault()], which checks it before any query.</p>
 </td></tr>
 <tr><td><code id="verbose">verbose</code></td>
 <td>

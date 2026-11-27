@@ -374,7 +374,7 @@
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_taxa_classification.html</loc>
-    <lastmod>2026-11-11T10:18:41.898Z</lastmod>
+    <lastmod>2026-11-27T09:32:21.606Z</lastmod>
   </url>
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_targets_target_by_fingerprint.html</loc>
@@ -1715,5 +1715,37 @@
   <url>
     <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/validate_model_table_provenance.html</loc>
     <lastmod>2026-11-16T15:53:21.555Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_vegvault_database_version.html</loc>
+    <lastmod>2026-11-26T11:25:28.144Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/validate_vegvault_release.html</loc>
+    <lastmod>2026-11-26T12:59:53.824Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_store_vegvault_version.html</loc>
+    <lastmod>2026-11-26T13:00:00.758Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/load_trait_domain_units.html</loc>
+    <lastmod>2026-11-26T20:03:07.693Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/resolve_trait_correction_directory.html</loc>
+    <lastmod>2026-11-26T20:03:07.726Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/validate_trait_domain_units.html</loc>
+    <lastmod>2026-11-26T20:03:08.357Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/classify_trait_source_rule_retirement.html</loc>
+    <lastmod>2026-11-27T09:32:21.631Z</lastmod>
+  </url>
+  <url>
+    <loc>https://ondrejmottl.github.io/BIODYNAMICS-vegetation-cooccurrence/Documentation/Website/Documentation/Functions/select_trait_review_proposals.html</loc>
+    <lastmod>2026-11-27T09:32:21.650Z</lastmod>
   </url>
 </urlset>

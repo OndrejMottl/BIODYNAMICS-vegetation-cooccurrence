@@ -1,43 +1,50 @@
 #' @title Save Trait Source Scale Report
 #' @description
 #' Writes a durable Markdown audit and source-domain-taxon count table for
-#' interim VegVault source scaling, including the provisional TRY LMA warning.
-#' @param data_trait_records_raw
-#' Untouched extracted trait records.
-#' @param data_trait_records_source_scaled
-#' Records after approved source scaling.
+#' the approved VegVault source-scaling rules of one VegVault release.
 #' @param data_trait_source_scale_rule_audit
 #' Rule-level audit from [apply_trait_source_scale_rules()].
 #' @param data_trait_source_scale_record_audit
 #' Record-level audit from [apply_trait_source_scale_rules()].
 #' @param data_trait_review_application_audit
 #' Review-layer application audit with `n_source_satisfied`.
-#' @param path_vegvault
-#' Character scalar path to the VegVault SQLite database.
+#' @param vegvault_version
+#' A single character string with the VegVault release the rules belong to
+#' (the `vegvault_version` of the `config_vegvault_release` target).
 #' @param path_report
 #' Output path for the Markdown report.
 #' @param path_taxon_counts
 #' Output path for the source-domain-taxon count CSV.
 #' @return
 #' Character vector containing both written paths.
+#' @details
+#' When no approved rule applies, the rule-level audit has no rows and the
+#' report states that the release has no approved source-scale rules. The
+#' count table is then written with its header only.
+#' @seealso [apply_trait_source_scale_rules()],
+#'   [validate_trait_source_scale_rules()]
 #' @export
 save_trait_source_scale_report <- function(
-    data_trait_records_raw,
-    data_trait_records_source_scaled,
     data_trait_source_scale_rule_audit,
     data_trait_source_scale_record_audit,
     data_trait_review_application_audit,
-    path_vegvault,
+    vegvault_version,
     path_report,
     path_taxon_counts) {
   assertthat::assert_that(
-    base::is.data.frame(data_trait_records_raw),
-    base::is.data.frame(data_trait_records_source_scaled),
     base::is.data.frame(data_trait_source_scale_rule_audit),
     base::is.data.frame(data_trait_source_scale_record_audit),
     base::is.data.frame(data_trait_review_application_audit),
-    base::file.exists(path_vegvault),
-    msg = "Source-scale report inputs are invalid."
+    msg = "Source-scale report inputs must be data frames."
+  )
+  assertthat::assert_that(
+    base::is.character(vegvault_version) &&
+      base::length(vegvault_version) == 1L &&
+      !base::is.na(vegvault_version),
+    msg = stringr::str_c(
+      "'vegvault_version' must be a single non-missing character ",
+      "string."
+    )
   )
   base::dir.create(
     base::dirname(path_report),
@@ -48,39 +55,6 @@ save_trait_source_scale_report <- function(
     base::dirname(path_taxon_counts),
     recursive = TRUE,
     showWarnings = FALSE
-  )
-
-  connection_vegvault <-
-    DBI::dbConnect(RSQLite::SQLite(), path_vegvault)
-  base::on.exit(
-    DBI::dbDisconnect(connection_vegvault),
-    add = TRUE
-  )
-  vec_try_source_ids <-
-    DBI::dbGetQuery(
-      connection_vegvault,
-      paste0(
-        "SELECT DISTINCT data_source_id FROM Datasets ",
-        "WHERE data_source_type_id = 4"
-      )
-    )[["data_source_id"]]
-  raw_is_try_lma <-
-    data_trait_records_raw[["data_source_id"]] %in%
-      vec_try_source_ids &
-    data_trait_records_raw[["trait_domain_name"]] ==
-      "Leaf mass per area"
-  scaled_is_try_lma <-
-    data_trait_records_source_scaled[["data_source_id"]] %in%
-      vec_try_source_ids &
-    data_trait_records_source_scaled[["trait_domain_name"]] ==
-      "Leaf mass per area"
-  vec_raw_try_lma <-
-    data_trait_records_raw[["trait_value"]][raw_is_try_lma]
-  vec_scaled_try_lma <-
-    data_trait_records_source_scaled[["trait_value"]][scaled_is_try_lma]
-  assertthat::assert_that(
-    base::identical(vec_raw_try_lma, vec_scaled_try_lma),
-    msg = "TRY-derived Leaf mass per area changed during source scaling."
   )
 
   data_taxon_counts <-
@@ -115,22 +89,39 @@ save_trait_source_scale_report <- function(
     n_residual_review_scaled <- NA_integer_
     n_uniquely_scaled <- NA_integer_
   }
-  rule_table <-
-    data_trait_source_scale_rule_audit |>
-    dplyr::select(
-      "data_source_id",
-      "trait_domain_name",
-      "scale_factor",
-      "n_scaled",
-      "value_min_before",
-      "value_max_before",
-      "value_min_after",
-      "value_max_after"
-    ) |>
-    knitr::kable(format = "pipe")
+
+  flag_has_rules <-
+    base::nrow(data_trait_source_scale_rule_audit) > 0L
+
+  if (
+    flag_has_rules
+  ) {
+    vec_rule_lines <-
+      data_trait_source_scale_rule_audit |>
+      dplyr::select(
+        "data_source_id",
+        "trait_domain_name",
+        "scale_factor",
+        "n_scaled",
+        "value_min_before",
+        "value_max_before",
+        "value_min_after",
+        "value_max_after"
+      ) |>
+      knitr::kable(format = "pipe") |>
+      base::as.character()
+  } else {
+    vec_rule_lines <-
+      stringr::str_glue(
+        "No approved source-scale rules for VegVault {vegvault_version}."
+      )
+  }
+
   vec_report_lines <-
     base::c(
-      "# Interim VegVault source-scaling report",
+      stringr::str_glue(
+        "# VegVault {vegvault_version} source-scaling report"
+      ),
       "",
       "## Status",
       "",
@@ -156,23 +147,12 @@ save_trait_source_scale_report <- function(
           "uniquely scaled records overall."
         )
       } else {
-        character()
+        base::character()
       },
       "",
       "## Approved source rules",
       "",
-      rule_table,
-      "",
-      "## Provisional Leaf mass per area warning",
-      "",
-      stringr::str_glue(
-        "**PROVISIONAL:** All ",
-        "{scales::comma(base::length(vec_raw_try_lma), accuracy = 1)} ",
-        "TRY-derived ",
-        "Leaf mass per area records remain unchanged because their original ",
-        "units have not been reconstructed. They remain available only as ",
-        "an interim input pending the corrected VegVault release."
-      ),
+      vec_rule_lines,
       "",
       "## Detailed counts",
       "",
@@ -181,12 +161,12 @@ save_trait_source_scale_report <- function(
         "`{base::basename(path_taxon_counts)}`."
       ),
       "",
-      "## Retirement guard",
+      "## Release guard",
       "",
-      stringr::str_c(
-        "These compatibility rules are version-bound. A VegVault release ",
-        "other than 1.0.0 must fail validation until the rules are ",
-        "explicitly removed or replaced."
+      stringr::str_glue(
+        "These rules apply to VegVault {vegvault_version} only. Another ",
+        "release stops the pipeline until a rule set for that release ",
+        "exists."
       )
     )
   readr::write_lines(vec_report_lines, path_report)

@@ -3,11 +3,15 @@
 #' Loads functional trait records from the VegVault SQLite database for
 #' specified trait domains. Optional geographic filtering limits records
 #' to datasets within the specified longitude/latitude bounding box.
-#' Taxon names are returned as-is (`classify_to = NULL`) for downstream
-#' manual classification.
+#' Taxon names are returned as-is (`classify_to = "original"`) for
+#' downstream manual classification.
 #' @param path_vegvault
 #' A character string specifying the path to the VegVault SQLite database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
+#' @param data_vegvault_release
+#' A one-row data frame with the VegVault release record the pipeline
+#' built from the same file (the `config_vegvault_release` target), as
+#' returned by [load_vegvault_database_version()].
 #' @param vec_trait_domain_names
 #' A character vector specifying the trait domain names to load
 #' (e.g. `c("Specific leaf area (SLA)", "Plant height vegetative")`).
@@ -25,29 +29,40 @@
 #' A flat data frame containing loaded trait records with columns
 #' including `dataset_id`, `dataset_name`, `data_source_id`, `sample_id`,
 #' `trait_id`, `taxon_id`, `trait_domain_name`, `trait_name`, and
-#' `trait_value`.
+#' `trait_value`. `data_source_id` is `NA` for records of datasets without
+#' a data source.
 #' @details
 #' The function performs the following steps:
 #'
 #'   1. Validates input parameters.
-#'   2. Checks the presence of the VegVault SQLite database.
+#'   2. Checks the presence of the VegVault SQLite database, and with
+#'      [validate_vegvault_release()] that it holds the release in
+#'      `data_vegvault_release`.
 #'   3. Builds the vaultkeepr query plan (lazy SQL). If geographic limits
 #'      are supplied, datasets are filtered to the bounding box using
 #'      `vaultkeepr::select_dataset_by_geo()` before sample retrieval.
 #'      If vaultkeepr raises an error during plan assembly (e.g. no data
 #'      for the given domain names), the error is caught and re-thrown
 #'      via `cli::cli_abort()` with the original message preserved.
-#'   4. Retrieves trait values using `classify_to = NULL` to preserve raw
-#'      taxon names for downstream manual classification via the same
+#'   4. Retrieves trait values using `classify_to = "original"` to preserve
+#'      raw taxon names for downstream manual classification via the same
 #'      taxospace + auxiliary-table pipeline used for community data.
 #'   5. Returns the loaded data, including source identifiers, as a flat
 #'      data frame.
-#' @seealso [extract_data_from_vegvault()]
+#'
+#' The data source of each record comes from a direct read-only query of
+#' `Datasets`. The function stops when a record's dataset is not in
+#' `Datasets` or when a dataset appears twice. A dataset without a data
+#' source is kept, with `data_source_id` `NA`: in VegVault 2.0.0 these are
+#' BIEN trait records that name no provider, which 1.0.0 linked to a data
+#' source with an empty description.
+#' @seealso [extract_data_from_vegvault()], [validate_vegvault_release()]
 #' @export
 load_trait_records_from_vegvault <- function(
     path_vegvault = here::here(
       "Data/Input/VegVault.sqlite"
     ),
+    data_vegvault_release,
     vec_trait_domain_names = NULL,
     vec_longitude_limits = NULL,
     vec_latitude_limits = NULL) {
@@ -98,14 +113,21 @@ load_trait_records_from_vegvault <- function(
     )
   }
 
+  validate_vegvault_release(
+    path_to_vegvault = path_vegvault,
+    data_vegvault_release = data_vegvault_release
+  )
+
   result_trait_query <-
     tryCatch(
       expr = {
-        # Build trait query — traits are species-level properties.
-        # classify_to = NULL preserves raw taxon names for downstream
-        # manual classification via the same taxospace pipeline used
-        # for community data. An optional geo-filter restricts datasets
-        # to the continental bounding box containing the project area.
+        # Build trait query - traits are species-level properties.
+        # classify_to = "original" keeps the raw taxon names for downstream
+        # manual classification via the same taxospace pipeline used for
+        # community data. vaultkeepr 0.2.0 reads NULL the same way; naming
+        # the value keeps the choice visible. An optional geo-filter
+        # restricts datasets to the continental bounding box containing the
+        # project area.
         query_trait_data <-
           vaultkeepr::open_vault(
             path = path_vegvault
@@ -133,7 +155,7 @@ load_trait_records_from_vegvault <- function(
         query_trait_data |>
           vaultkeepr::get_samples() |>
           vaultkeepr::get_traits(
-            classify_to = NULL,
+            classify_to = "original",
             verbose = FALSE
           ) |>
           vaultkeepr::select_traits_by_domain_name(
@@ -166,7 +188,11 @@ load_trait_records_from_vegvault <- function(
     )
 
   connection_vegvault <-
-    DBI::dbConnect(RSQLite::SQLite(), path_vegvault)
+    DBI::dbConnect(
+      drv = RSQLite::SQLite(),
+      dbname = path_vegvault,
+      flags = RSQLite::SQLITE_RO
+    )
   base::on.exit(
     DBI::dbDisconnect(connection_vegvault),
     add = TRUE
@@ -183,21 +209,43 @@ load_trait_records_from_vegvault <- function(
     !base::anyDuplicated(data_dataset_sources[["dataset_id"]]),
     msg = "Each VegVault dataset must map to exactly one data source."
   )
+
+  vec_dataset_ids_unknown <-
+    data_trait_records[["dataset_id"]] |>
+    base::unique() |>
+    base::setdiff(data_dataset_sources[["dataset_id"]])
+
+  if (
+    base::length(vec_dataset_ids_unknown) > 0L
+  ) {
+    cli::cli_abort(
+      c(
+        "Every trait record must belong to a VegVault dataset.",
+        "x" = stringr::str_c(
+          "{base::length(vec_dataset_ids_unknown)} dataset id{?s} ",
+          "not found in {.field Datasets}."
+        )
+      )
+    )
+  }
+
   n_records_before_join <- base::nrow(data_trait_records)
-  data_trait_records <-
+
+  # A dataset may have no data source, so data_source_id may be NA: in
+  #   VegVault 2.0.0, BIEN trait records that name no provider have none
+  #   (1.0.0 gave them a data source with an empty description)
+  data_trait_records_with_source <-
     data_trait_records |>
     dplyr::select(-dplyr::any_of("data_source_id")) |>
     dplyr::left_join(
       data_dataset_sources,
       by = dplyr::join_by(dataset_id)
     )
+
   assertthat::assert_that(
-    base::nrow(data_trait_records) == n_records_before_join,
-    !base::any(base::is.na(data_trait_records[["data_source_id"]])),
-    msg = paste0(
-      "Dataset-to-source resolution must not multiply or lose records."
-    )
+    base::nrow(data_trait_records_with_source) == n_records_before_join,
+    msg = "Dataset-to-source resolution must not multiply records."
   )
 
-  return(data_trait_records)
+  return(data_trait_records_with_source)
 }

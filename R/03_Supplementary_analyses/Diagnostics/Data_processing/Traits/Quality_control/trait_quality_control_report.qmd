@@ -44,10 +44,15 @@ trait_domain_filter <- params$trait_domain_filter
 graphical_options <-
   load_active_config_value("graphical")
 
-# Path to the manual corrections file.
+# Path to the raw review decisions of the configured VegVault release.
 path_trait_corrections <-
-  here::here(
-    "Data/Input/Trait_corrections/trait_review_decisions_raw.csv"
+  base::file.path(
+    resolve_trait_correction_directory(
+      vegvault_version = load_active_config_value(
+        value = base::c("vegvault_data", "vegvault_version")
+      )
+    ),
+    "trait_review_decisions_raw.csv"
   )
 
 # Target store for the traits pipeline.

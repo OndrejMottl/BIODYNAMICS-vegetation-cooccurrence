@@ -87,6 +87,60 @@ testthat::test_that(
   }
 )
 
+testthat::test_that(
+  "filter_complete_trait_records() keeps the unit and rule columns",
+  {
+    data_raw_with_units <-
+      make_valid_raw() |>
+      dplyr::mutate(
+        trait_unit = base::c("mm2 mg-1", "mm2 mg-1", "mm2 mg-1", "m"),
+        conversion_rule_key = base::c(
+          "bien_sla",
+          "bien_sla",
+          "bien_sla",
+          "bien_height"
+        ),
+        derivation_rule_key = NA_character_,
+        trait_unit_conversion_id = base::c(6L, 6L, 6L, 2L)
+      )
+
+    res <-
+      filter_complete_trait_records(
+        data_trait_records_raw = data_raw_with_units
+      )
+
+    testthat::expect_named(
+      res,
+      base::c(
+        "dataset_id",
+        "dataset_name",
+        "data_source_id",
+        "sample_id",
+        "trait_id",
+        "taxon_id",
+        "trait_domain_name",
+        "trait_name",
+        "trait_value",
+        "trait_unit",
+        "conversion_rule_key",
+        "derivation_rule_key"
+      )
+    )
+    testthat::expect_equal(
+      dplyr::pull(res, trait_unit),
+      base::c("mm2 mg-1", "m")
+    )
+    testthat::expect_equal(
+      dplyr::pull(res, conversion_rule_key),
+      base::c("bien_sla", "bien_height")
+    )
+    testthat::expect_equal(
+      dplyr::pull(res, derivation_rule_key),
+      base::c(NA_character_, NA_character_)
+    )
+  }
+)
+
 # ── NA filtering ──────────────────────────────────────────────────────── #
 
 testthat::test_that(

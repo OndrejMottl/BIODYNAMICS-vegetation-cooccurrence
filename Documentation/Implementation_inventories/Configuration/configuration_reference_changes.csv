@@ -27,3 +27,6 @@ issue204_continent_asia,project_paleo_temporal_asia,continent_id,#204,Selects th
 issue204_continent_issue138_asia,project_paleo_temporal_issue138_asia_staged,continent_id,#204,Inherited from project_paleo_temporal_asia.
 issue204_crs_by_continent,*,spatial_crs_by_continent,#204,Per-continent projection of spatial-predictor coordinates.
 issue204_continent_cz_modern,project_cz_modern,continent_id,#204,The Czech smoke store is not a grid unit; its projection needs the continent.
+vegvault_version_block,*,vegvault_data,#180,New default block holding the required VegVault release.
+vegvault_version_key,*,vegvault_data.vegvault_version,#180,Release that Data/Input/VegVault.sqlite must hold; read by the config_vegvault_release target.
+vegvault_version_order,*,[order],#180,The new default vegvault_data block moves the top-level key order.

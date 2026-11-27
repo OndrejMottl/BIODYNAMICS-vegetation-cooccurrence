@@ -8,9 +8,11 @@
 #                         2026
 #
 #----------------------------------------------------------#
-# Applies version-guarded source scaling, builds the raw-stage review queue,
-# enforces complete human approval, applies residual exact selectors, and
-# exposes source- and decision-level audits.
+# Resolves the trait-correction folder of the VegVault release, checks one
+# approved unit per trait domain, applies version-guarded source scaling,
+# builds the raw-stage review queue, enforces complete human approval,
+# applies residual exact selectors, and exposes source- and decision-level
+# audits.
 
 
 #----------------------------------------------------------#
@@ -39,11 +41,56 @@ suppressMessages(
 
 pipe_segment_traits_qc <-
   list(
+    # The reviewed correction files of each VegVault release live in their
+    #   own folder; another release stops here until its folder exists
+    targets::tar_target(
+      description = "Resolve the trait-correction folder of the release",
+      name = dir_trait_corrections,
+      command = resolve_trait_correction_directory(
+        vegvault_version = purrr::chuck(
+          config_vegvault_release,
+          "vegvault_version"
+        ),
+        dir_trait_corrections = here::here(
+          "Data/Input/Trait_corrections"
+        )
+      )
+    ),
+
+    targets::tar_target(
+      description = "Track the reviewed trait-domain unit table",
+      name = file_trait_domain_units,
+      command = base::file.path(
+        dir_trait_corrections,
+        "trait_domain_units.csv"
+      ),
+      format = "file"
+    ),
+
+    targets::tar_target(
+      description = "Load the reviewed trait-domain unit table",
+      name = data_trait_domain_units,
+      command = load_trait_domain_units(
+        path_trait_domain_units = file_trait_domain_units
+      )
+    ),
+
+    targets::tar_target(
+      description = "GUARD: one approved unit per trait domain",
+      name = data_trait_domain_units_validated,
+      command = validate_trait_domain_units(
+        data_trait_domain_units = data_trait_domain_units,
+        data_trait_records = data_traits_raw,
+        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        data_vegvault_release = config_vegvault_release
+      )
+    ),
+
     targets::tar_target(
       description = "Track approved VegVault source-scale rules",
       name = file_trait_source_scale_rules,
-      command = here::here(
-        "Data/Input/Trait_corrections/",
+      command = base::file.path(
+        dir_trait_corrections,
         "trait_source_scale_rules.csv"
       ),
       format = "file"
@@ -65,7 +112,8 @@ pipe_segment_traits_qc <-
         data_trait_source_scale_rules =
           data_trait_source_scale_rules,
         data_trait_records = data_traits_raw,
-        path_vegvault = here::here("Data/Input/VegVault.sqlite")
+        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        data_vegvault_release = config_vegvault_release
       )
     ),
 
@@ -111,8 +159,8 @@ pipe_segment_traits_qc <-
       name = list_trait_quality_control_report,
       command = write_trait_quality_control_report(
         data_trait_records = data_traits_source_scaled,
-        path_trait_corrections = here::here(
-          "Data/Input/Trait_corrections/",
+        path_trait_corrections = base::file.path(
+          dir_trait_corrections,
           "trait_review_decisions_raw.csv"
         ),
         path_trait_quality_control_report = here::here(
@@ -180,8 +228,8 @@ pipe_segment_traits_qc <-
     targets::tar_target(
       description = "Track raw trait review decisions",
       name = file_trait_review_decisions_raw,
-      command = here::here(
-        "Data/Input/Trait_corrections/",
+      command = base::file.path(
+        dir_trait_corrections,
         "trait_review_decisions_raw.csv"
       ),
       format = "file"
@@ -244,16 +292,16 @@ pipe_segment_traits_qc <-
       description = "Write the durable source-scaling audit report",
       name = files_trait_source_scale_report,
       command = save_trait_source_scale_report(
-        data_trait_records_raw = data_traits_raw,
-        data_trait_records_source_scaled =
-          data_traits_source_scaled,
         data_trait_source_scale_rule_audit =
           data_trait_source_scale_rule_audit,
         data_trait_source_scale_record_audit =
           data_trait_source_scale_record_audit,
         data_trait_review_application_audit =
           data_trait_review_application_audit_raw,
-        path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        vegvault_version = purrr::chuck(
+          config_vegvault_release,
+          "vegvault_version"
+        ),
         path_report = here::here(
           "Outputs/Reports/Trait_corrections/raw/",
           "trait_source_scale_report.md"

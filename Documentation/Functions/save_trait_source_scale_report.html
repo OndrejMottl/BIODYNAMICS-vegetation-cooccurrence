@@ -21,19 +21,17 @@ function processMathHTML() {
 <h3>Description</h3>
 
 <p>Writes a durable Markdown audit and source-domain-taxon count table for
-interim VegVault source scaling, including the provisional TRY LMA warning.
+the approved VegVault source-scaling rules of one VegVault release.
 </p>
 
 
 <h3>Usage</h3>
 
 <pre><code class='language-R'>save_trait_source_scale_report(
-  data_trait_records_raw,
-  data_trait_records_source_scaled,
   data_trait_source_scale_rule_audit,
   data_trait_source_scale_record_audit,
   data_trait_review_application_audit,
-  path_vegvault,
+  vegvault_version,
   path_report,
   path_taxon_counts
 )
@@ -43,14 +41,6 @@ interim VegVault source scaling, including the provisional TRY LMA warning.
 <h3>Arguments</h3>
 
 <table role = "presentation">
-<tr><td><code id="data_trait_records_raw">data_trait_records_raw</code></td>
-<td>
-<p>Untouched extracted trait records.</p>
-</td></tr>
-<tr><td><code id="data_trait_records_source_scaled">data_trait_records_source_scaled</code></td>
-<td>
-<p>Records after approved source scaling.</p>
-</td></tr>
 <tr><td><code id="data_trait_source_scale_rule_audit">data_trait_source_scale_rule_audit</code></td>
 <td>
 <p>Rule-level audit from [apply_trait_source_scale_rules()].</p>
@@ -63,9 +53,10 @@ interim VegVault source scaling, including the provisional TRY LMA warning.
 <td>
 <p>Review-layer application audit with 'n_source_satisfied'.</p>
 </td></tr>
-<tr><td><code id="path_vegvault">path_vegvault</code></td>
+<tr><td><code id="vegvault_version">vegvault_version</code></td>
 <td>
-<p>Character scalar path to the VegVault SQLite database.</p>
+<p>A single character string with the VegVault release the rules belong to
+(the 'vegvault_version' of the 'config_vegvault_release' target).</p>
 </td></tr>
 <tr><td><code id="path_report">path_report</code></td>
 <td>
@@ -78,9 +69,24 @@ interim VegVault source scaling, including the provisional TRY LMA warning.
 </table>
 
 
+<h3>Details</h3>
+
+<p>When no approved rule applies, the rule-level audit has no rows and the
+report states that the release has no approved source-scale rules. The
+count table is then written with its header only.
+</p>
+
+
 <h3>Value</h3>
 
 <p>Character vector containing both written paths.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[apply_trait_source_scale_rules()],
+[validate_trait_source_scale_rules()]
 </p>
 
 </main>

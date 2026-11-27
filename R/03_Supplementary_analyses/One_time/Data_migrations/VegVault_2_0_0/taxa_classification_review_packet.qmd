@@ -1,0 +1,218 @@
+---
+title: "Taxon classification: names to check"
+subtitle: "VegVault 2.0.0, combined pollen types and unclassified names"
+date: 2026/11/27
+date-format: long
+format:
+  pdf:
+    documentclass: article
+    geometry: "a4paper,landscape,margin=1.5cm"
+    fontsize: 10pt
+    toc: false
+execute:
+  echo: false
+  output: true
+  message: false
+  warning: false
+  error: false
+---
+
+```{r}
+#| label: setup
+#| output: false
+
+library(here)
+
+here::i_am(
+  base::file.path(
+    "R/03_Supplementary_analyses/One_time/Data_migrations/VegVault_2_0_0",
+    "taxa_classification_review_packet.qmd"
+  )
+)
+
+suppressMessages(
+  suppressWarnings(
+    source(
+      here::here("R/___setup_project___.R")
+    )
+  )
+)
+
+label_count <-
+  scales::label_comma()
+
+data_sheet <-
+  readr::read_csv(
+    file = here::here(
+      "Outputs/Reports/Taxa_classification",
+      "taxa_classification_review_response_sheet.csv"
+    ),
+    col_types = readr::cols(
+      case = readr::col_integer(),
+      n_samples = readr::col_integer(),
+      .default = readr::col_character()
+    ),
+    na = ""
+  )
+
+vec_groups <-
+  base::unique(dplyr::pull(data_sheet, "group"))
+
+n_names <-
+  base::nrow(data_sheet)
+
+n_combined <-
+  data_sheet |>
+  dplyr::filter(
+    stringr::str_detect(.data[["group"]], "^Combined")
+  ) |>
+  base::nrow()
+
+n_unclassified <-
+  n_names - n_combined
+
+# Pandoc sets the relative column widths from the number of dashes in the
+#   separator line of a pipe table, so the line is written here
+#   (Case, Name, Data, Samples, Now, Proposed, Reasoning)
+line_table_separator <-
+  stringr::str_c(
+    "|",
+    stringr::str_c(
+      base::c(
+        stringr::str_c(base::strrep("-", 4L), ":"),
+        stringr::str_c(":", base::strrep("-", 20L)),
+        stringr::str_c(":", base::strrep("-", 14L)),
+        stringr::str_c(base::strrep("-", 8L), ":"),
+        stringr::str_c(":", base::strrep("-", 13L)),
+        stringr::str_c(":", base::strrep("-", 30L)),
+        stringr::str_c(":", base::strrep("-", 44L))
+      ),
+      collapse = "|"
+    ),
+    "|"
+  )
+```
+
+## What this review is about
+
+The project groups the plant taxa of fossil pollen records and of plant trait records by their classification: species, genus, family and the ranks above.
+Most names are classified automatically, by looking them up in a taxonomic name service.
+For names that the lookup cannot classify, or classifies in a way that does not fit the project, the project keeps a table of manual classifications.
+
+This packet lists `r n_names` names proposed for that table:
+
+- `r n_combined` combined pollen types, that is pollen types that cover more than one genus or family, such as "Betula Carpinus";
+- `r n_unclassified` names that the lookup could not classify, most of them misspelt trait names or pollen names qualified with "Cf".
+
+Please check whether each proposed classification is right.
+
+## How the classifications were proposed
+
+- A name is placed at the lowest rank that is certain. A pollen type that covers several genera of one family goes to that family, with the genus left empty.
+- A combined type whose parts belong to different families goes to the lowest rank the parts share, for example an order or the class Magnoliopsida.
+- A "Cf" ("compare with") entry goes to its genus.
+- A misspelt name goes to the taxon it most likely means. When two readings are possible, it goes to the lowest rank both readings share.
+- A name with no plausible reading, or whose readings share no family, gets no rank. Such a name is left out of the analyses.
+
+## How to read the tables
+
+The names are in four groups, from the least to the most certain.
+Each group starts on a new page.
+
+1. **Uncertain readings**: names whose meaning is not clear, with a confidence of low or medium.
+2. **Combined types across families**: combined pollen types whose parts belong to different families.
+3. **Combined types within one family**: combined pollen types placed at the family that VegVault 2.0.0 gives them.
+4. **Secure readings**: names whose meaning is clear, with a confidence of high.
+
+The columns are:
+
+- **Case**: the row number in the response sheet.
+- **Name**: the name as it appears in VegVault.
+- **Data**: the kind of record (fossil pollen or traits) and the continents.
+- **Samples**: the number of VegVault samples with a value for the name in the project's data.
+- **Now**: the rank and taxon the automatic lookup gives today, from the genus up, or "unclassified".
+- **Proposed**: the proposed rank and taxon, with the ranks above it (class > order > family > genus).
+- **Reasoning**: why this classification is proposed, with the confidence where one was given.
+
+## What to check
+
+- Is the proposed taxon right for the name, and is its rank the lowest one that is certain?
+- For combined types: do all parts belong to the proposed family, or share the proposed rank?
+- For misspelt names: is the reading plausible, or is there a better one?
+
+## The response sheet
+
+The sheet `taxa_classification_review_response_sheet.csv` has one row per name, in the order of this packet, with the proposed classification already filled in.
+For each name, fill in `agree` (yes or no).
+If you do not agree, fill in `reviewer_rank` (species, genus, family, order or class, or none to leave the name out) and `reviewer_taxon` (the taxon at that rank).
+Add a short `reviewer_comment` with your reason or source wherever it helps, in particular when you disagree.
+Leave the other columns as they are.
+
+```{r}
+#| label: tables
+#| results: asis
+
+data_display <-
+  data_sheet |>
+  dplyr::mutate(
+    data = stringr::str_c(
+      .data[["data_type"]], ", ", .data[["continents"]]
+    ),
+    proposed = dplyr::case_when(
+      .data[["proposed_rank"]] == "none" ~ "no rank (left out)",
+      .data[["proposed_lineage"]] == .data[["proposed_taxon"]] ~
+        stringr::str_c(
+          .data[["proposed_rank"]], " ", .data[["proposed_taxon"]]
+        ),
+      .default = stringr::str_c(
+        .data[["proposed_rank"]], " ", .data[["proposed_taxon"]],
+        " (", .data[["proposed_lineage"]], ")"
+      )
+    ),
+    reasoning = dplyr::if_else(
+      base::is.na(.data[["confidence"]]),
+      .data[["reasoning"]],
+      stringr::str_c(
+        "Confidence: ", .data[["confidence"]], ". ",
+        .data[["reasoning"]]
+      )
+    ),
+    samples = label_count(.data[["n_samples"]])
+  ) |>
+  dplyr::select(
+    "group",
+    "Case" = "case",
+    "Name" = "taxon_name",
+    "Data" = "data",
+    "Samples" = "samples",
+    "Now" = "current_taxon",
+    "Proposed" = "proposed",
+    "Reasoning" = "reasoning"
+  )
+
+purrr::walk(
+  .x = base::seq_along(vec_groups),
+  .f = ~ {
+    data_group <-
+      data_display |>
+      dplyr::filter(.data[["group"]] == vec_groups[[.x]]) |>
+      dplyr::select(-"group")
+
+    base::cat("\\newpage\n\n")
+    base::cat(
+      stringr::str_glue(
+        "## {.x}. {vec_groups[[.x]]} ({base::nrow(data_group)} names)",
+        .trim = FALSE
+      ),
+      "\n\n"
+    )
+    vec_table <-
+      knitr::kable(data_group, format = "pipe", align = "rllrlll")
+    vec_table[[2L]] <- line_table_separator
+
+    base::cat("\\small\n\n")
+    base::cat(vec_table, sep = "\n")
+    base::cat("\n\n\\normalsize\n\n")
+  }
+)
+```

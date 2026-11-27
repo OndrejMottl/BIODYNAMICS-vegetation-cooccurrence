@@ -54,6 +54,7 @@ pipe_segment_community_prepare_paleo <-
       # the DBI connection
       command = build_vegvault_plan(
         path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+        data_vegvault_release = config_vegvault_release,
         x_lim = purrr::chuck(config_vegvault_data, "x_lim"),
         y_lim = purrr::chuck(config_vegvault_data, "y_lim"),
         age_lim = purrr::chuck(config_vegvault_data, "age_lim"),

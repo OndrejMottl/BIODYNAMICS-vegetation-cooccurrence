@@ -1,0 +1,75 @@
+Load the VegVault Database Version Record
+
+Description:
+
+     Reads the current release record from the `version_control` table
+     of a VegVault SQLite file, opened read-only, and stops with an
+     error unless its version equals the configured VegVault version.
+
+Usage:
+
+     load_vegvault_database_version(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       vegvault_version
+     )
+
+Arguments:
+
+path_to_vegvault: A character string with the path to the VegVault
+          SQLite database (default:
+          `here::here("Data/Input/VegVault.sqlite")`).
+
+vegvault_version: A single non-empty character string, the VegVault
+          version the project is configured for
+          (`vegvault_data.vegvault_version` in `config.yml`), for
+          example `"2.0.0"`.
+
+Details:
+
+     The current release is the row with the highest `id` among the
+     rows that have a version, as in `vaultkeepr::open_vault()`. The id
+     decides, not the text order of the version, in which `"2.10.0"`
+     comes before `"2.9.0"`.
+
+     Unlike vaultkeepr, which reads such a file as VegVault 1.0.0, a
+     file without a `version_control` table or without any version row
+     stops with an error: the release record is provenance and must
+     come from the file itself.
+
+     A version that differs from `vegvault_version` stops with an error
+     of class `biodynamics_vegvault_version_mismatch`.
+
+     The connection is opened with `RSQLite::SQLITE_RO`, so the file is
+     never written. The record holds no path and no time stamp, so it
+     is the same in every checkout of the same file. An always-cued
+     target built from it changes only when the database release
+     changes.
+
+Value:
+
+     A one-row tibble with three character columns:
+
+        * `vegvault_version`: the version of the current release, equal
+          to `vegvault_version`.
+
+        * `git_commit`: the VegVault commit the file was built from.
+
+        * `manifest_sha256`: the SHA-256 of the build manifest.
+
+     `git_commit` and `manifest_sha256` are `NA` when the table has no
+     such column (VegVault before 2.0.0) or no value in the current
+     row.
+
+See Also:
+
+     [build_vegvault_plan()]
+
+Examples:
+
+     ## Not run:
+
+     load_vegvault_database_version(
+       path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+       vegvault_version = "2.0.0"
+     )
+     ## End(Not run)

@@ -5,6 +5,10 @@
 #' @param path_vegvault
 #' A character string specifying the path to the VegVault SQLite
 #' database (default: `here::here("Data/Input/VegVault.sqlite")`).
+#' @param data_vegvault_release
+#' A one-row data frame with the VegVault release record the pipeline
+#' built from the same file (the `config_vegvault_release` target), as
+#' returned by [load_vegvault_database_version()].
 #' @param verbose
 #' Logical. If `TRUE` (default), progress messages are printed to
 #' the console via `cli`. Set to `FALSE` to suppress all console
@@ -17,8 +21,10 @@
 #'
 #'   1. Validates input parameters.
 #'   2. Checks the presence of the VegVault SQLite database using
-#'      `validate_vegvault_presence()`.
-#'   3. Opens a DBI connection to the SQLite database.
+#'      `validate_vegvault_presence()`, and with
+#'      [validate_vegvault_release()] that it holds the release in
+#'      `data_vegvault_release`.
+#'   3. Opens a read-only DBI connection to the SQLite database.
 #'   4. Queries the `TraitsDomain` table for distinct
 #'      `trait_domain_name` values and collects results.
 #'   5. Closes the database connection.
@@ -26,12 +32,14 @@
 #'   7. Asserts that at least one domain name was found.
 #'   8. Optionally logs the result via `cli::cli_inform()`.
 #'   9. Returns the character vector of domain names.
-#' @seealso [load_trait_records_from_vegvault()]
+#' @seealso [load_trait_records_from_vegvault()],
+#'   [validate_vegvault_release()]
 #' @export
 load_trait_domain_names_from_vegvault <- function(
     path_vegvault = here::here(
       "Data/Input/VegVault.sqlite"
     ),
+    data_vegvault_release,
     verbose = TRUE) {
   assertthat::assert_that(
     base::is.character(path_vegvault) &&
@@ -47,10 +55,16 @@ load_trait_domain_names_from_vegvault <- function(
 
   validate_vegvault_presence(path_vegvault)
 
+  validate_vegvault_release(
+    path_to_vegvault = path_vegvault,
+    data_vegvault_release = data_vegvault_release
+  )
+
   connection_vegvault <-
     DBI::dbConnect(
-      RSQLite::SQLite(),
-      path_vegvault
+      drv = RSQLite::SQLite(),
+      dbname = path_vegvault,
+      flags = RSQLite::SQLITE_RO
     )
   base::on.exit(DBI::dbDisconnect(connection_vegvault), add = TRUE)
 

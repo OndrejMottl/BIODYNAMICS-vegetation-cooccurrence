@@ -1,5 +1,7 @@
 # Trait correction policy reviewer
 
+**Status: VegVault 1.0.0 only, kept as provenance.** The batches below come from the 1.0.0 all-domain policy workflow (`run_trait_review_policy_workflow.R`), which builds on the 1.0.0 review scope and is not part of the 2.0.0 review. For 2.0.0, the automated sorting (`run_trait_review_vegvault_2_0_0_triage.R`) sends the cases it cannot settle directly to the human reviewer, without an agent round; see `Data/Input/Trait_corrections/README.md`. Do not use this prompt for a 2.0.0 review.
+
 Use this prompt to review one bounded batch from the raw-stage all-domain policy queue. Replace `<ROLE>`, `<BATCH_ID>`, and `<RUN_ID>` before running it.
 
 ## Parameters

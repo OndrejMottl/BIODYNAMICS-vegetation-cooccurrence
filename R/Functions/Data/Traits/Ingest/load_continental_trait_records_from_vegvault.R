@@ -14,6 +14,11 @@
 #' A single character string giving the path to the VegVault
 #' SQLite database
 #' (default: `here::here("Data/Input/VegVault.sqlite")`).
+#' @param data_vegvault_release
+#' A one-row data frame with the VegVault release record the pipeline
+#' built from the same file (the `config_vegvault_release` target), as
+#' returned by [load_vegvault_database_version()]. It is passed to
+#' [load_trait_records_from_vegvault()], which checks it before any query.
 #' @param verbose
 #' A single logical value. If `TRUE` (default), progress messages
 #' are printed via `cli::cli_inform()`. Set to `FALSE` to suppress
@@ -43,6 +48,7 @@ load_continental_trait_records_from_vegvault <- function(
     path_vegvault = here::here(
       "Data/Input/VegVault.sqlite"
     ),
+    data_vegvault_release,
     verbose = TRUE) {
   assertthat::assert_that(
     base::is.data.frame(data_continental_unit),
@@ -150,6 +156,7 @@ load_continental_trait_records_from_vegvault <- function(
   data_trait_records_raw <-
     load_trait_records_from_vegvault(
       path_vegvault = path_vegvault,
+      data_vegvault_release = data_vegvault_release,
       vec_trait_domain_names = vec_trait_domain_names,
       vec_longitude_limits = vec_longitude_limits,
       vec_latitude_limits = vec_latitude_limits

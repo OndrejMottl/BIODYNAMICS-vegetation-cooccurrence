@@ -76,6 +76,15 @@ time_step <-
 age_min <- base::min(age_lim)
 age_max <- base::max(age_lim)
 
+# Release record of the VegVault file, as in the pipelines
+data_vegvault_release <-
+  load_vegvault_database_version(
+    path_to_vegvault = path_vegvault,
+    vegvault_version = load_active_config_value(
+      c("vegvault_data", "vegvault_version")
+    )
+  )
+
 
 #----------------------------------------------------------#
 # 2. Build VegVault plan for fossil cores only -----
@@ -105,7 +114,7 @@ plan_cores <-
 #----------------------------------------------------------#
 # 3. Retrieve age uncertainty -----
 #----------------------------------------------------------#
-# get_age_uncertainty() is a companion call on the plan — it is NOT
+# get_age_uncertainty() is a companion call on the plan - it is NOT
 # a pipe step and cannot be chained with |>.
 
 data_age_unc_wide <-
@@ -118,7 +127,7 @@ n_iterations <-
 
 
 
-# Pivot to long format — one row per (sample_name, iteration)
+# Pivot to long format - one row per (sample_name, iteration)
 data_age_unc_long <-
   data_age_unc_wide |>
   tidyr::pivot_longer(
@@ -141,6 +150,7 @@ data_age_unc_long <-
 data_vegvault_extracted <-
   build_vegvault_plan(
     path_to_vegvault = path_vegvault,
+    data_vegvault_release = data_vegvault_release,
     x_lim = x_lim,
     y_lim = y_lim,
     age_lim = age_lim,
@@ -256,7 +266,7 @@ data_community_iter <-
 # 6. Select representative core & taxon -----
 #----------------------------------------------------------#
 
-# Core with the most samples — most data for a clean spaghetti.
+# Core with the most samples - most data for a clean spaghetti.
 sel_dataset_name <-
   data_community_proportions |>
   dplyr::filter(
@@ -327,7 +337,7 @@ data_current_raw_with_age_error <-
   )
 
 #----------------------------------------------------------#
-# 8. Part A — Single-core spaghetti analysis -----
+# 8. Part A - Single-core spaghetti analysis -----
 #----------------------------------------------------------#
 
 
@@ -561,7 +571,7 @@ ggview::save_ggplot(
 )
 
 #----------------------------------------------------------#
-# 9. Part B — All-Czech aggregate analysis -----
+# 9. Part B - All-Czech aggregate analysis -----
 #----------------------------------------------------------#
 
 

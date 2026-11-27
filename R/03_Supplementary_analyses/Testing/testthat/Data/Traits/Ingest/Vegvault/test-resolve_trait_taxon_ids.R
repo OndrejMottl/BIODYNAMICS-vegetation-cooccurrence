@@ -167,6 +167,77 @@ testthat::test_that(
 )
 
 testthat::test_that(
+  "resolve_trait_taxon_ids() keeps the unit and rule columns",
+  {
+    path_vault <-
+      withr::local_tempfile(fileext = ".sqlite")
+
+    connection_vault <-
+      DBI::dbConnect(RSQLite::SQLite(), path_vault)
+
+    DBI::dbWriteTable(
+      connection_vault,
+      "Taxa",
+      tibble::tibble(
+        taxon_id = base::c(1L, 2L, 3L),
+        taxon_name = base::c("Quercus", "Betula", "Pinus")
+      )
+    )
+
+    DBI::dbDisconnect(connection_vault)
+
+    data_traits_with_units <-
+      make_clean_traits() |>
+      dplyr::mutate(
+        trait_unit = base::c("mg/mm2", "mg/mm2", "m"),
+        conversion_rule_key = base::c(
+          "bien_sla",
+          "bien_sla",
+          "bien_height"
+        ),
+        derivation_rule_key = base::c(
+          "sla_to_lma",
+          "sla_to_lma",
+          NA_character_
+        )
+      )
+
+    res <-
+      resolve_trait_taxon_ids(
+        data_trait_records = data_traits_with_units,
+        path_vegvault = path_vault
+      )
+
+    testthat::expect_named(
+      res,
+      base::c(
+        "taxon_name",
+        "dataset_id",
+        "dataset_name",
+        "data_source_id",
+        "sample_id",
+        "trait_id",
+        "taxon_id",
+        "trait_domain_name",
+        "trait_name",
+        "trait_value",
+        "trait_unit",
+        "conversion_rule_key",
+        "derivation_rule_key"
+      )
+    )
+    testthat::expect_equal(
+      dplyr::pull(res, trait_unit),
+      base::c("mg/mm2", "mg/mm2", "m")
+    )
+    testthat::expect_equal(
+      dplyr::pull(res, derivation_rule_key),
+      base::c("sla_to_lma", "sla_to_lma", NA_character_)
+    )
+  }
+)
+
+testthat::test_that(
   "resolve_trait_taxon_ids() returns correct taxon names",
   {
     tmp_db <-

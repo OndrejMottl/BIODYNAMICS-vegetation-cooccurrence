@@ -15,7 +15,8 @@ here::i_am("Documentation/Manuscript/sections/03_methods.qmd")
 data_trait_source_scale_rules_methods <-
   readr::read_csv(
     here::here(
-      "Data/Input/Trait_corrections/trait_source_scale_rules.csv"
+      "Data/Input/Trait_corrections/VegVault_1_0_0/",
+      "trait_source_scale_rules.csv"
     ),
     col_types = readr::cols(
       .default = readr::col_character(),
@@ -28,7 +29,8 @@ data_trait_source_scale_rules_methods <-
 data_trait_review_decisions_raw_methods <-
   readr::read_csv(
     here::here(
-      "Data/Input/Trait_corrections/trait_review_decisions_raw.csv"
+      "Data/Input/Trait_corrections/VegVault_1_0_0/",
+      "trait_review_decisions_raw.csv"
     ),
     col_types = readr::cols(
       .default = readr::col_character()
@@ -40,7 +42,7 @@ data_trait_review_decisions_classified_methods <-
   readr::read_csv(
     here::here(
       paste0(
-        "Data/Input/Trait_corrections/",
+        "Data/Input/Trait_corrections/VegVault_1_0_0/",
         "trait_review_decisions_classified.csv"
       )
     ),

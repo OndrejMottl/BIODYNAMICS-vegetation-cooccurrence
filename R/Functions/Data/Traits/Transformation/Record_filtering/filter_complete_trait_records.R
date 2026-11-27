@@ -10,7 +10,9 @@
 #' A tibble retaining `dataset_id`, `dataset_name`, `data_source_id`,
 #' `sample_id`,
 #' `trait_id`, `taxon_id`, and the trait fields when present, with
-#' incomplete taxon identifiers and non-finite values removed.
+#' incomplete taxon identifiers and non-finite values removed. The trait
+#' fields include the VegVault 2.0.0 unit columns `trait_unit`,
+#' `conversion_rule_key`, and `derivation_rule_key`.
 #' @details
 #' Uses [dplyr::any_of()] for column selection so the function
 #' tolerates input data frames that already lack one of the optional
@@ -37,7 +39,10 @@ filter_complete_trait_records <- function(data_trait_records_raw) {
           "taxon_id",
           "trait_domain_name",
           "trait_name",
-          "trait_value"
+          "trait_value",
+          "trait_unit",
+          "conversion_rule_key",
+          "derivation_rule_key"
         )
       )
     ) |>

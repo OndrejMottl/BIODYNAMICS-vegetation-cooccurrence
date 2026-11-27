@@ -1,0 +1,61 @@
+Validate Trait Domain Units
+
+Description:
+
+     Fails closed unless the reviewed trait-domain unit table is
+     approved, belongs to the VegVault release and build the pipeline
+     reads, matches the units of `TraitsDomain` exactly, and every
+     trait record has the unit of its domain and a VegVault unit rule.
+
+Usage:
+
+     validate_trait_domain_units(
+       data_trait_domain_units,
+       data_trait_records,
+       path_vegvault,
+       data_vegvault_release
+     )
+
+Arguments:
+
+data_trait_domain_units: The unit table loaded by
+          [load_trait_domain_units()].
+
+data_trait_records: Extracted trait records with `trait_domain_name`,
+          `trait_unit`, `conversion_rule_key`, and
+          `derivation_rule_key`.
+
+path_vegvault: Character scalar path to the VegVault SQLite database.
+
+data_vegvault_release: A one-row data frame with the VegVault release
+          record the pipeline built from the same file (the
+          `config_vegvault_release` target), as returned by
+          [load_vegvault_database_version()].
+
+Details:
+
+     The function stops with an error unless:
+
+     1. every row is `approved` and names a reviewer and an ISO review
+     date; 2. every row names the release version and its build
+     reference, the `manifest_sha256` of `data_vegvault_release`; 3.
+     each domain appears once, the domains are exactly those of
+     `TraitsDomain`, and each unit is exactly the `TraitsDomain` unit;
+     4. `evidence_status` is `source_standardised` or `source_derived`,
+     and `included_in_primary` is `TRUE` or `FALSE`; 5. there is at
+     least one record, and every record belongs to a listed domain and
+     has exactly its unit, with no `NA`; 6. every record carries a
+     conversion or a derivation rule key; an empty key counts as
+     missing.
+
+     [validate_vegvault_release()] first confirms that the file holds
+     the release in `data_vegvault_release`; `TraitsDomain` is then
+     read with a read-only connection.
+
+Value:
+
+     The validated unit table, unchanged.
+
+See Also:
+
+     [load_trait_domain_units()], [validate_vegvault_release()]

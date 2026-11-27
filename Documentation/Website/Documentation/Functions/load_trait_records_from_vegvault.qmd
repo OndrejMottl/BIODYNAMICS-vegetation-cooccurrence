@@ -27,8 +27,8 @@ function processMathHTML() {
 <p>Loads functional trait records from the VegVault SQLite database for
 specified trait domains. Optional geographic filtering limits records
 to datasets within the specified longitude/latitude bounding box.
-Taxon names are returned as-is ('classify_to = NULL') for downstream
-manual classification.
+Taxon names are returned as-is ('classify_to = &quot;original&quot;') for
+downstream manual classification.
 </p>
 
 
@@ -36,6 +36,7 @@ manual classification.
 
 <pre><code class='language-R'>load_trait_records_from_vegvault(
   path_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  data_vegvault_release,
   vec_trait_domain_names = NULL,
   vec_longitude_limits = NULL,
   vec_latitude_limits = NULL
@@ -50,6 +51,12 @@ manual classification.
 <td>
 <p>A character string specifying the path to the VegVault SQLite database
 (default: 'here::here(&quot;Data/Input/VegVault.sqlite&quot;)').</p>
+</td></tr>
+<tr><td><code id="data_vegvault_release">data_vegvault_release</code></td>
+<td>
+<p>A one-row data frame with the VegVault release record the pipeline
+built from the same file (the 'config_vegvault_release' target), as
+returned by [load_vegvault_database_version()].</p>
 </td></tr>
 <tr><td><code id="vec_trait_domain_names">vec_trait_domain_names</code></td>
 <td>
@@ -78,18 +85,27 @@ applied.</p>
 <p>The function performs the following steps:
 </p>
 <p>1. Validates input parameters.
-2. Checks the presence of the VegVault SQLite database.
+2. Checks the presence of the VegVault SQLite database, and with
+[validate_vegvault_release()] that it holds the release in
+'data_vegvault_release'.
 3. Builds the vaultkeepr query plan (lazy SQL). If geographic limits
 are supplied, datasets are filtered to the bounding box using
 'vaultkeepr::select_dataset_by_geo()' before sample retrieval.
 If vaultkeepr raises an error during plan assembly (e.g. no data
 for the given domain names), the error is caught and re-thrown
 via 'cli::cli_abort()' with the original message preserved.
-4. Retrieves trait values using 'classify_to = NULL' to preserve raw
-taxon names for downstream manual classification via the same
+4. Retrieves trait values using 'classify_to = &quot;original&quot;' to preserve
+raw taxon names for downstream manual classification via the same
 taxospace + auxiliary-table pipeline used for community data.
 5. Returns the loaded data, including source identifiers, as a flat
 data frame.
+</p>
+<p>The data source of each record comes from a direct read-only query of
+&lsquo;Datasets'. The function stops when a record&rsquo;s dataset is not in
+'Datasets' or when a dataset appears twice. A dataset without a data
+source is kept, with 'data_source_id' 'NA': in VegVault 2.0.0 these are
+BIEN trait records that name no provider, which 1.0.0 linked to a data
+source with an empty description.
 </p>
 
 
@@ -98,13 +114,14 @@ data frame.
 <p>A flat data frame containing loaded trait records with columns
 including 'dataset_id', 'dataset_name', 'data_source_id', 'sample_id',
 'trait_id', 'taxon_id', 'trait_domain_name', 'trait_name', and
-'trait_value'.
+'trait_value'. 'data_source_id' is 'NA' for records of datasets without
+a data source.
 </p>
 
 
 <h3>See Also</h3>
 
-<p>[extract_data_from_vegvault()]
+<p>[extract_data_from_vegvault()], [validate_vegvault_release()]
 </p>
 
 </main>

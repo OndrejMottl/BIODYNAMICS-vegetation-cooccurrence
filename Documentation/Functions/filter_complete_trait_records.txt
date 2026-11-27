@@ -28,7 +28,8 @@ Value:
      A tibble retaining `dataset_id`, `dataset_name`, `data_source_id`,
      `sample_id`, `trait_id`, `taxon_id`, and the trait fields when
      present, with incomplete taxon identifiers and non-finite values
-     removed.
+     removed. The trait fields include the VegVault 2.0.0 unit columns
+     `trait_unit`, `conversion_rule_key`, and `derivation_rule_key`.
 
 See Also:
 

@@ -21,9 +21,14 @@
 #'     candidate_id = "candidate_001",
 #'     cv_strategy = "grouped_kfold",
 #'     final_model_built_at = "2026-11-16 10:00:00",
-#'     variance_partition_built_at = "2026-11-16 11:00:00"
+#'     variance_partition_built_at = "2026-11-16 11:00:00",
+#'     vegvault_version = "2.0.0"
 #'   )
 #' )
+#' @details
+#' By default every checked row must name the VegVault release its store
+#' was built from (`vegvault_version`), so tables from stores built before
+#' the release was recorded do not pass.
 #' @export
 validate_model_table_provenance <- function(
     data_table,
@@ -32,7 +37,8 @@ validate_model_table_provenance <- function(
       "candidate_id",
       "cv_strategy",
       "final_model_built_at",
-      "variance_partition_built_at"
+      "variance_partition_built_at",
+      "vegvault_version"
     ),
     availability_column = NULL,
     table_label = "model table") {

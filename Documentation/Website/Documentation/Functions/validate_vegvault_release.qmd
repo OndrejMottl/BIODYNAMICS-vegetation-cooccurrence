@@ -1,0 +1,103 @@
+---
+format: html
+title: validate_vegvault_release()
+---
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.css">
+<script type="text/javascript">
+const macros = { "\\R": "\\textsf{R}", "\\mbox": "\\text", "\\code": "\\texttt"};
+function processMathHTML() {
+    var l = document.getElementsByClassName('reqn');
+    for (let e of l) { katex.render(e.textContent, e, { throwOnError: false, macros }); }
+    return;
+}</script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.15.3/dist/katex.min.js"
+    onload="processMathHTML();"></script>
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body><div class="container"><main>
+
+<table style="width: 100%;"><tr><td>validate_vegvault_release</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Validate That a VegVault File Holds the Recorded Release</h2>
+
+<h3>Description</h3>
+
+<p>Re-reads the release record of a VegVault SQLite file and stops with an
+error unless it equals the record the pipeline built from the same file
+(the 'config_vegvault_release' target).
+</p>
+
+
+<h3>Usage</h3>
+
+<pre><code class='language-R'>validate_vegvault_release(path_to_vegvault, data_vegvault_release)
+</code></pre>
+
+
+<h3>Arguments</h3>
+
+<table role = "presentation">
+<tr><td><code id="path_to_vegvault">path_to_vegvault</code></td>
+<td>
+<p>A character string with the path to the VegVault SQLite database.</p>
+</td></tr>
+<tr><td><code id="data_vegvault_release">data_vegvault_release</code></td>
+<td>
+<p>A one-row data frame with character columns 'vegvault_version',
+'git_commit' and 'manifest_sha256', as returned by
+[load_vegvault_database_version()].</p>
+</td></tr>
+</table>
+
+
+<h3>Details</h3>
+
+<p>The release record is read with [load_vegvault_database_version()],
+which opens the file read-only and stops when the version differs from
+'vegvault_version'. The three fields are then compared one by one, with
+'NA' equal only to 'NA'. A difference in 'git_commit' or
+'manifest_sha256' means the file was rebuilt or replaced under the same
+version, and stops with an error of class
+'biodynamics_vegvault_release_mismatch'.
+</p>
+<p>Functions that open VegVault for a pipeline target call this check
+before any query, so a target never reads a file other than the one its
+'config_vegvault_release' dependency describes. The check does not rely
+on vaultkeepr: vaultkeepr 0.2.0 records the version only on the object
+returned by 'vaultkeepr::open_vault()', and the later steps of a query
+drop it.
+</p>
+
+
+<h3>Value</h3>
+
+<p>'TRUE', invisibly, when the file holds the recorded release.
+</p>
+
+
+<h3>See Also</h3>
+
+<p>[load_vegvault_database_version()], [build_vegvault_plan()]
+</p>
+
+
+<h3>Examples</h3>
+
+<pre><code class='language-R'>## Not run:
+data_vegvault_release &lt;-
+  load_vegvault_database_version(vegvault_version = "2.0.0")
+
+validate_vegvault_release(
+  path_to_vegvault = here::here("Data/Input/VegVault.sqlite"),
+  data_vegvault_release = data_vegvault_release
+)
+
+## End(Not run)
+</code></pre>
+
+</main>
+
+</div>
+</body></html>
