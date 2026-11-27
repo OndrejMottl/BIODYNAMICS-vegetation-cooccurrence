@@ -13,19 +13,21 @@
 # Run once per review stage, after run_trait_review_vegvault_2_0_0_triage.R:
 #   Rscript run_trait_review_vegvault_2_0_0_approval.R raw
 #   Rscript run_trait_review_vegvault_2_0_0_approval.R classified
-# The reviewer approves a stage by recording, in section 0 below, the
-#   SHA-256 of the proposal file they reviewed, their name and the review
-#   date. Their resolutions are rows in the decision columns in
+# The reviewer's resolutions are rows in the decision columns in
 #   trait_review_manual_resolutions_<stage>.csv of the release folder:
 #   every queue candidate needs at least one row, and a row for any other
 #   candidate replaces its automated proposal. An empty decision_id is
-#   computed from the row's selector.
+#   computed from the row's selector. The reviewer approves a stage by
+#   recording, in section 0 below, the SHA-256 of the proposal file they
+#   reviewed and of their resolution file, their name and the review date.
 # The runner merges the automated proposals with the resolutions, runs
 #   validate_trait_review_decisions(), simulates
-#   apply_trait_review_decisions(), and only then writes
-#   trait_review_decisions_<stage>.csv into the release folder. It stops
-#   when the proposal file changed after the review, when the stage already
-#   has decisions, or when a queue candidate is unresolved.
+#   apply_trait_review_decisions(), writes the decisions to a temporary
+#   file, reads them back and validates them again, and only then copies
+#   them to trait_review_decisions_<stage>.csv in the release folder. It
+#   stops when the proposal or the resolution file changed after the
+#   review, when the stage already has decisions, or when a queue
+#   candidate is unresolved.
 
 
 #----------------------------------------------------------#
@@ -46,11 +48,13 @@ list_approval_records <-
   base::list(
     raw = base::list(
       proposals_sha256 = NA_character_,
+      resolutions_sha256 = NA_character_,
       reviewer = NA_character_,
       reviewed_at = NA_character_
     ),
     classified = base::list(
       proposals_sha256 = NA_character_,
+      resolutions_sha256 = NA_character_,
       reviewer = NA_character_,
       reviewed_at = NA_character_
     )
@@ -89,26 +93,43 @@ evidence_reference_triage <-
     review_stage,
     "/trait_review_vegvault_2_0_0_triage_report.md"
   )
+dir_trait_corrections <-
+  resolve_trait_correction_directory(vegvault_version = "2.0.0")
+path_decisions <-
+  base::file.path(
+    dir_trait_corrections,
+    stringr::str_c("trait_review_decisions_", review_stage, ".csv")
+  )
+path_resolutions <-
+  base::file.path(
+    dir_trait_corrections,
+    stringr::str_c("trait_review_manual_resolutions_", review_stage, ".csv")
+  )
 
 
 #----------------------------------------------------------#
-# 1. Check the approval record and the reviewed file -----
+# 1. Check the approval record and the reviewed files -----
 #----------------------------------------------------------#
 
 sha256_proposals <-
   digest::digest(path_proposals, algo = "sha256", file = TRUE)
+sha256_resolutions <-
+  digest::digest(path_resolutions, algo = "sha256", file = TRUE)
 
 if (
-  base::is.na(list_approval[["proposals_sha256"]])
+  base::is.na(list_approval[["proposals_sha256"]]) ||
+    base::is.na(list_approval[["resolutions_sha256"]])
 ) {
   cli::cli_abort(
     c(
       "The {review_stage} stage has no approval record yet.",
       "i" = stringr::str_c(
-        "Record the SHA-256 of the reviewed proposal file, the reviewer ",
-        "and the review date in section 0 of this runner."
+        "Record the SHA-256 of the reviewed proposal and resolution ",
+        "files, the reviewer and the review date in section 0 of this ",
+        "runner."
       ),
-      "i" = "Current SHA-256: {sha256_proposals}"
+      "i" = "Current proposal file SHA-256: {sha256_proposals}",
+      "i" = "Current resolution file SHA-256: {sha256_resolutions}"
     )
   )
 }
@@ -116,6 +137,13 @@ if (
 assertthat::assert_that(
   base::identical(sha256_proposals, list_approval[["proposals_sha256"]]),
   msg = "The proposal file changed after it was reviewed."
+)
+assertthat::assert_that(
+  base::identical(
+    sha256_resolutions,
+    list_approval[["resolutions_sha256"]]
+  ),
+  msg = "The resolution file changed after it was reviewed."
 )
 assertthat::assert_that(
   base::is.character(list_approval[["reviewer"]]),
@@ -153,21 +181,6 @@ assertthat::assert_that(
   ),
   msg = "The 2.0.0 trait store was built from another VegVault file."
 )
-
-dir_trait_corrections <-
-  resolve_trait_correction_directory(
-    vegvault_version = data_vegvault_release[["vegvault_version"]]
-  )
-path_decisions <-
-  base::file.path(
-    dir_trait_corrections,
-    stringr::str_c("trait_review_decisions_", review_stage, ".csv")
-  )
-path_resolutions <-
-  base::file.path(
-    dir_trait_corrections,
-    stringr::str_c("trait_review_manual_resolutions_", review_stage, ".csv")
-  )
 
 assertthat::assert_that(
   base::nrow(load_trait_review_decisions(path_decisions)) == 0L,
@@ -269,6 +282,19 @@ assertthat::assert_that(
   msg = "Every resolution row must have review_status 'approved'."
 )
 
+vec_decision_key_columns <-
+  base::c(
+    "candidate_id",
+    "action",
+    "trait_name",
+    "dataset_id",
+    "value_lower",
+    "value_lower_inclusive",
+    "value_upper",
+    "value_upper_inclusive",
+    "scale_factor"
+  )
+
 data_resolutions_completed <-
   data_resolutions |>
   dplyr::mutate(
@@ -288,21 +314,24 @@ data_resolutions_completed <-
       .data[["source_reference"]],
       stringr::str_c("manual_resolution:", review_stage)
     ),
-    # paste() writes missing selector parts as "NA", so every row keeps a
+    # Missing selector parts are written as "NA", so every row keeps a
     #   distinct key
-    decision_key = base::paste(
-      .data[["candidate_id"]],
-      .data[["action"]],
-      .data[["trait_name"]],
-      .data[["dataset_id"]],
-      .data[["value_lower"]],
-      .data[["value_lower_inclusive"]],
-      .data[["value_upper"]],
-      .data[["value_upper_inclusive"]],
-      .data[["scale_factor"]],
-      "manual_resolution_vegvault_2_0_0",
-      sep = "|"
-    ),
+    decision_key = dplyr::pick(
+      dplyr::all_of(vec_decision_key_columns)
+    ) |>
+      dplyr::mutate(
+        dplyr::across(
+          .cols = dplyr::everything(),
+          .fns = ~ dplyr::coalesce(base::as.character(.x), "NA")
+        ),
+        decision_source = "manual_resolution_vegvault_2_0_0"
+      ) |>
+      tidyr::unite(
+        col = "decision_key",
+        dplyr::everything(),
+        sep = "|"
+      ) |>
+      dplyr::pull("decision_key"),
     decision_id = dplyr::coalesce(
       .data[["decision_id"]],
       purrr::map_chr(
@@ -353,14 +382,25 @@ list_application <-
     data_trait_source_scale_record_audit = data_source_scale_record_audit
   )
 
+# The decisions go to a temporary file first, so that a failed check
+#   leaves the decision file of the release folder empty and the runner
+#   can be run again
+path_decisions_pending <-
+  base::tempfile(
+    pattern = stringr::str_c("trait_review_decisions_", review_stage, "_"),
+    fileext = ".csv"
+  )
+
 readr::write_csv(
   data_trait_review_decisions_validated,
-  path_decisions,
+  path_decisions_pending,
   na = ""
 )
 
 data_decisions_reloaded <-
-  load_trait_review_decisions(path_trait_review_decisions = path_decisions)
+  load_trait_review_decisions(
+    path_trait_review_decisions = path_decisions_pending
+  )
 
 assertthat::assert_that(
   base::nrow(data_decisions_reloaded) ==
@@ -391,6 +431,24 @@ readr::write_csv(
   ),
   na = ""
 )
+
+is_decisions_copied <-
+  base::file.copy(
+    from = path_decisions_pending,
+    to = path_decisions,
+    overwrite = TRUE
+  )
+
+assertthat::assert_that(
+  base::isTRUE(is_decisions_copied),
+  base::identical(
+    digest::digest(path_decisions, algo = "sha256", file = TRUE),
+    digest::digest(path_decisions_pending, algo = "sha256", file = TRUE)
+  ),
+  msg = "The checked decisions were not copied to the release folder."
+)
+
+base::unlink(path_decisions_pending)
 
 data_trait_review_decisions_validated |>
   dplyr::count(.data[["trait_domain_name"]], .data[["action"]]) |>

@@ -78,9 +78,10 @@ returned by [load_vegvault_database_version()].</p>
 'TraitsDomain', and each unit is exactly the 'TraitsDomain' unit;
 4. 'evidence_status' is 'source_standardised' or 'source_derived', and
 'included_in_primary' is 'TRUE' or 'FALSE';
-5. every record belongs to a listed domain and has exactly its unit,
-with no 'NA';
-6. every record carries a conversion or a derivation rule key.
+5. there is at least one record, and every record belongs to a listed
+domain and has exactly its unit, with no 'NA';
+6. every record carries a conversion or a derivation rule key; an
+empty key counts as missing.
 </p>
 <p>[validate_vegvault_release()] first confirms that the file holds the
 release in 'data_vegvault_release'; 'TraitsDomain' is then read with a

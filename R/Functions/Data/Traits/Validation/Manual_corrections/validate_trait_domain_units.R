@@ -27,9 +27,10 @@
 #'      `TraitsDomain`, and each unit is exactly the `TraitsDomain` unit;
 #'   4. `evidence_status` is `source_standardised` or `source_derived`, and
 #'      `included_in_primary` is `TRUE` or `FALSE`;
-#'   5. every record belongs to a listed domain and has exactly its unit,
-#'      with no `NA`;
-#'   6. every record carries a conversion or a derivation rule key.
+#'   5. there is at least one record, and every record belongs to a listed
+#'      domain and has exactly its unit, with no `NA`;
+#'   6. every record carries a conversion or a derivation rule key; an
+#'      empty key counts as missing.
 #'
 #' [validate_vegvault_release()] first confirms that the file holds the
 #' release in `data_vegvault_release`; `TraitsDomain` is then read with a
@@ -274,6 +275,14 @@ validate_trait_domain_units <- function(
   }
 
   # 6. Records -----
+  if (
+    base::nrow(data_trait_records) == 0L
+  ) {
+    cli::cli_abort(
+      "There are no trait records to check against the unit table."
+    )
+  }
+
   vec_expected_units <-
     data_trait_domain_units[["trait_unit"]][
       base::match(
@@ -297,9 +306,15 @@ validate_trait_domain_units <- function(
     )
   }
 
+  # An empty key names no rule, so it counts as missing
+  is_without_conversion <-
+    base::is.na(data_trait_records[["conversion_rule_key"]]) |
+    data_trait_records[["conversion_rule_key"]] == ""
+  is_without_derivation <-
+    base::is.na(data_trait_records[["derivation_rule_key"]]) |
+    data_trait_records[["derivation_rule_key"]] == ""
   is_without_rule <-
-    base::is.na(data_trait_records[["conversion_rule_key"]]) &
-    base::is.na(data_trait_records[["derivation_rule_key"]])
+    is_without_conversion & is_without_derivation
 
   if (
     base::any(is_without_rule)

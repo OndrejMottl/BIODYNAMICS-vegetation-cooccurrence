@@ -216,7 +216,7 @@ All three go in `R/03_Supplementary_analyses/One_time/Trait_corrections/`. The v
   - Scaling proposals derived from submission thresholds, which are in v1 units, are never approved automatically.
   - It writes proposals only, to `Data/Temp/Trait_corrections/<stage>/vegvault_2_0_0_triage/`, plus a report in `Outputs/Reports/Trait_corrections/<stage>/`.
 - **`run_trait_review_vegvault_2_0_0_approval.R`**
-  - Ondřej approves by fixing the SHA-256 of the reviewed proposal file, with reviewer and date.
+  - Ondřej approves by fixing the SHA-256 of the reviewed proposal and resolution files, with reviewer and date.
   - The runner merges his resolutions, runs `validate_trait_review_decisions()`, simulates `apply_trait_review_decisions()`, and only then writes the decision file in `VegVault_2_0_0/`.
 - **Expected load** (estimate from the code, not a run):
   - 3,500-4,300 raw candidates, including about 1,875 mandatory taxon-domain keys from the immutable submission;

@@ -420,6 +420,66 @@ testthat::test_that(
   }
 )
 
+testthat::test_that(
+  "validate_trait_domain_units() treats an empty rule key as missing",
+  {
+    path_vault <-
+      write_unit_vault(
+        path_vault = withr::local_tempfile(fileext = ".sqlite"),
+        data_domains = make_unit_domains()
+      )
+
+    testthat::expect_error(
+      validate_trait_domain_units(
+        data_trait_domain_units = make_unit_table(),
+        data_trait_records = make_unit_records() |>
+          dplyr::mutate(
+            conversion_rule_key = base::c("bien_sla", "", NA),
+            derivation_rule_key = base::c(NA, NA, "height_rule")
+          ),
+        path_vegvault = path_vault,
+        data_vegvault_release = make_unit_release()
+      ),
+      regexp = "conversion or derivation rule"
+    )
+    testthat::expect_error(
+      validate_trait_domain_units(
+        data_trait_domain_units = make_unit_table(),
+        data_trait_records = make_unit_records() |>
+          dplyr::mutate(
+            conversion_rule_key = base::c("bien_sla", "bien_height", NA),
+            derivation_rule_key = base::c(NA, NA, "")
+          ),
+        path_vegvault = path_vault,
+        data_vegvault_release = make_unit_release()
+      ),
+      regexp = "conversion or derivation rule"
+    )
+  }
+)
+
+testthat::test_that(
+  "validate_trait_domain_units() requires at least one trait record",
+  {
+    path_vault <-
+      write_unit_vault(
+        path_vault = withr::local_tempfile(fileext = ".sqlite"),
+        data_domains = make_unit_domains()
+      )
+
+    testthat::expect_error(
+      validate_trait_domain_units(
+        data_trait_domain_units = make_unit_table(),
+        data_trait_records = make_unit_records() |>
+          dplyr::slice(0L),
+        path_vegvault = path_vault,
+        data_vegvault_release = make_unit_release()
+      ),
+      regexp = "no trait records"
+    )
+  }
+)
+
 # -- Arguments -------------------------------------------------------------
 
 testthat::test_that(

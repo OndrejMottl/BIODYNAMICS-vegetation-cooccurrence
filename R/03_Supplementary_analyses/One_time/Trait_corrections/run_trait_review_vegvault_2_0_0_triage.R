@@ -396,7 +396,8 @@ data_summary_source <-
     name = "n_candidates"
   )
 
-n_candidates <- base::nrow(data_trait_review_candidates)
+n_candidates <-
+  base::nrow(data_trait_review_candidates)
 n_queue <-
   data_review_queue[["candidate_id"]] |>
   base::unique() |>

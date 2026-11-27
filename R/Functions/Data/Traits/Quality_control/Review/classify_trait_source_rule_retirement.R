@@ -219,15 +219,18 @@ classify_trait_source_rule_retirement <- function(
         vec_ratio_reference <-
           data_ratios[["ratio"]][!data_ratios[["is_rule_source"]]]
 
-        ratio_source <- stats::median(vec_ratio_source)
-        ratio_reference <- stats::median(vec_ratio_reference)
+        ratio_source <-
+          stats::median(vec_ratio_source)
+        ratio_reference <-
+          stats::median(vec_ratio_reference)
         scale_exponent <-
           base::log(ratio_source / ratio_reference) /
           base::log(rule_scale_factor)
 
         n_taxa_after <-
           base::sum(data_medians_after[["is_rule_source"]])
-        n_taxa_shared <- base::length(vec_ratio_source)
+        n_taxa_shared <-
+          base::length(vec_ratio_source)
 
         retirement_status <-
           dplyr::case_when(
