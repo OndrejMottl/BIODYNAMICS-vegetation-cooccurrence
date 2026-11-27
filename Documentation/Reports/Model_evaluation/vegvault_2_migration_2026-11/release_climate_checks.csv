@@ -1,0 +1,4 @@
+continent_id,n_gridpoints_at_0_ka,n_bio4_zero_at_0_ka_v1,n_bio4_zero_at_0_ka_v2,min_bio4_at_0_ka_v2,bio4_ratio_0_to_500_median,bio4_ratio_0_to_500_lwr_90,bio4_ratio_0_to_500_upr_90,n_values_differ_other_than_bio4_at_0_ka,n_gridpoint_samples_v1,n_gridpoint_samples_v2,n_values_missing_v1,n_values_missing_v2,n_bio12_at_storage_limit_v2,n_bio18_zero_v1,n_bio18_zero_v2,n_bio19_zero_v1,n_bio19_zero_v2
+america,23350,22934,0,98,1.0116738085331043,0.9265190915125306,1.2378667106155194,0,369925,373680,0,0,1,247,247,0,0
+asia,5889,4805,0,874.20001220703125,0.9978597956377802,0.9365075742530772,1.0587921709167383,0,75484,80151,0,0,0,0,0,0,0
+europe,22195,20290,0,198.10000610351563,0.9770353514110002,0.790160808563749,1.1615525462188008,0,393437,408494,0,0,0,76,76,0,0

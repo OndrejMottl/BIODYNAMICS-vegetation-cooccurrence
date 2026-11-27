@@ -2265,6 +2265,10 @@ vec_workflow_readme_paths <-
       "Spatial_grid/README.md"
     ),
     stringr::str_c(
+      "R/03_Supplementary_analyses/One_time/Data_migrations/",
+      "VegVault_2_0_0/README.md"
+    ),
+    stringr::str_c(
       "R/03_Supplementary_analyses/One_time/Historical/Traits/",
       "Pre_targets_pipeline/README.md"
     ),

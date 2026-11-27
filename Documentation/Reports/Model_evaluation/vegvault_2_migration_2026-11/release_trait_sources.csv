@@ -1,0 +1,16 @@
+continent_id,dataset_source_type,vegvault_version,n_datasets,n_trait_values,n_taxa,n_datasets_without_coordinates
+all_trait_datasets,BIEN,1.0.0,194788,,,212
+all_trait_datasets,BIEN,2.0.0,194183,,,106
+all_trait_datasets,TRY,1.0.0,32342,,,4410
+all_trait_datasets,TRY,2.0.0,28272,,,2655
+america,BIEN,1.0.0,184109,8575389,767,
+america,BIEN,2.0.0,184064,8570374,631,
+america,TRY,1.0.0,2643,138082,3021,
+america,TRY,2.0.0,2542,141517,3135,
+asia,BIEN,1.0.0,1,2,1,
+asia,TRY,1.0.0,117,1115,369,
+asia,TRY,2.0.0,110,1116,362,
+europe,BIEN,1.0.0,240,44797,286,
+europe,BIEN,2.0.0,219,43927,171,
+europe,TRY,1.0.0,11612,217765,4703,
+europe,TRY,2.0.0,11469,188916,4921,
