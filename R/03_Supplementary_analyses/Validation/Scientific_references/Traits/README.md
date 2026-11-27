@@ -18,11 +18,11 @@ The runner activates `project_traits_reference` and explicitly authorises its re
 
 ## Prerequisites and configuration
 
-Run from the repository root with the restored environment, source trait inputs, and approved manual-correction table available.
+Run from the repository root with the restored environment, `Data/Input/VegVault.sqlite` (VegVault 2.0.0, see `Data/Input/README.md`), and the reviewed files of its release folder `Data/Input/Trait_corrections/VegVault_2_0_0/`.
 
 ## Outputs and interpretation
 
-The `{targets}` store is `Data/targets/traits_reference`. The pipeline extracts trait records, performs quality control and taxonomic alignment, classifies functional types, and builds the reference trait table. Independent raw and classified human-review gates consume the canonical files under `Data/Input/Trait_corrections/`; see that directory's README for candidate coverage and selector rules.
+The `{targets}` store is `Data/targets/traits_reference`. The pipeline extracts trait records, performs quality control and taxonomic alignment, classifies functional types, and builds the reference trait table. The raw and classified review stages each stop at a check until every candidate has an approved decision in the release folder; `Data/Input/Trait_corrections/README.md` describes the review, the sorting and approval runners, and the decision schema.
 
 ## Regeneration and retirement
 

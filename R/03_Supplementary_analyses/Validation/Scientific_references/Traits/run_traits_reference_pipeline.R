@@ -20,17 +20,21 @@
 #   Segment 4 — Build project-agnostic genus × traits table
 #
 # HUMAN REVIEW STEPS:
-#   The raw and classified stages each stop at a complete-coverage guard.
-#   Review their generated queues and durable reports, then add an approved
-#   correction or explicit no-action row for every current candidate in:
-#     Data/Input/Trait_corrections/trait_review_decisions_raw.csv
-#     Data/Input/Trait_corrections/trait_review_decisions_classified.csv
-#   See Data/Input/Trait_corrections/README.md for the selector contract.
+#   The raw and classified stages each stop at a complete-coverage check.
+#   Every current candidate needs an approved correction or explicit
+#   no-action row in the decision files of the VegVault release:
+#     Data/Input/Trait_corrections/VegVault_<version>/
+#       trait_review_decisions_raw.csv
+#       trait_review_decisions_classified.csv
+#   Data/Input/Trait_corrections/README.md describes the sorting and
+#   approval runners that write them, and the decision schema.
 #
 # RE-EXTRACTION:
-#   VegVault.sqlite is NOT tracked automatically (it is too large to
-#   hash on every tar_make call). To force re-extraction after the
-#   database is updated, invalidate the continent branches first:
+#   The target config_vegvault_release reads the release record of
+#   Data/Input/VegVault.sqlite on every run, so replacing the database
+#   reruns the extraction. A new vaultkeepr version is not tracked; to
+#   force re-extraction for the same database, invalidate the continent
+#   branches first:
 #
 #     targets::tar_invalidate("data_traits_continent")
 #

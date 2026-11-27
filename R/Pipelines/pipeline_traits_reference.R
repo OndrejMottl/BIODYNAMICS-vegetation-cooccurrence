@@ -45,24 +45,29 @@
 #   FT labels with their parent continental run.
 #
 # HUMAN REVIEW REQUIRED (inside segments 2 and 4):
-#   Segment 3 — if trait classification stops, open:
+#   Segment 3 - if trait classification stops, open:
 #     Data/Input/missing_taxa_template.csv
-#       <- review the unresolved trait taxa appended by the guard
+#       <- review the unresolved trait taxa appended by the check
 #     Data/Input/aux_classification_table.csv
 #       <- add manual classifications, then re-run tar_make()
-#       (same file used by the community pipeline — one edit covers both)
+#       (same file used by the community pipeline - one edit covers both)
 #
-#   Segment 2 — review:
-#     Data/Input/Trait_corrections/trait_source_scale_rules.csv
-#     Data/Temp/Trait_corrections/raw/trait_review_candidates.csv
-#     Outputs/Reports/Trait_corrections/raw/
-#     Data/Input/Trait_corrections/trait_review_decisions_raw.csv
-#   Every candidate requires a human-approved correction or no-action row.
+#   Segment 2 - the reviewed files of the VegVault release are read from
+#     Data/Input/Trait_corrections/VegVault_<version>/, where the version
+#     comes from config_vegvault_release (for 2.0.0: VegVault_2_0_0/):
+#       trait_domain_units.csv
+#       trait_source_scale_rules.csv
+#       trait_review_decisions_raw.csv
+#     The generated queue is
+#       Data/Temp/Trait_corrections/raw/trait_review_candidates.csv
+#     with reports in Outputs/Reports/Trait_corrections/raw/.
+#   Every candidate requires a human-approved correction or no-action row;
+#     Data/Input/Trait_corrections/README.md describes the review runners.
 #
-#   Segment 4 — repeat independently with:
+#   Segment 4 - repeat independently with:
 #     Data/Temp/Trait_corrections/classified/trait_review_candidates.csv
 #     Outputs/Reports/Trait_corrections/classified/
-#     Data/Input/Trait_corrections/trait_review_decisions_classified.csv
+#     trait_review_decisions_classified.csv of the same release folder
 #
 # To run this pipeline:
 #
