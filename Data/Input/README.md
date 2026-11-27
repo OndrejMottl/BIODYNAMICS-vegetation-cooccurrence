@@ -36,3 +36,7 @@ model_tuning_modern_spatial_ft.csv
 ```
 
 Use `spatial_grid.csv` for spatial unit boundaries and hierarchy. Tune model effort in the matching `Model_tuning/` file.
+
+## Combined pollen types of VegVault 2.0.0
+
+`vegvault_2_0_0_combined_pollen_types.csv` lists the 116 combined pollen types (for example "Larix Pseudotsuga") that VegVault 2.0.0 places at the family their genera share, or leaves unclassified when the families differ. Columns: `taxon_name`, `genera` (separated by `/`) and VegVault's `kind`. It copies three columns of the VegVault release evidence file `full_build_dev/combined_pollen_types.csv` (SHA-256 `fb679ee4714d452594e36d4d339617edc931e0caa4e7633abb515bff3e935429`); the placement columns of that file come from a development build and are left out. The placements themselves are read from the database files. The diagnostic `R/03_Supplementary_analyses/Diagnostics/Data_processing/Taxa/Classification_coverage/diagnose_taxa_classification_coverage.R` uses this list.

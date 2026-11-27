@@ -1,0 +1,39 @@
+sel_name,kingdom,phylum,class,order,family,genus,species
+Betula Carpinus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,NA,NA
+Betula Corylus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,NA,NA
+Celtis Maclura,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA
+Cercocarpus Purshia,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
+Chrysolepis Lithocarpus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Fagaceae,NA,NA
+Combretaceae Melastomataceae,Plantae,Tracheophyta,Magnoliopsida,Myrtales,NA,NA,NA
+Corylus Myrica,Plantae,Tracheophyta,Magnoliopsida,Fagales,NA,NA,NA
+Corylus Myrica Undiff,Plantae,Tracheophyta,Magnoliopsida,Fagales,NA,NA,NA
+Daphne Thymelaea,Plantae,Tracheophyta,Magnoliopsida,Malvales,Thymelaeaceae,NA,NA
+Elaeagnus Shepherdia Argentea,Plantae,Tracheophyta,Magnoliopsida,Rosales,Elaeagnaceae,NA,NA
+Fagus Nyssa,Plantae,Tracheophyta,Magnoliopsida,NA,NA,NA,NA
+Genista Cytisus,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA
+Halimium Tuberaria,Plantae,Tracheophyta,Magnoliopsida,Malvales,Cistaceae,NA,NA
+Ilex Nemopanthus,Plantae,Tracheophyta,Magnoliopsida,Aquifoliales,Aquifoliaceae,NA,NA
+Ilex Nemopanthus Undiff,Plantae,Tracheophyta,Magnoliopsida,Aquifoliales,Aquifoliaceae,NA,NA
+Juniperus Calocedrus,Plantae,Tracheophyta,Pinopsida,Cupressales,Cupressaceae,NA,NA
+Juniperus Thuja,Plantae,Tracheophyta,Pinopsida,Cupressales,Cupressaceae,NA,NA
+Lonicera Symphoricarpos,Plantae,Tracheophyta,Magnoliopsida,Dipsacales,Caprifoliaceae,NA,NA
+Myrica Comptonia,Plantae,Tracheophyta,Magnoliopsida,Fagales,Myricaceae,NA,NA
+Olea Phillyrea,Plantae,Tracheophyta,Magnoliopsida,Lamiales,Oleaceae,NA,NA
+Oleaceae Brassicaceae,Plantae,Tracheophyta,Magnoliopsida,NA,NA,NA,NA
+Ostrya Carpinus,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,NA,NA
+Ostrya Carpinus Orientalis,Plantae,Tracheophyta,Magnoliopsida,Fagales,Betulaceae,NA,NA
+Prunus Amelanchier,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
+Prunus Pyrus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
+Pyrus Malus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
+Pyrus Sorbus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rosaceae,NA,NA
+Quercus Cercocarpus,Plantae,Tracheophyta,Magnoliopsida,NA,NA,NA,NA
+Rhamnaceae Rosaceae,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA
+Rhamnaceae Vitaceae,Plantae,Tracheophyta,Magnoliopsida,NA,NA,NA,NA
+Rhamnus Frangula,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,NA,NA
+Rhamnus Paliurus,Plantae,Tracheophyta,Magnoliopsida,Rosales,Rhamnaceae,NA,NA
+Rhamnus Vitis,Plantae,Tracheophyta,Magnoliopsida,NA,NA,NA,NA
+Rhus Toxicodendron,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Anacardiaceae,NA,NA
+Rhus Toxicodendron Cf t Radicans,Plantae,Tracheophyta,Magnoliopsida,Sapindales,Anacardiaceae,NA,NA
+Ulex Cytisus Sect Spartopsis,Plantae,Tracheophyta,Magnoliopsida,Fabales,Fabaceae,NA,NA
+Ulmus Zelkova,Plantae,Tracheophyta,Magnoliopsida,Rosales,Ulmaceae,NA,NA
+Urticaceae Moraceae,Plantae,Tracheophyta,Magnoliopsida,Rosales,NA,NA,NA

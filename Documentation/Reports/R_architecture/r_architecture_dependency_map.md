@@ -25,7 +25,7 @@ flowchart TD
 
 | Classification | Active inventory rows |
 |---|---:|
-| diagnostic | 19 |
+| diagnostic | 20 |
 | issue_reproduction | 6 |
 | main_analysis | 37 |
 | one_time | 4 |
@@ -34,8 +34,8 @@ flowchart TD
 | reference | 14 |
 | scientific_reference | 2 |
 | sensitivity | 1 |
-| supplementary_or_processing | 47 |
-| test | 482 |
+| supplementary_or_processing | 50 |
+| test | 484 |
 
 ## Function capabilities
 
@@ -46,7 +46,7 @@ flowchart TD
 | Data/Samples | 7 |
 | Data/Spatial | 6 |
 | Data/Time | 12 |
-| Data/Traits | 56 |
+| Data/Traits | 58 |
 | Data_access/Files | 1 |
 | Data_access/Vegvault | 7 |
 | Modelling/Cross_validation | 143 |

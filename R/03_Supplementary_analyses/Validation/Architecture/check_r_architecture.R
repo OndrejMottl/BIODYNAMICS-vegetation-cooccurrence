@@ -2245,6 +2245,10 @@ vec_workflow_readme_paths <-
     ),
     stringr::str_c(
       "R/03_Supplementary_analyses/Diagnostics/Data_processing/",
+      "Taxa/Classification_coverage/README.md"
+    ),
+    stringr::str_c(
+      "R/03_Supplementary_analyses/Diagnostics/Data_processing/",
       "Traits/Quality_control/README.md"
     ),
     stringr::str_c(
